@@ -3,74 +3,71 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main HEAD before ANCHOR-0001 branch:
-`825cf9457f1e12866ba4e7bb2e7d69989ab50558`
+Main HEAD before ledger branch:
+`83b4f33d6db245f3ba0ad7199f4a258b791904bd`
 
 Working branch:
-`astra/anchor-0001-station-v01-20260930`
+`astra/anchor-ledger-v01-20260930`
 
 Draft PR:
-`#5 — Establish ANCHOR-0001 / ASTRA STATION v0.1`
+`#6 — Add append-only ASTRA STATION trace ledger v0.1`
 
 Visibility: public
 
 ## Phase
 
-PHASE 3 — ASTRA STATION + READ-ONLY STATUS CARD CANDIDATE
+PHASE 4 — ASTRA STATION LEDGER + READ-ONLY STATUS CARD CANDIDATE
 
-## Integrated baseline on main
+## Integrated on main
 
-- Verso DEFAULT_LOCKED Guard;
-- prepared Card Registry;
-- UNKNOWN_CARD => STOP;
-- QueenObservationIngress v0.1;
-- BRUTUS-CARD-QUEEN-CLOCK-0001;
-- real X72ObservationAdapter provider binding;
-- public Queen live-read proof;
-- LIVE_ROUTING = DENIED;
-- authentic public README.
+- Verso DEFAULT_LOCKED;
+- prepared Card Registry / UNKNOWN_CARD => STOP;
+- Queen read-only path with public runtime proof;
+- ANCHOR-0001 / ASTRA STATION;
+- prototype manifests;
+- station status card;
+- LIVE_ROUTING = DENIED.
 
-## ANCHOR-0001 candidate
+## New ledger candidate
 
-Fixed anchor:
-`ANCHOR-0001 / ASTRA STATION`
+Contract:
+`contracts/anchor-record.v0.schema.json`
 
-Files:
-- `registry/anchors.v0.json`
-- `contracts/prototype-manifest.v0.schema.json`
-- `src/anchor-station.mjs`
-- `docs/ASTRA_STATION_v0.1.md`
+Runtime:
+`src/anchor-ledger.mjs`
 
-First prototype:
-`BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001`
+First durable example:
+`examples/records/BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001.json`
 
-First station card:
-`BRUTUS-CARD-ASTRA-STATION-STATUS-0001`
+Prepared read-only card:
+`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
 
-Purpose:
-read only:
-- anchor identity;
-- station status;
-- fixed return point;
-- prototype count;
-- prototype list/status.
+Adapter:
+`src/adapters/verso-astra-ledger-status.mjs`
 
-## Safety invariants
+## Ledger invariants
 
 ```text
-ANCHOR_ID = ANCHOR-0001
-RETURN_POINT = YES
-VERSO_CORE_MUTATION = NO
-WORLD_ROUTER_INVOCATION = NO
-
-STATION_STATUS_CARD_WRITE = NO
-STATION_STATUS_CARD_CODE_CHANGE = NO
-STATION_STATUS_CARD_CREATE_ROUTE = NO
-STATION_STATUS_CARD_MUTABLE_VALUES = NONE
+MODE = APPEND_ONLY
+UPDATE = ABSENT
+DELETE = ABSENT
+KNOWN_PROTOTYPE_REQUIRED = YES
+KNOWN_CARD_REQUIRED_IF_PRESENT = YES
+DATA_ONLY = YES
+CREDENTIAL_STORAGE = DENIED
+HASH_CHAIN = SHA256
 ```
 
-Prototype manifests remain data-only and may reference only prepared Verso cards.
+Status card may return only:
+- anchor_id;
+- mode;
+- entry_count;
+- head_h256;
+- valid.
+
+It cannot append.
 
 ## Routing boundary
 
 LIVE_ROUTING = DENIED
+WORLD_ROUTER = NOT_INVOKED

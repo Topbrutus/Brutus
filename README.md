@@ -81,6 +81,8 @@ ASTRA STATION possède maintenant un registre d'ancrage et un contrat de manifes
 
 Le premier prototype de référence est le banc d'observation de l'horloge Queen. Le station runtime reste sans réseau, sans exécution de processus, sans création de route et sans mutation de Verso Core.
 
+ASTRA STATION reçoit aussi un **ledger append-only de traces** : observations, résultats et références de preuve peuvent être chaînés par SHA-256 sans fournir de fonction d'update/delete ni exécuter les expériences elles-mêmes.
+
 ### World Router
 
 Gère les passages déclarés entre mondes.

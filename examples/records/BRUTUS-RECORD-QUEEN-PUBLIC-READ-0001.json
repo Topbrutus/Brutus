@@ -1,0 +1,26 @@
+{
+  "SCHEMA": "BRUTUS-ANCHOR-RECORD-v0.1",
+  "RECORD_ID": "BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001",
+  "RECORD_TYPE": "PROOF_REF",
+  "CARD_ID": "BRUTUS-CARD-QUEEN-CLOCK-0001",
+  "SOURCE_REF": "https://github.com/Topbrutus/Brutus/actions/runs/36750712934",
+  "OBSERVED_AT_UTC": "2026-09-30T17:20:57.178Z",
+  "DATA": {
+    "entity_id": "QUEEN-X72-0072",
+    "tick": 146857067,
+    "generation": 20396,
+    "queen_mode": "BURST",
+    "status": "FRESH",
+    "integrity_match": true,
+    "final_state": "DEFAULT_LOCKED",
+    "live_ant_routing": "DENIED"
+  },
+  "PROOF_REF": "proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json",
+  "NOTES": [
+    "Recorded at ASTRA STATION as a reference to an already proven public read path.",
+    "This ledger record does not execute the card or invoke World Router."
+  ]
+}

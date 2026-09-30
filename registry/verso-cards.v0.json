@@ -92,6 +92,34 @@
       "PROOF_REQUIRED": true,
       "AFTER": "DEFAULT_LOCKED",
       "MUTABLE_VALUES": []
+    },
+    {
+      "CARD_ID": "BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001",
+      "VERSION": "0.1",
+      "ANCHOR": "ANCHOR-0001",
+      "SOURCE": "ASTRA_STATION",
+      "TARGET": "ASTRA_LEDGER_STATUS",
+      "VERSO": "DEFAULT_LOCKED",
+      "READ": [
+        "anchor.ledger.status"
+      ],
+      "MEASURE": [
+        "ledger_validity"
+      ],
+      "RETURN_DATA": [
+        "anchor_id",
+        "mode",
+        "entry_count",
+        "head_h256",
+        "valid"
+      ],
+      "WRITE": false,
+      "CODE_CHANGE": false,
+      "CREATE_ROUTE": false,
+      "EXPECTED_OUTPUT": "Read-only Astra Station ledger status",
+      "PROOF_REQUIRED": true,
+      "AFTER": "DEFAULT_LOCKED",
+      "MUTABLE_VALUES": []
     }
   ]
 }

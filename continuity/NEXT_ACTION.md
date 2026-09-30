@@ -1,42 +1,40 @@
-# NEXT ACTION — VERIFY ASTRA STATION STATUS CARD, THEN INTEGRATE PHASE 3
+# NEXT ACTION — VERIFY AND INTEGRATE PHASE 4
 
 ## Branch
 
-`astra/anchor-0001-station-v01-20260930`
+`astra/anchor-ledger-v01-20260930`
 
 Draft PR:
-`#5`
+`#6`
 
 ## Immediate gate
 
-Run full Brutus CI.
+Run full Brutus CI after ledger status card.
 
 Must prove:
-- ANCHOR-0001 fixed station tests pass;
-- BRUTUS-CARD-ASTRA-STATION-STATUS-0001 is accepted from registry;
-- it reports registered prototype status;
+- ledger append/hash-chain tests remain green;
+- prepared ledger status card is accepted;
+- it returns count/head/validity;
 - it returns DEFAULT_LOCKED;
-- it has no mutable VALUES;
-- altered READ contract is rejected;
-- adapter has no network/process execution;
-- adapter does not register prototypes;
-- LIVE_ROUTING remains DENIED.
+- append READ mutation is rejected;
+- mutable VALUES are rejected;
+- adapter contains no append call;
+- no network/process/World Router is introduced.
 
 ## After CI success
 
-If branch remains synchronized and mergeable:
-- integrate PR #5;
-- verify post-merge main CI;
-- update continuity to Phase 3 integrated.
+If main has not drifted incompatibly:
+- mark PR #6 ready;
+- merge with expected head SHA;
+- verify post-merge main CI.
 
-## Next build after integration
+## Next architecture after integration
 
-Add an **append-only observation/proof ledger at ASTRA STATION**.
+Stop adding capabilities to Verso by default.
 
-It must accept data records only and must not execute cards itself.
+The next expansion should happen as a **new prototype manifest at ASTRA STATION**, using existing cards and ledger traces first.
 
-Goal:
-let prototypes leave trace references at the fixed point without turning ASTRA STATION into a source-code editor or World Router.
+Only create a new card when an experiment proves a missing read capability.
 
 Preserve:
 `LIVE_ROUTING = DENIED`
