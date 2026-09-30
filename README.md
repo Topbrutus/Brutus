@@ -119,19 +119,37 @@ Au 30 septembre 2026, main contient notamment :
 
 - le Guard Verso DEFAULT_LOCKED ;
 - le contrat de carte Verso v0.1 ;
+- le registre des cartes préparées, où une carte inconnue est refusée ;
 - BRUTUS-CLOCK-OBSERVATION-v0.1 ;
 - BRUTUS-ANT-IDENTITY-v0.1 ;
+- QueenObservationIngress v0.1 ;
+- BRUTUS-CARD-QUEEN-CLOCK-0001 ;
+- un provider read-only qui réutilise le vrai X72ObservationAdapter d'Antmux sans le recopier ;
+- une preuve runtime publique Queen -> Brutus -> Verso -> DEFAULT_LOCKED ;
 - la compatibilité testée entre observation Queen, identité Fourmi et requête World Router ;
 - un gate de routage live fail-closed ;
 - une politique de preuve ;
 - un registre de sources épinglées ;
 - une CI Brutus exécutant les invariants avec npm test.
 
-### Travail encore candidat
+### Entrée Queen read-only intégrée
 
-Le dépôt contient aussi des PR de travail qui ne doivent pas être confondues avec main.
+La chaîne suivante est maintenant sur main et a été prouvée contre la Queen publique :
 
-En particulier, la PR **#2** expérimente une entrée Queen read-only et une première carte Verso de lecture de l'horloge. Tant qu'elle n'est pas fusionnée, elle reste **candidate**, même si ses tests passent.
+~~~text
+Queen Server
+  -> X72ObservationAdapter
+  -> ObservationEnvelope
+  -> QueenObservationIngress
+  -> carte Verso préparée
+  -> résultat / preuve
+  -> DEFAULT_LOCKED
+~~~
+
+La preuve durable est conservée dans
+`proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`.
+
+Cette intégration **n'autorise toujours pas le routage live des Fourmis** et n'ouvre pas World Router automatiquement.
 
 ---
 
