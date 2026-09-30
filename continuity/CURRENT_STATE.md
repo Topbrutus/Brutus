@@ -9,11 +9,14 @@ Main HEAD before ledger branch:
 Working branch:
 `astra/anchor-ledger-v01-20260930`
 
+Draft PR:
+`#6 — Add append-only ASTRA STATION trace ledger v0.1`
+
 Visibility: public
 
 ## Phase
 
-PHASE 4 — ASTRA STATION APPEND-ONLY TRACE LEDGER CANDIDATE
+PHASE 4 — ASTRA STATION LEDGER + READ-ONLY STATUS CARD CANDIDATE
 
 ## Integrated on main
 
@@ -21,15 +24,11 @@ PHASE 4 — ASTRA STATION APPEND-ONLY TRACE LEDGER CANDIDATE
 - prepared Card Registry / UNKNOWN_CARD => STOP;
 - Queen read-only path with public runtime proof;
 - ANCHOR-0001 / ASTRA STATION;
-- data-only prototype manifests;
-- Queen Clock Observation Bench;
-- BRUTUS-CARD-ASTRA-STATION-STATUS-0001;
+- prototype manifests;
+- station status card;
 - LIVE_ROUTING = DENIED.
 
-ASTRA STATION post-merge CI:
-`36752682867 = SUCCESS`
-
-## New candidate
+## New ledger candidate
 
 Contract:
 `contracts/anchor-record.v0.schema.json`
@@ -37,31 +36,38 @@ Contract:
 Runtime:
 `src/anchor-ledger.mjs`
 
-Example record:
+First durable example:
 `examples/records/BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001.json`
 
-Documentation:
-`docs/ASTRA_STATION_LEDGER_v0.1.md`
+Prepared read-only card:
+`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
+
+Adapter:
+`src/adapters/verso-astra-ledger-status.mjs`
 
 ## Ledger invariants
 
 ```text
 MODE = APPEND_ONLY
-ANCHOR_ID = ANCHOR-0001
+UPDATE = ABSENT
+DELETE = ABSENT
 KNOWN_PROTOTYPE_REQUIRED = YES
 KNOWN_CARD_REQUIRED_IF_PRESENT = YES
 DATA_ONLY = YES
 CREDENTIAL_STORAGE = DENIED
-UPDATE = ABSENT
-DELETE = ABSENT
-NETWORK = NONE
-PROCESS_EXECUTION = NONE
-WORLD_ROUTER = NONE
+HASH_CHAIN = SHA256
 ```
 
-Each entry forms a SHA-256 chain:
-`PREVIOUS_H256 -> ENTRY_H256`.
+Status card may return only:
+- anchor_id;
+- mode;
+- entry_count;
+- head_h256;
+- valid.
+
+It cannot append.
 
 ## Routing boundary
 
 LIVE_ROUTING = DENIED
+WORLD_ROUTER = NOT_INVOKED

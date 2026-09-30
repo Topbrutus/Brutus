@@ -1,42 +1,40 @@
-# NEXT ACTION — VERIFY ASTRA STATION LEDGER, THEN ADD READ-ONLY LEDGER CARD
+# NEXT ACTION — VERIFY AND INTEGRATE PHASE 4
 
 ## Branch
 
 `astra/anchor-ledger-v01-20260930`
 
+Draft PR:
+`#6`
+
 ## Immediate gate
 
-Run full Brutus CI.
+Run full Brutus CI after ledger status card.
 
 Must prove:
-- first proof record appends;
-- hash chain verifies;
-- second record links to first;
-- duplicate record IDs are rejected;
-- unknown prototype is rejected;
-- unknown card is rejected;
-- wrong anchor is rejected;
-- executable values are rejected;
-- credential-shaped fields are rejected;
-- PROOF_REF records require proof references;
-- update/delete APIs do not exist;
-- no network/process/World Router exists.
+- ledger append/hash-chain tests remain green;
+- prepared ledger status card is accepted;
+- it returns count/head/validity;
+- it returns DEFAULT_LOCKED;
+- append READ mutation is rejected;
+- mutable VALUES are rejected;
+- adapter contains no append call;
+- no network/process/World Router is introduced.
 
 ## After CI success
 
-Add one prepared read-only Verso card:
+If main has not drifted incompatibly:
+- mark PR #6 ready;
+- merge with expected head SHA;
+- verify post-merge main CI.
 
-`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
+## Next architecture after integration
 
-It may return only:
-- anchor id;
-- entry count;
-- ledger head hash;
-- validity.
+Stop adding capabilities to Verso by default.
 
-It must not append records.
+The next expansion should happen as a **new prototype manifest at ASTRA STATION**, using existing cards and ledger traces first.
 
-Then integrate Phase 4 only after final CI.
+Only create a new card when an experiment proves a missing read capability.
 
 Preserve:
 `LIVE_ROUTING = DENIED`
