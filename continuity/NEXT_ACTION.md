@@ -1,35 +1,41 @@
-# NEXT ACTION — VERIFY RESULT GATE, THEN WAIT FOR REAL COUNTER-TEST OUTPUT
+# NEXT ACTION — VERIFY PROOF PROMOTION GATE
 
 ## Branch
 
-`astra/counter-test-result-gate-v01-20260930`
+`astra/proof-promotion-gate-v01-20260930`
 
 ## Immediate gate
 
 Run full Brutus CI.
 
 Must prove:
-- PASS requires every check PASS;
-- FAIL requires an explicit FAIL;
-- INCONCLUSIVE cannot hide FAIL/ERROR;
-- every planned check must be reported exactly once;
-- unknown plans are rejected;
-- PROOF_REF cannot enter through this gate;
-- automatic proof promotion is rejected;
-- data-only / credential guards hold;
+- existing RESULT is required;
+- proof file must exist;
+- proof path cannot escape proofs/;
+- exact SHA-256 match is required;
+- explicit APPROVED review is required;
+- AUTO_PROMOTION=true is rejected;
+- INCONCLUSIVE / ERROR results cannot be promoted directly;
+- promotion creates a separate PROOF_REF record;
 - gate does not append itself;
 - no network/process/World Router is introduced.
 
 ## After integration
 
-The infrastructure is ready for actual result return.
+The epistemic path becomes:
 
-When a real counter-test finishes:
-1. construct one result object from the exact plan;
-2. qualify it through Counter-Test Result Gate;
-3. append the qualified RESULT to ASTRA STATION ledger;
-4. keep PROOF_REF null;
-5. review/reproduce before any proof step.
+```text
+INTAKE TRACE
+  -> COUNTER-TEST PLAN
+  -> EXTERNAL EXECUTION
+  -> QUALIFIED RESULT
+  -> LEDGER RESULT
+  -> REVIEWED PROOF ARTIFACT
+  -> PROOF PROMOTION GATE
+  -> SEPARATE PROOF_REF
+```
+
+No result should be promoted without a concrete artifact and exact hash.
 
 Preserve:
 `LIVE_ROUTING = DENIED`

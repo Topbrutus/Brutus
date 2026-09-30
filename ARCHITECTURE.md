@@ -76,6 +76,14 @@ Le gate exige le résultat de chaque check, impose la cohérence du verdict glob
 
 Ainsi, PASS reste un résultat expérimental jusqu'à une étape de preuve séparée.
 
+### Proof Promotion Gate
+
+Un RESULT ne peut pas se déclarer preuve.
+
+La promotion exige un RESULT existant, un artefact réel sous proofs/, un SHA-256 exact et une revue explicite APPROVED. Le gate crée alors un enregistrement PROOF_REF séparé.
+
+Il vérifie la traçabilité du lien; il ne décide pas à lui seul de la vérité scientifique ou mathématique.
+
 ### Fresque
 
 Aucune ligne décorative. Une ligne doit être reconstructible depuis une règle, un calcul, une relation et des coordonnées.

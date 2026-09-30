@@ -4,47 +4,47 @@
 
 Repository: Topbrutus/Brutus
 Main baseline:
-`07355776bfa3303ad2ef54feef3ae81aa949bf44`
+`1b370770c51e1fd6b626e02cb8f289f4385e0411`
 
 Working branch:
-`astra/counter-test-result-gate-v01-20260930`
+`astra/proof-promotion-gate-v01-20260930`
 
 Visibility: public
 
 ## Phase
 
-PHASE 7 — COUNTER-TEST RESULT GATE CANDIDATE
+PHASE 8 — PROOF PROMOTION GATE CANDIDATE
 
 ## Integrated baseline
 
-Phase 6 is integrated and its post-merge CI is green:
-- Counter-Test Bench;
-- immutable plans;
-- 369/396 counter-test plan;
-- L8 counter-test plan;
-- no execution;
-- no automatic proof promotion;
+Phase 7 is integrated and post-merge CI is green:
+- qualified experiment intake;
+- immutable counter-test plans;
+- Counter-Test Result Gate;
+- PASS/FAIL/INCONCLUSIVE/ERROR coherence;
+- RESULT cannot self-promote to proof;
 - LIVE_ROUTING = DENIED.
 
 ## New candidate
 
 Contract:
-`contracts/counter-test-result.v0.schema.json`
+`contracts/proof-promotion.v0.schema.json`
 
-Runtime gate:
-`src/counter-test-result-gate.mjs`
+Runtime:
+`src/proof-promotion-gate.mjs`
 
-Purpose:
-qualify externally executed counter-test outputs into appendable `RESULT` records.
-
-## Result invariants
+## Promotion invariants
 
 ```text
-KNOWN_PLAN_REQUIRED = YES
-EVERY_CHECK_REQUIRED = YES
-VERDICT_MUST_MATCH_CHECK_STATUSES = YES
-PROOF_REF = NULL
-AUTO_PROOF_PROMOTION = FALSE
+EXISTING_RESULT_REQUIRED = YES
+RESULT_VERDICT = PASS_OR_FAIL
+PROOF_ARTIFACT_REQUIRED = YES
+PROOF_REF_MUST_STAY_UNDER_PROOFS = YES
+EXPECTED_SHA256_REQUIRED = YES
+ACTUAL_SHA256_MUST_MATCH = YES
+REVIEW_STATUS = APPROVED
+AUTO_PROMOTION = FALSE
+OUTPUT = SEPARATE_PROOF_REF_RECORD
 LEDGER_APPEND_INSIDE_GATE = NO
 NETWORK = NONE
 PROCESS_EXECUTION = NONE
