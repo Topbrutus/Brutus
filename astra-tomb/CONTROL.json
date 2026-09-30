@@ -1,0 +1,22 @@
+{
+  "schema": "BRUTUS-ASTRA-TOMB-CONTROL-v0.1",
+  "white": {
+    "generation": 1,
+    "path": "astra-tomb/white/generations/0001",
+    "role": "LAST_KNOWN_GOOD_BOOTSTRAP"
+  },
+  "black": {
+    "generation": 2,
+    "path": "astra-tomb/black/generations/0002",
+    "role": "CANDIDATE"
+  },
+  "newest_generation": 2,
+  "default_restore_generation": 1,
+  "trust_lag_generations": 1,
+  "compare_both_on_return": true,
+  "auto_repair_divergence": false,
+  "overwrite_existing_generation": false,
+  "secrets_allowed": false,
+  "vibration_connection_enabled": false,
+  "clock_connection_enabled": false
+}
