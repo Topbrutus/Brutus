@@ -1,34 +1,50 @@
-# NEXT ACTION — VERIFY PREPARED CARD REGISTRY
+# NEXT ACTION — VERIFY ASTRA STATION, THEN ADD A READ-ONLY STATION CARD
 
 ## Candidate branch
 
-`astra/queen-observation-ingress-v01-20260930`
-
-Draft PR:
-`#2`
+`astra/anchor-0001-station-v01-20260930`
 
 ## Immediate gate
 
-Run full Brutus CI after Card Registry hardening.
+Run full Brutus CI.
 
 Must prove:
-- BRUTUS-CARD-0001 still passes;
-- BRUTUS-CARD-QUEEN-CLOCK-0001 still passes;
-- unknown CARD_ID is rejected;
-- known ID with changed TARGET is rejected;
-- known ID with changed READ is rejected;
-- runtime cannot expand mutable VALUES;
-- adapter errors still reset DEFAULT_LOCKED;
-- Queen read path remains read-only;
-- LIVE_ROUTING remains DENIED.
+- ANCHOR-0001 is established;
+- it is a fixed return point;
+- Verso Core mutation is false;
+- World Router invocation is false;
+- first Queen clock bench registers;
+- unknown card references are rejected;
+- wrong anchor is rejected;
+- executable/non-data manifest content is rejected;
+- duplicate prototype IDs are rejected;
+- no network/process execution exists in the station runtime.
 
 ## After CI
 
-Keep PR #2 draft for review/integration decision.
+Add one prepared read-only card:
 
-Do not merge automatically merely because CI is green.
+`BRUTUS-CARD-ASTRA-STATION-STATUS-0001`
 
-Next architectural expansion after integration:
-- add new cards only by explicit registry entry + tests;
-- keep Verso Core unchanged for ordinary navigation;
-- let ANCHOR-0001 become the prototype workspace around the locked center.
+Purpose:
+allow an AI at Verso to ask only:
+
+- where is my fixed return point?
+- which prototypes are registered?
+- what is their status?
+
+The card must not register, modify or execute a prototype.
+
+Cycle:
+
+```text
+DEFAULT_LOCKED
+  -> prepared station-status card
+  -> read ASTRA STATION snapshot
+  -> result
+  -> DEFAULT_LOCKED
+  -> ANCHOR-0001
+```
+
+Preserve:
+`LIVE_ROUTING = DENIED`

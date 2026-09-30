@@ -1,0 +1,30 @@
+{
+  "SCHEMA": "BRUTUS-PROTOTYPE-MANIFEST-v0.1",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "TITLE": "Queen Clock Observation Bench",
+  "PURPOSE": "Establish the first fixed Astra Station prototype around the locked Verso center using the proven read-only Queen clock card.",
+  "STATUS": "ACTIVE",
+  "CARD_IDS": [
+    "BRUTUS-CARD-QUEEN-CLOCK-0001"
+  ],
+  "PARAMETERS": {
+    "mode": "READ_ONLY",
+    "live_ant_routing": "DENIED",
+    "world_router": "NOT_INVOKED"
+  },
+  "EXPECTED_OUTPUTS": [
+    "verified Queen identity",
+    "authoritative Queen tick",
+    "integrity status",
+    "Verso trace ending DEFAULT_LOCKED"
+  ],
+  "PROOF_REFS": [
+    "proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json"
+  ],
+  "NOTES": [
+    "This prototype observes. It does not modify Queen, Verso Core, routes or source code.",
+    "The prototype is established at ANCHOR-0001 / ASTRA STATION."
+  ]
+}

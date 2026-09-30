@@ -3,81 +3,80 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main HEAD at latest synchronization:
-`bf7b74722b8ee1f450089a697adf04056761d7f9`
+Main HEAD before ANCHOR-0001 branch:
+`825cf9457f1e12866ba4e7bb2e7d69989ab50558`
 
 Working branch:
-`astra/queen-observation-ingress-v01-20260930`
-
-Draft PR:
-`#2 — Queen observation ingress v0.1 — read-only fail-closed boundary`
+`astra/anchor-0001-station-v01-20260930`
 
 Visibility: public
 
 ## Phase
 
-PHASE 2 — PUBLIC QUEEN READ PROVEN / PREPARED CARD REGISTRY CANDIDATE
+PHASE 3 — ANCHOR-0001 / ASTRA STATION CANDIDATE
 
-## Proven live read
+## Integrated baseline on main
 
-Durable proof:
+- Verso DEFAULT_LOCKED Guard;
+- prepared Card Registry;
+- UNKNOWN_CARD => STOP;
+- QueenObservationIngress v0.1;
+- BRUTUS-CARD-QUEEN-CLOCK-0001;
+- real X72ObservationAdapter provider binding;
+- public Queen live-read proof;
+- LIVE_ROUTING = DENIED;
+- authentic public README.
+
+Integrated Queen proof:
 `proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
 
-GitHub Actions run:
-`36750712934 = SUCCESS`
+Main post-merge Brutus CI:
+`36751838172 = SUCCESS`
 
-Observed through the real public read-only Queen path:
-- entity_id = `QUEEN-X72-0072`
-- tick = `146857067`
-- generation = `20396`
-- queen_mode = `BURST`
-- status = `FRESH`
-- integrity_match = `true`
-- Verso final state = `DEFAULT_LOCKED`
+## New candidate
 
-The temporary proof workflow was removed after recording the proof.
+Fixed anchor registry:
+`registry/anchors.v0.json`
 
-## Prepared card hardening
+Prototype manifest contract:
+`contracts/prototype-manifest.v0.schema.json`
 
-Candidate Card Registry:
-`registry/verso-cards.v0.json`
+Astra Station runtime:
+`src/anchor-station.mjs`
 
-Runtime registry:
-`src/verso-card-registry.mjs`
+First prototype:
+`examples/prototypes/BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001.json`
 
-Guard now requires:
-- known CARD_ID;
-- exact prepared static contract;
-- mutable VALUES only from that card's registry policy.
-
-Rules:
+## Anchor invariants
 
 ```text
-UNKNOWN_CARD => STOP
-KNOWN_ID + ALTERED_STATIC_CONTRACT => STOP
-RUNTIME_MAY_NARROW_MUTABLE_VALUES => YES
-RUNTIME_MAY_EXPAND_MUTABLE_VALUES => NO
+ANCHOR_ID = ANCHOR-0001
+NAME = ASTRA STATION
+STATUS = ESTABLISHED
+RETURN_POINT = YES
+
+VERSO_CORE_MUTATION = NO
+WORLD_ROUTER_INVOCATION = NO
+ROUTE_CREATION = NO
+SOURCE_CODE_EXECUTION = NO
+CREDENTIAL_STORAGE = NO
 ```
 
-Registered cards:
-- BRUTUS-CARD-0001
-- BRUTUS-CARD-QUEEN-CLOCK-0001
+Prototype manifests:
+- data-only;
+- known fields only;
+- remain at ANCHOR-0001;
+- may reference only prepared CARD_ID values;
+- duplicate IDs are rejected.
 
-## Routing authorization
+## Persistence boundary
 
-ROUTING_AUTHORIZATION = UNDECIDED
+Session registrations are in-memory only.
+
+Durable manifests are repository data files.
+
+No mutable database is introduced yet.
+
+## Routing boundary
+
 LIVE_ROUTING = DENIED
-WORLD_ROUTER_IN_PUBLIC_READ_PROOF = NOT_INVOKED
-
-## Standing invariants
-
-VERSO_DEFAULT = DEFAULT_LOCKED
-CARD_REQUIRED = YES
-PREPARED_CARD_REQUIRED = YES
-UNKNOWN_CARD = STOP
-ARBITRARY_CARD_CODE = NO
-SOURCE_MUTATION_BY_CARD = NO
-CLOCK_AUTHORITY = QUEEN_SERVER_V0_2
-WORLD_TICK_SOURCE = QUEEN tick_count
-LIVE_ROUTE_WITH_UNDECIDED_AUTH = DENIED
-SOURCE_MUTATION_BY_BRUTUS = NO
