@@ -1,0 +1,35 @@
+{
+  "schema": "BRUTUS-INTEGRATION-PROOF-v0.1",
+  "proof_id": "BRUTUS-PROOF-ANT-CLOCK-WORLD-PINNED-0001",
+  "observed_on": "2026-09-30",
+  "brutus_commit_tested": "2b157325130e10cffd049c0b998c0d2c2fc665f8",
+  "antmux_commit_tested": "d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e",
+  "antmux_router_blob": "a4e1d4d90f084edcf50b579a7a38d2a8a3a03e35",
+  "source_mutation": false,
+  "harness": "temporary isolated not committed",
+  "identity": {
+    "source_schema": "ANTMUX-ANT-BIRTH-v1",
+    "ant_id": "ANT-0123456789AB",
+    "routing_authorization": "UNDECIDED",
+    "birth_wallclock_ms": 1790750000000
+  },
+  "clock": {
+    "source_schema": "QUEEN_SERVER_V0_2",
+    "queen_tick": 273
+  },
+  "assertions": {
+    "world_tick_from_queen": true,
+    "world_tick_from_birth_wallclock": false,
+    "contracted_route_accepted": true,
+    "invariant_ant_id_preserved": true,
+    "invariant_tick_preserved": true,
+    "uncontracted_route_accepted": false,
+    "uncontracted_route_reason": "NO_PORTAL_CONTRACT"
+  },
+  "result": "PASS",
+  "limitations": [
+    "ANT receipt is a source-shaped deterministic fixture, not a newly born live production ant.",
+    "Queen observation is a source-shaped deterministic fixture, not a live network frame.",
+    "Routing authorization policy remains UNDECIDED and is not inferred from this compatibility proof."
+  ]
+}

@@ -8,32 +8,36 @@ Visibility: private
 
 ## Phase
 
-PHASE 2 — CLOCK + ANT IDENTITY BOUNDARIES
+PHASE 2 — CLOCK + ANT IDENTITY + PINNED WORLD COMPATIBILITY
 
 Established:
 - Verso card v0.1 / DEFAULT_LOCKED guard;
 - proof policy and source registry;
 - BRUTUS-CLOCK-OBSERVATION-v0.1;
-- X72 clock -> World Router bridge;
-- pinned real-router compatibility proof;
 - BRUTUS-ANT-IDENTITY-v0.1;
-- source ant birth audit and source test proof.
+- pinned X72 clock -> World Router compatibility;
+- pinned ANT identity + Queen clock -> World Router compatibility;
+- source ant birth test proof;
+- continuous invariant test workflow.
 
-## Proven source facts
+## Verified local/integration results
 
-Antmux HEAD audited:
-d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e
+Brutus 2b157325130e10cffd049c0b998c0d2c2fc665f8:
+- npm test = 19 PASS / 0 FAIL.
 
-Public-journal birth path:
-- ant_id == submission/post id == ants.id;
-- current generated format ANT-[0-9A-F]{12};
-- role SYNAPSE;
-- BECOME_SYNAPSE lifecycle step DONE;
-- state SINGING_TO_MEET;
-- birth_tick_ms comes from time.time(), therefore is wall-clock milliseconds, not Queen tick.
+Antmux source d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e:
+- WORLD-ROUNDTRIP-0001 source tests = 4 PASS / 0 FAIL.
+- public journal source test = 9 PASS markers / exit code 0.
 
-Source public-journal test:
-9 PASS markers / exit code 0.
+Pinned compatibility:
+- ANT_ID from ANTMUX-ANT-BIRTH-v1.
+- TICK from QUEEN_SERVER_V0_2 observation.
+- CARBON -> CRYPTO accepted.
+- TIME/CLOCK without portal contract closed as NO_PORTAL_CONTRACT.
+- birth wall-clock milliseconds never used as World Router tick.
+
+Proof:
+proofs/BRUTUS-PROOF-ANT-CLOCK-WORLD-PINNED-0001.json
 
 ## Standing invariants
 
@@ -49,9 +53,9 @@ SOURCE_MUTATION_BY_BRUTUS = NO
 
 ## Unknowns preserved
 
-- production policy deciding which born ants may enter world routing;
+- production routing policy deciding which born ants may route;
 - read-only ingestion boundary for existing ant receipts;
-- live Queen network consumer in Brutus;
+- live Queen observation consumer in Brutus;
 - final crystal contract;
 - Chaudiere d'esprit / accumulator / dephaser;
 - complete EmojiLogic opcode bank.
