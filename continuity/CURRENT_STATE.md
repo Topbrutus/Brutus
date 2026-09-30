@@ -1,4 +1,4 @@
-# CURRENT STATE — BRUTUS BOOTSTRAP — 2026-09-30
+# CURRENT STATE — BRUTUS — 2026-09-30
 
 ## Repository
 
@@ -8,38 +8,45 @@ Visibility: private
 
 ## Phase
 
-PHASE 0 — CONTRACT-FIRST BOOTSTRAP
+PHASE 1 — FIRST INTERFACE CONTRACT
 
-Completed in this bootstrap:
-- central repository created;
-- source repositories verified and pinned in registry/sources.json;
-- architecture boundary documented;
-- proof policy documented;
-- Verso card v0.1 schema created;
-- data-only/read-only guard implemented;
-- runtime reset invariant implemented;
-- tests added for success, rejection, adapter failure and concurrent entry.
+Bootstrap already established:
+- source registry;
+- architecture and proof policy;
+- Verso card v0.1;
+- data-only/read-only Verso guard;
+- guaranteed DEFAULT_LOCKED reset;
+- automated tests.
+
+First source audit completed:
+- interface: Horloge X72 <-> World Router;
+- Antmux HEAD audited: d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e;
+- WORLD-ROUNDTRIP-0001 rerun directly: 4/4 PASS;
+- Queen read boundary identified through X72ObservationAdapter;
+- World transport boundary identified through transportEnvelope;
+- identity mismatch identified: Queen entity_id is not Fourmi antId;
+- intermediate BRUTUS-CLOCK-OBSERVATION-v0.1 introduced;
+- bridge requires explicit antId and never creates one automatically.
 
 ## Standing invariants
 
 VERSO_DEFAULT = DEFAULT_LOCKED
-CARD_REQUIRED = YES
-ARBITRARY_CODE = NO
-SOURCE_CODE_MUTATION_BY_ENTITY = NO
-UNKNOWN_FIELD = STOP
-WRITE = NO in v0.1
-CREATE_ROUTE = NO in v0.1
-AFTER_CARD = DEFAULT_LOCKED
+CLOCK_AUTHORITY = QUEEN_SERVER_V0_2
+LOCAL_TICK_CREATION = NO
+QUEEN_ENTITY_ID_AS_ANT_ID = FORBIDDEN
+WORLD_TRANSPORT_REQUIRES_FRESH_CLOCK = YES
+WORLD_TRANSPORT_REQUIRES_QUEEN_INTEGRITY = YES
+ARBITRARY_CODE_IN_CARD = NO
+SOURCE_MUTATION_BY_BRUTUS = NO
 
 ## Unknowns preserved
 
+- source of the first real ANT_ID used by Brutus;
+- live network connection from Brutus to Queen observation stream;
+- production invocation boundary for Antmux transportEnvelope;
 - final universal crystal contract;
-- exact Brutus event envelope;
-- exact Horloge X72 <-> World Router adapter;
 - resource governor / Chaudiere d'esprit;
 - accumulator and movement dephaser;
-- full EmojiLogic opcode bank;
+- complete EmojiLogic opcode bank;
 - chakra crystallization levels;
-- microphone and unified voice path.
-
-These remain candidates until source audit and tests.
+- unified microphone/voice path.

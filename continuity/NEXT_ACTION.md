@@ -1,19 +1,20 @@
-# NEXT ACTION — FIRST REAL INTERFACE AUDIT
+# NEXT ACTION — PINNED BRIDGE INTEGRATION PROOF
 
-Target: Horloge X72 <-> World Router.
+Goal:
+prove that a Brutus world transport request produced from a validated clock observation is accepted by the real Antmux world-router.mjs at the pinned source SHA.
 
-Do not write an adapter yet.
+Constraints:
+- do not modify Antmux;
+- do not copy the router into Brutus permanently;
+- fetch the pinned source only in an isolated verification harness;
+- use an explicit test ANT_ID;
+- preserve Queen entity_id only as provenance, never as ANT_ID;
+- use the Queen tick as the transport tick;
+- require proofRef;
+- verify accepted=true and invariant preservation;
+- verify NO_PORTAL_CONTRACT remains closed.
 
-Sequence:
+After that proof, choose the real ANT_ID source before any live continuous integration.
 
-1. Re-read Topbrutus/Antmux at the pinned or newer live HEAD.
-2. Locate the actual Horloge/QueenCore state and tick interfaces.
-3. Locate the actual World Router / Verso request and response contracts.
-4. Identify tests that already prove roundtrip, continuity and portal closure.
-5. Record exact paths, exported symbols, payloads and failure modes.
-6. Define the smallest read-only adapter contract in Brutus.
-7. Build one test with a fixed fixture.
-8. Verify that Brutus never mutates the master tick.
-9. Only then consider live integration.
-
-Rule: SOURCE LIVE > registry pin > memory > hypothesis.
+Rule:
+SOURCE LIVE > pinned source > Brutus adapter > memory > hypothesis.

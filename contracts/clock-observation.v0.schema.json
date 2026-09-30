@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/clock-observation.v0.schema.json",
+  "title": "Brutus Clock Observation v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "SOURCE_SCHEMA",
+    "SOURCE_ENDPOINT",
+    "ENTITY_ID",
+    "TICK",
+    "GENERATION",
+    "QUEEN_MODE",
+    "INTEGRITY_MATCH",
+    "REFERENCE_H256",
+    "OBSERVED_AT_UTC",
+    "FRESHNESS_MS",
+    "STATUS",
+    "CONDITION"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-CLOCK-OBSERVATION-v0.1"
+    },
+    "SOURCE_SCHEMA": {
+      "const": "QUEEN_SERVER_V0_2"
+    },
+    "SOURCE_ENDPOINT": {
+      "enum": [
+        "/api/state",
+        "/ws"
+      ]
+    },
+    "ENTITY_ID": {
+      "type": "string",
+      "minLength": 1
+    },
+    "TICK": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "GENERATION": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "QUEEN_MODE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "INTEGRITY_MATCH": {
+      "type": "boolean"
+    },
+    "REFERENCE_H256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "OBSERVED_AT_UTC": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "FRESHNESS_MS": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "STATUS": {
+      "enum": [
+        "FRESH",
+        "STALE"
+      ]
+    },
+    "CONDITION": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "x-brutus-status": "AUDITED_CANDIDATE",
+  "x-boundary": "This is a clock observation, never an ant identity."
+}

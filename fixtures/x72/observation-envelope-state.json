@@ -1,0 +1,19 @@
+{
+  "observed_at_utc": "2026-09-30T10:00:00.000Z",
+  "entity_id": "QUEEN-X72-0072",
+  "source_schema": "QUEEN_SERVER_V0_2",
+  "source_endpoint": "/api/state",
+  "freshness_ms": 0,
+  "status": "FRESH",
+  "condition": "OK",
+  "payload": {
+    "source": "QUEEN_SERVER_V0_2",
+    "entity_id": "QUEEN-X72-0072",
+    "tick_count": 273,
+    "generation": 0,
+    "queen_mode": "STABLE",
+    "integrity_match": true,
+    "reference_h256": "49e75d92d8fde33f402c3b60482bc5dcf13c12f09bd8c07c7937961d42ceaff9"
+  },
+  "error": null
+}
