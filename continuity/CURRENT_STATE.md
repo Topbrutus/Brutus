@@ -3,14 +3,19 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Branch: main
+Main HEAD source at branch creation:
+`d5267622b544d07b14e8cf12e7420402fe458772`
+
+Working branch:
+`astra/queen-observation-ingress-v01-20260930`
+
 Visibility: private
 
 ## Phase
 
-PHASE 2 — VERIFIED COMPATIBILITY / LIVE ROUTING FAIL-CLOSED
+PHASE 2 — SAFE QUEEN READ INPUT CANDIDATE / LIVE ROUTING FAIL-CLOSED
 
-Established:
+Established on main:
 - Verso DEFAULT_LOCKED card guard;
 - proof policy and pinned source registry;
 - BRUTUS-CLOCK-OBSERVATION-v0.1;
@@ -19,16 +24,31 @@ Established:
 - pinned ANT identity + Queen tick compatibility;
 - ant birth source proof;
 - fail-closed live routing gate;
-- Brutus CI workflow committed.
+- Brutus CI workflow.
 
-## Routing authorization audit
+Candidate on current branch:
+- reuse audit of Antmux X72ObservationAdapter;
+- BRUTUS-QUEEN-INGRESS-v0.1;
+- strict Queen identity continuity;
+- FRESH / STALE / UNKNOWN preservation;
+- integrity_match=true required for downstream use;
+- bounded retry/backoff;
+- no Queen mutation transport;
+- no automatic World Router invocation.
 
-At Antmux d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e:
-- public_journal.py exposes no GET endpoint for existing ant receipts;
-- no source rule was found linking SINGING_TO_MEET / ANT_READY_TO_SING to World Router authorization;
-- World Router validates route contract and envelope fields, not ant lifecycle eligibility.
+## Source audit
 
-Therefore:
+Antmux source audited:
+`bed68dbf0b8061b92ef15a9a9c5ae96d6cfc2e6b`
+
+Source adapter:
+`deploy/x72-shared-queen/observation_adapter/adapter.py`
+
+Decision:
+reuse the proven source observer; do not build a second Queen network observer inside Brutus.
+
+## Routing authorization
+
 ROUTING_AUTHORIZATION = UNDECIDED
 LIVE_ROUTING = DENIED
 
@@ -45,11 +65,15 @@ ANT_ID_MUST_BE_EXPLICIT = YES
 LIVE_ROUTE_WITH_UNDECIDED_AUTH = DENIED
 WORLD_ROUTE_WITHOUT_PORTAL_CONTRACT = CLOSED
 SOURCE_MUTATION_BY_BRUTUS = NO
+QUEEN_INGRESS_NETWORK_TRANSPORT = NONE
+QUEEN_INGRESS_WORLD_ROUTER_CALL = NONE
 
-## CI proof boundary
+## Test proof
 
-Workflow file is present on main:
-.github/workflows/brutus-ci.yml
+Targeted local test before commit:
+`tests/queen-observation-ingress.test.mjs = 9 PASS / 0 FAIL`
 
-Its GitHub Actions push-run status has not yet been independently confirmed by the available connector.
-Do not report CI PASS until a run result is observed directly.
+Main CI independently observed before this branch:
+run `36702592041` = SUCCESS at main SHA `d5267622b544d07b14e8cf12e7420402fe458772`.
+
+Branch CI remains to be observed after PR creation.

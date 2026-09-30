@@ -27,6 +27,24 @@ Les organes existants restent dans leurs dépôts sources. Brutus porte les cont
 
 L'Horloge est l'autorité temporelle. Les agents adaptent leur travail à sa cadence; ils ne modifient pas le tick maître.
 
+### Entrée Queen read-only
+
+Brutus ne duplique pas l'observateur Queen déjà éprouvé dans Antmux.
+
+Chaîne autorisée:
+
+    QueenCore
+      -> persistence
+      -> API/WebSocket
+      -> X72ObservationAdapter [Antmux]
+      -> ObservationEnvelope
+      -> QueenObservationIngress [Brutus]
+      -> consommateur read-only
+
+La frontière Brutus n'ouvre aucun transport réseau Queen elle-même. Elle accepte les enveloppes de l'adaptateur source, impose la continuité d'identité, conserve FRESH/STALE/UNKNOWN sans synthèse, exige integrity_match=true avant utilisation aval et borne les reprises.
+
+Aucun appel World Router n'est automatique depuis cette frontière.
+
 ### Fresque
 
 Aucune ligne décorative. Une ligne doit être reconstructible depuis une règle, un calcul, une relation et des coordonnées.
@@ -55,7 +73,9 @@ Pour chaque interface :
 6. enregistrer la preuve;
 7. seulement ensuite étendre.
 
-Premier trou à auditer : Horloge X72 <-> World Router.
+Premier trou audité : Horloge X72 <-> World Router.
+
+Front suivant : QueenObservationIngress read-only -> carte Verso d'observation, sans routage live.
 
 ## Ce que Brutus n'est pas
 
