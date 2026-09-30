@@ -1,0 +1,59 @@
+{
+  "registryVersion": 1,
+  "observedOn": "2026-09-30",
+  "note": "Presence, default branch, visibility and HEAD were verified during Brutus bootstrap. Interfaces remain AUDIT_REQUIRED until inspected and tested.",
+  "sources": [
+    {
+      "repo": "Topbrutus/Antmux",
+      "defaultBranch": "main",
+      "visibility": "public",
+      "observedHead": "d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e",
+      "role": [
+        "QueenCore",
+        "Horloge de la Vie",
+        "World Router",
+        "Verso",
+        "Fourmis",
+        "Fourmiliere",
+        "ZELSTEREOS"
+      ],
+      "integrationStatus": "AUDIT_REQUIRED"
+    },
+    {
+      "repo": "Topbrutus/antmux-lab",
+      "defaultBranch": "main",
+      "visibility": "private",
+      "observedHead": "f07cf4c9e7a0589b177b3ab1f50ed2bba326fa31",
+      "role": [
+        "Createur",
+        "Brutotheque",
+        "Stability Lab",
+        "prototypes"
+      ],
+      "integrationStatus": "AUDIT_REQUIRED"
+    },
+    {
+      "repo": "Topbrutus/antmux-intelbrutatrice",
+      "defaultBranch": "main",
+      "visibility": "private",
+      "observedHead": "f374531fb380068e299a12a139e8ff95ebe0da5b",
+      "role": [
+        "bibliotheque mathematique",
+        "moteur de formules",
+        "preuves"
+      ],
+      "integrationStatus": "AUDIT_REQUIRED"
+    },
+    {
+      "repo": "Topbrutus/antmux-vibe-vision-maker-",
+      "defaultBranch": "main",
+      "visibility": "public",
+      "observedHead": "8af4235cbfe81aa8a189e471a748924f53838c81",
+      "role": [
+        "visuel",
+        "dynamique"
+      ],
+      "integrationStatus": "AUDIT_REQUIRED"
+    }
+  ]
+}

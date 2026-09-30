@@ -1,0 +1,28 @@
+{
+  "CARD_ID": "BRUTUS-CARD-0001",
+  "VERSION": "0.1",
+  "ANCHOR": "ANCHOR-0001",
+  "SOURCE": "ASTRA_STATION",
+  "TARGET": "BRUTUS_REGISTRY",
+  "VERSO": "DEFAULT_LOCKED",
+  "READ": [
+    "registry.sources"
+  ],
+  "MEASURE": [
+    "sha_consistency"
+  ],
+  "RETURN_DATA": [
+    "repo",
+    "head",
+    "role"
+  ],
+  "WRITE": false,
+  "CODE_CHANGE": false,
+  "CREATE_ROUTE": false,
+  "VALUES": {
+    "query.organ_id": "CLOCK"
+  },
+  "EXPECTED_OUTPUT": "Verified registry data only",
+  "PROOF_REQUIRED": true,
+  "AFTER": "DEFAULT_LOCKED"
+}

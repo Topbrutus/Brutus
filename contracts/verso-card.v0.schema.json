@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/verso-card.v0.schema.json",
+  "title": "Brutus Verso Card v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "CARD_ID",
+    "VERSION",
+    "ANCHOR",
+    "SOURCE",
+    "TARGET",
+    "VERSO",
+    "READ",
+    "MEASURE",
+    "RETURN_DATA",
+    "WRITE",
+    "CODE_CHANGE",
+    "CREATE_ROUTE",
+    "VALUES",
+    "EXPECTED_OUTPUT",
+    "PROOF_REQUIRED",
+    "AFTER"
+  ],
+  "properties": {
+    "CARD_ID": {
+      "type": "string",
+      "minLength": 1
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "ANCHOR": {
+      "const": "ANCHOR-0001"
+    },
+    "SOURCE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "TARGET": {
+      "type": "string",
+      "minLength": 1
+    },
+    "VERSO": {
+      "const": "DEFAULT_LOCKED"
+    },
+    "READ": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "MEASURE": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "RETURN_DATA": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "WRITE": {
+      "const": false
+    },
+    "CODE_CHANGE": {
+      "const": false
+    },
+    "CREATE_ROUTE": {
+      "const": false
+    },
+    "VALUES": {
+      "type": "object"
+    },
+    "EXPECTED_OUTPUT": {
+      "type": "string",
+      "minLength": 1
+    },
+    "PROOF_REQUIRED": {
+      "const": true
+    },
+    "AFTER": {
+      "const": "DEFAULT_LOCKED"
+    }
+  },
+  "x-brutus-status": "BOOTSTRAP_CONTRACT",
+  "x-runtime-note": "VALUES keys are additionally restricted by the runtime policy mutableValues allow-list."
+}
