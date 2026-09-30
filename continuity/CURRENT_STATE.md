@@ -3,88 +3,62 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Branch: main
+Main baseline:
+`2f49980a4a8d7d55aed07967efbd10ab024312b2`
+
+Working branch:
+`hardening/phase8-trust-boundaries-20260930`
+
 Visibility: public
-
-Main HEAD at Phase 8 integration:
-`2a2765492a9bbe07a32c9a3a8b587ff6538af44a`
-
-Post-merge Brutus CI:
-`36765211570 = SUCCESS`
 
 ## Phase
 
-PHASE 8 — EPISTEMIC PIPELINE INTEGRATED
+PHASE 8 HARDENING — TRUST BOUNDARIES CANDIDATE
 
-## Integrated chain
+Integrated Phase 8 remains unchanged functionally:
+- intake;
+- counter-test plans;
+- qualified results;
+- reviewed proof promotion;
+- Verso DEFAULT_LOCKED;
+- LIVE_ROUTING = DENIED.
 
-### 1. Intake
+## Hardening targets
 
-External experiment material enters at:
+### Proof source provenance
 
-`BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
+Proof Promotion Gate now requires a source RESULT that structurally matches Counter-Test Result Gate output:
+- Counter-Test Bench prototype;
+- evidence_level = COUNTER_TEST_RESULT;
+- auto_proof_promotion = false;
+- result_id / plan_id / protocol_version / summary;
+- non-empty check_results;
+- SOURCE_REF bound to COUNTER_TEST:<plan_id>:...
 
-It is stored as a qualified ledger trace with explicit evidence boundary.
+A bare ledger RESULT with only verdict=PASS/FAIL is rejected.
 
-Incoming material is not silently promoted to proof.
+### Proof path confinement
 
-### 2. Counter-Test Bench
+Promotion now:
+- rejects a symlinked proofs/ root;
+- rejects proof artifact symlinks;
+- resolves real paths;
+- requires the real artifact path to remain inside the real proofs/ root;
+- still requires exact SHA-256 match.
 
-Prototype:
+### Credential boundary
 
-`BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001`
+ASTRA STATION prototype manifests and ledger records now reject token-shaped variants including:
+- api_token;
+- access_token;
+- refresh_token;
+- bearer_token;
+- client_secret.
 
-Plans are immutable, data-only and bound to existing source records.
+## Capability boundary
 
-Initial plans:
-- `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
-- `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+No new capability is added.
 
-The queue cannot execute, update, delete or route.
-
-### 3. Counter-Test Result Gate
-
-Externally executed counter-tests return through:
-
-`src/counter-test-result-gate.mjs`
-
-Rules:
-- known PLAN_ID required;
-- every planned CHECK_ID must be reported exactly once;
-- PASS / FAIL / INCONCLUSIVE / ERROR must match check statuses;
-- PROOF_REF remains null;
-- automatic proof promotion is forbidden.
-
-Qualified outputs become separate ledger RESULT records.
-
-### 4. Proof Promotion Gate
-
-Reviewed proof linkage uses:
-
-`src/proof-promotion-gate.mjs`
-
-Promotion requires:
-- existing RESULT record;
-- PASS or FAIL verdict;
-- existing local artifact under `proofs/`;
-- exact SHA-256 match;
-- explicit `REVIEW_STATUS = APPROVED`;
-- `AUTO_PROMOTION = false`.
-
-The output is a separate PROOF_REF record.
-
-The gate verifies artifact/linkage traceability. It does not determine scientific or mathematical truth by itself.
-
-## Verso / Station boundary
-
-- Verso remains DEFAULT_LOCKED;
-- prepared cards only;
-- UNKNOWN_CARD => STOP;
-- ANCHOR-0001 / ASTRA STATION remains the fixed return point;
-- no new Verso card was needed for Phases 5-8.
-
-## Routing boundary
+No new Verso card is added.
 
 `LIVE_ROUTING = DENIED`
-
-No Phase 8 component authorizes or invokes live ANT routing.

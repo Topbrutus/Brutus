@@ -87,6 +87,20 @@ test("prototype manifest is data-only", () => {
   );
 });
 
+test("prototype manifest rejects credential-shaped fields", () => {
+  const station = createAstraStation();
+
+  for (const key of ["api_token", "access_token", "bearer_token", "client_secret"]) {
+    const bad = manifest();
+    bad.PARAMETERS[key] = "do-not-store-me";
+
+    assert.throws(
+      () => station.registerPrototype(bad),
+      new RegExp("forbidden credential field " + key)
+    );
+  }
+});
+
 test("unknown executable-looking manifest field is rejected", () => {
   const station = createAstraStation();
   const bad = manifest();

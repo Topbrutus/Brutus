@@ -20,6 +20,21 @@ const REQUIRED_FIELDS = [
 ];
 const ALLOWED_FIELDS = new Set(REQUIRED_FIELDS);
 const ALLOWED_STATUS = new Set(["DRAFT", "ACTIVE", "PAUSED", "CLOSED"]);
+const FORBIDDEN_CREDENTIAL_KEYS = new Set([
+  "password",
+  "passwd",
+  "token",
+  "secret",
+  "apikey",
+  "apitoken",
+  "accesstoken",
+  "refreshtoken",
+  "bearertoken",
+  "clientsecret",
+  "privatekey",
+  "authorization",
+  "cookie"
+]);
 
 function reject(reason) {
   throw new Error("ASTRA_STATION_REJECTED: " + reason);
@@ -29,6 +44,10 @@ function isPlainObject(value) {
   if (value === null || typeof value !== "object") return false;
   const proto = Object.getPrototypeOf(value);
   return proto === Object.prototype || proto === null;
+}
+
+function normalizedKey(key) {
+  return String(key).toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
 function assertDataOnly(value, path = "manifest") {
@@ -46,6 +65,9 @@ function assertDataOnly(value, path = "manifest") {
   }
   if (type === "object" && isPlainObject(value)) {
     for (const [key, item] of Object.entries(value)) {
+      if (FORBIDDEN_CREDENTIAL_KEYS.has(normalizedKey(key))) {
+        reject(path + " contains forbidden credential field " + key);
+      }
       assertDataOnly(item, path + "." + key);
     }
     return;

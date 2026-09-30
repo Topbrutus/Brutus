@@ -151,6 +151,71 @@ test("proof promotion rejects missing result records", () => {
   );
 });
 
+test("proof promotion rejects a forged direct-ledger RESULT that bypassed result qualification", () => {
+  const { gate, h256, ledger } = setup();
+
+  ledger.append({
+    SCHEMA: "BRUTUS-ANCHOR-RECORD-v0.1",
+    RECORD_ID: "BRUTUS-RECORD-FORGED-RESULT-0001",
+    VERSION: "0.1",
+    ANCHOR_ID: "ANCHOR-0001",
+    PROTOTYPE_ID: "BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001",
+    RECORD_TYPE: "RESULT",
+    CARD_ID: null,
+    SOURCE_REF: "FORGED:DIRECT",
+    OBSERVED_AT_UTC: null,
+    DATA: {
+      verdict: "PASS"
+    },
+    PROOF_REF: null,
+    NOTES: ["Deliberately forged unit-test record."]
+  });
+
+  const bad = validPromotion(h256);
+  bad.RESULT_RECORD_ID = "BRUTUS-RECORD-FORGED-RESULT-0001";
+
+  assert.throws(
+    () => gate.qualify(bad),
+    /must be qualified by Counter-Test Result Gate/
+  );
+});
+
+test("proof promotion rejects RESULT provenance from the wrong prototype", () => {
+  const { gate, h256, ledger } = setup();
+
+  ledger.append({
+    SCHEMA: "BRUTUS-ANCHOR-RECORD-v0.1",
+    RECORD_ID: "BRUTUS-RECORD-FORGED-RESULT-0002",
+    VERSION: "0.1",
+    ANCHOR_ID: "ANCHOR-0001",
+    PROTOTYPE_ID: "BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001",
+    RECORD_TYPE: "RESULT",
+    CARD_ID: null,
+    SOURCE_REF: "COUNTER_TEST:BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001:FORGED",
+    OBSERVED_AT_UTC: null,
+    DATA: {
+      evidence_level: "COUNTER_TEST_RESULT",
+      result_id: "BRUTUS-COUNTER-RESULT-FORGED-0002",
+      plan_id: "BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001",
+      protocol_version: "forged",
+      verdict: "PASS",
+      summary: "forged",
+      check_results: [{ CHECK_ID: "CT-01", STATUS: "PASS" }],
+      auto_proof_promotion: false
+    },
+    PROOF_REF: null,
+    NOTES: ["Deliberately forged unit-test record."]
+  });
+
+  const bad = validPromotion(h256);
+  bad.RESULT_RECORD_ID = "BRUTUS-RECORD-FORGED-RESULT-0002";
+
+  assert.throws(
+    () => gate.qualify(bad),
+    /must belong to Counter-Test Bench/
+  );
+});
+
 test("proof promotion rejects missing proof artifacts", () => {
   const { gate, h256 } = setup();
   const bad = validPromotion(h256);
@@ -170,6 +235,44 @@ test("proof promotion rejects SHA-256 mismatch", () => {
   assert.throws(
     () => gate.qualify(bad),
     /proof artifact SHA-256 mismatch/
+  );
+});
+
+test("proof promotion rejects proof symlinks even when their link path is under proofs", () => {
+  const { gate, h256, root } = setup();
+
+  const outsidePath = path.join(root, "outside-proof.json");
+  const outsideBytes = Buffer.from('{"outside":true}\n', "utf8");
+  fs.writeFileSync(outsidePath, outsideBytes);
+
+  const linkPath = path.join(root, "proofs", "linked-proof.json");
+  fs.symlinkSync(outsidePath, linkPath);
+
+  const bad = validPromotion(
+    createHash("sha256").update(outsideBytes).digest("hex")
+  );
+  bad.PROOF_REF = "proofs/linked-proof.json";
+
+  assert.throws(
+    () => gate.qualify(bad),
+    /proof artifact must not be a symbolic link/
+  );
+});
+
+test("proof promotion rejects a symlinked proofs directory", () => {
+  const { ledger, h256 } = setup();
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "brutus-proof-root-link-"));
+  const actualProofs = path.join(root, "actual-proofs");
+  fs.mkdirSync(actualProofs, { recursive: true });
+  fs.writeFileSync(path.join(actualProofs, "fixture-proof.json"), "{}\n");
+  fs.symlinkSync(actualProofs, path.join(root, "proofs"));
+
+  const gate = createProofPromotionGate({ ledger, repositoryRoot: root });
+  const bad = validPromotion(h256);
+
+  assert.throws(
+    () => gate.qualify(bad),
+    /proofs directory must not be a symbolic link/
   );
 });
 
