@@ -1,49 +1,33 @@
-# NEXT ACTION — WAIT FOR REAL COUNTER-TEST OUTPUT
+# NEXT ACTION — VERIFY PHASE 8 TRUST HARDENING
 
-## Current rule
+## Branch
 
-Do not add another Brutus capability just because one can be imagined.
+`hardening/phase8-trust-boundaries-20260930`
 
-The next useful event is a **real external counter-test result**.
+## Required CI proof
 
-Existing ready plans:
+Must prove:
+- normal reviewed promotion still passes;
+- forged direct-ledger RESULT is rejected;
+- RESULT from wrong prototype is rejected;
+- missing proof is rejected;
+- SHA mismatch is rejected;
+- lexical path traversal is rejected;
+- proof symlink is rejected;
+- symlinked proofs/ root is rejected;
+- prototype manifests reject token-shaped fields;
+- ledger records reject token-shaped fields;
+- no new execution/network/World Router path appears.
 
-1. `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
-2. `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+## After success
 
-## When a real result arrives
+Merge as hardening only.
 
-1. preserve the exact execution/protocol reference;
-2. fill every planned CHECK_ID;
-3. report PASS / FAIL / INCONCLUSIVE / ERROR honestly;
-4. qualify through Counter-Test Result Gate;
-5. append the resulting RESULT to ASTRA STATION ledger;
-6. keep PROOF_REF null;
-7. only if a real proof artifact exists, hash it and pass it through Proof Promotion Gate;
-8. append the separate PROOF_REF record after explicit review.
+Then return to:
 
-## No result yet
+`WAIT FOR REAL COUNTER-TEST OUTPUT`
 
-If no real counter-test output is available:
-
-`WAIT / DO NOT INVENT DATA`
-
-Do not create synthetic experimental results outside unit-test fixtures.
-
-## New Verso capability
-
-Create a new prepared card only if a real experiment demonstrates a missing read capability.
-
-Otherwise:
-
-`NO CARD -> STOP -> DESIGN REVIEW`
-
-not:
-
-`NO CARD -> EDIT ENGINE`
-
-## Routing boundary
+Do not invent experimental data.
 
 Preserve:
-
 `LIVE_ROUTING = DENIED`

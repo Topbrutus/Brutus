@@ -5,6 +5,8 @@ import { createHash } from "node:crypto";
 const PROMOTION_SCHEMA = "BRUTUS-PROOF-PROMOTION-v0.1";
 const RECORD_SCHEMA = "BRUTUS-ANCHOR-RECORD-v0.1";
 const FIXED_ANCHOR_ID = "ANCHOR-0001";
+const COUNTER_TEST_PROTOTYPE = "BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001";
+const COUNTER_TEST_EVIDENCE_LEVEL = "COUNTER_TEST_RESULT";
 const REQUIRED_FIELDS = [
   "SCHEMA",
   "PROMOTION_ID",
@@ -103,15 +105,39 @@ function sha256(buffer) {
   return createHash("sha256").update(buffer).digest("hex");
 }
 
+function isInside(parent, child) {
+  return child === parent || child.startsWith(parent + path.sep);
+}
+
 function resolveProofPath(repositoryRoot, proofRef) {
   const root = path.resolve(repositoryRoot);
   const proofsRoot = path.resolve(root, "proofs");
   const resolved = path.resolve(root, proofRef);
 
-  if (resolved !== proofsRoot && !resolved.startsWith(proofsRoot + path.sep)) {
+  if (!isInside(proofsRoot, resolved)) {
     reject("PROOF_REF must stay inside proofs/");
   }
-  return resolved;
+  if (!fs.existsSync(proofsRoot)) reject("proofs directory does not exist");
+
+  const proofsRootLstat = fs.lstatSync(proofsRoot);
+  if (proofsRootLstat.isSymbolicLink()) {
+    reject("proofs directory must not be a symbolic link");
+  }
+
+  if (!fs.existsSync(resolved)) reject("proof artifact does not exist");
+
+  const artifactLstat = fs.lstatSync(resolved);
+  if (artifactLstat.isSymbolicLink()) {
+    reject("proof artifact must not be a symbolic link");
+  }
+
+  const realProofsRoot = fs.realpathSync(proofsRoot);
+  const realResolved = fs.realpathSync(resolved);
+  if (!isInside(realProofsRoot, realResolved)) {
+    reject("proof artifact real path escapes proofs/");
+  }
+
+  return realResolved;
 }
 
 function validatePromotion(input, ledger, repositoryRoot) {
@@ -150,8 +176,36 @@ function validatePromotion(input, ledger, repositoryRoot) {
   if (resultEntry.RECORD.PROOF_REF !== null) {
     reject("source RESULT already carries a proof reference");
   }
+  if (resultEntry.RECORD.PROTOTYPE_ID !== COUNTER_TEST_PROTOTYPE) {
+    reject("source RESULT must belong to Counter-Test Bench");
+  }
 
-  const verdict = resultEntry.RECORD.DATA?.verdict ?? null;
+  const resultData = resultEntry.RECORD.DATA;
+  if (!isPlainObject(resultData)) {
+    reject("source RESULT DATA must be a plain object");
+  }
+  if (resultData.evidence_level !== COUNTER_TEST_EVIDENCE_LEVEL) {
+    reject("source RESULT must be qualified by Counter-Test Result Gate");
+  }
+  if (resultData.auto_proof_promotion !== false) {
+    reject("source RESULT must preserve auto_proof_promotion=false");
+  }
+  assertString(resultData.result_id, "source RESULT result_id");
+  assertString(resultData.plan_id, "source RESULT plan_id");
+  assertString(resultData.protocol_version, "source RESULT protocol_version");
+  assertString(resultData.summary, "source RESULT summary");
+  if (!Array.isArray(resultData.check_results) || resultData.check_results.length === 0) {
+    reject("source RESULT must contain qualified check_results");
+  }
+  const expectedSourcePrefix = "COUNTER_TEST:" + resultData.plan_id + ":";
+  if (
+    typeof resultEntry.RECORD.SOURCE_REF !== "string" ||
+    !resultEntry.RECORD.SOURCE_REF.startsWith(expectedSourcePrefix)
+  ) {
+    reject("source RESULT provenance does not match qualified plan");
+  }
+
+  const verdict = resultData.verdict ?? null;
   if (!["PASS", "FAIL"].includes(verdict)) {
     reject("source RESULT must have PASS or FAIL verdict before proof promotion");
   }
@@ -167,7 +221,6 @@ function validatePromotion(input, ledger, repositoryRoot) {
   }
 
   const proofPath = resolveProofPath(repositoryRoot, input.PROOF_REF);
-  if (!fs.existsSync(proofPath)) reject("proof artifact does not exist");
   const stat = fs.statSync(proofPath);
   if (!stat.isFile()) reject("PROOF_REF must resolve to a file");
 

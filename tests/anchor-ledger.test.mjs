@@ -115,13 +115,16 @@ test("ledger records are data-only", () => {
 
 test("ledger rejects credential-shaped fields", () => {
   const ledger = createAnchorLedger({ station: station() });
-  const bad = record();
-  bad.DATA.api_key = "do-not-store-me";
 
-  assert.throws(
-    () => ledger.append(bad),
-    /forbidden credential field api_key/
-  );
+  for (const key of ["api_key", "api_token", "access_token", "bearer_token", "client_secret"]) {
+    const bad = record();
+    bad.DATA[key] = "do-not-store-me";
+
+    assert.throws(
+      () => ledger.append(bad),
+      new RegExp("forbidden credential field " + key)
+    );
+  }
 });
 
 test("PROOF_REF records require a proof reference", () => {
