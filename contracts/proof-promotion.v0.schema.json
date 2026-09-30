@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/proof-promotion.v0.schema.json",
+  "title": "Brutus Proof Promotion v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "PROMOTION_ID",
+    "RECORD_ID",
+    "VERSION",
+    "ANCHOR_ID",
+    "RESULT_RECORD_ID",
+    "PROOF_REF",
+    "EXPECTED_PROOF_H256",
+    "REVIEW_STATUS",
+    "REVIEW_AUTHORITY",
+    "REVIEWED_AT_UTC",
+    "SCOPE",
+    "LIMITATIONS",
+    "AUTO_PROMOTION",
+    "NOTES"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-PROOF-PROMOTION-v0.1"
+    },
+    "PROMOTION_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-PROOF-PROMOTION-[A-Z0-9-]+$"
+    },
+    "RECORD_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-RECORD-[A-Z0-9-]+$"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "ANCHOR_ID": {
+      "const": "ANCHOR-0001"
+    },
+    "RESULT_RECORD_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-RECORD-[A-Z0-9-]+$"
+    },
+    "PROOF_REF": {
+      "type": "string",
+      "pattern": "^proofs/[A-Za-z0-9._/-]+$"
+    },
+    "EXPECTED_PROOF_H256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "REVIEW_STATUS": {
+      "const": "APPROVED"
+    },
+    "REVIEW_AUTHORITY": {
+      "type": "string",
+      "minLength": 1
+    },
+    "REVIEWED_AT_UTC": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "SCOPE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "LIMITATIONS": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "AUTO_PROMOTION": {
+      "const": false
+    },
+    "NOTES": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-brutus-status": "PROOF_PROMOTION_GATE",
+  "x-security": "Promotion requires an existing RESULT, an existing local proof artifact under proofs/, exact SHA-256 match and explicit review approval."
+}

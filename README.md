@@ -89,6 +89,8 @@ Un **Counter-Test Bench** transforme ensuite une trace en plan de contradiction/
 
 Un **Counter-Test Result Gate** contrôle ensuite le retour d'une expérience : tous les checks doivent être déclarés, le verdict doit être cohérent et `PROOF_REF` reste obligatoirement nul à cette étape.
 
+Un **Proof Promotion Gate** sépare ensuite clairement résultat et preuve : un artefact réel sous `proofs/`, son SHA-256 exact et une revue explicite sont nécessaires avant de créer une trace `PROOF_REF`.
+
 ### World Router
 
 Gère les passages déclarés entre mondes.
