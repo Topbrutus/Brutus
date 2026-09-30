@@ -1,0 +1,102 @@
+{
+  "SCHEMA": "BRUTUS-COUNTER-TEST-RESULT-v0.1",
+  "RESULT_ID": "BRUTUS-COUNTER-RESULT-ZELSTEREOS-369-396-0001",
+  "RECORD_ID": "BRUTUS-RECORD-COUNTER-ZELSTEREOS-369-396-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PLAN_ID": "BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001",
+  "EXECUTION_REF": "BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001-1790797398415",
+  "EXECUTED_AT_UTC": "2026-09-30T19:43:37.911Z",
+  "PROTOCOL_VERSION": "ZELSTEREOS_AI 2.4 | ANTMUX-ZELSTEREOS-ENTITY38-RADIX-AUDIO-TEST-v3 | ANTMUX-ZELSTEREOS-ENTITY38-EVOLUTION-CASCADE-v1 | ANTMUX-ZELSTEREOS-RADIX-ZX-BRAID-v1",
+  "VERDICT": "PASS",
+  "CHECK_RESULTS": [
+    {
+      "CHECK_ID": "CT-01",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "determinant_396": 0,
+        "determinant_369": -23004,
+        "arithmetic": "exact_integer"
+      },
+      "NOTES": [
+        "Independent exact-integer arithmetic reproduced both previously reported determinants."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-02",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "ratio_852_639": "4/3",
+        "ratio_528_396": "4/3",
+        "exact_equal": true,
+        "arithmetic": "reduced_rational_no_float"
+      },
+      "NOTES": [
+        "Both fractions reduced exactly to 4/3 without floating-point approximation."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-03",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "branches_369": 1296,
+        "branches_396": 1296,
+        "protocol_same": true,
+        "radix_369": "144/144",
+        "radix_396": "144/144",
+        "inverse_369": "1296/1296",
+        "inverse_396": "1296/1296",
+        "audio_369": true,
+        "audio_396": true,
+        "zelstereos_version": "ZELSTEREOS_AI 2.4",
+        "run": "ANTMUX-ZELSTEREOS-ENTITY38-RADIX-AUDIO-TEST-v3",
+        "cascade": "ANTMUX-ZELSTEREOS-ENTITY38-EVOLUTION-CASCADE-v1",
+        "radix": "ANTMUX-ZELSTEREOS-RADIX-ZX-BRAID-v1",
+        "antmux_head": "942aba3afef9fb49a8467d0b642a4a1a81126bda",
+        "execution_started_at_utc": "2026-09-30T19:43:18.415Z",
+        "execution_finished_at_utc": "2026-09-30T19:43:37.911Z"
+      },
+      "NOTES": [
+        "Fresh public ZELSTEREOS session: 369 then 396 under the same protocol.",
+        "The supplied Antmux commit was independently confirmed to exist before this result was recorded."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-04",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "branches_equal": 0,
+        "branches_different": 1296,
+        "total": 1296,
+        "zenodo_family_output_differences": {
+          "GSP-ZENODO-001": 1296,
+          "GSP-ZENODO-002": 1296,
+          "GSP-ZENODO-003": 233,
+          "GSP-ZENODO-004": 0,
+          "GSP-ZENODO-005": 0,
+          "GSP-ZENODO-006": 0,
+          "GSP-ZENODO-007": 684,
+          "GSP-ZENODO-008": 1296,
+          "GSP-ZENODO-009": 0,
+          "GSP-ZENODO-010": 1296,
+          "GSP-ZENODO-011": 0,
+          "GSP-ZENODO-012": 1296
+        },
+        "zenodo_status_differences": 0
+      },
+      "NOTES": [
+        "No corresponding final branch was identical between 369 and 396.",
+        "The 12 Zenodo families showed zero status differences; the recorded counts above are output-value differences."
+      ]
+    }
+  ],
+  "SUMMARY": "The exact determinants and 4/3 ratio relation were independently reproduced. Fresh ZELSTEREOS runs produced 1296 branches for both inputs under the same protocol, with 0/1296 corresponding branches equal and all four planned checks PASS. No contradiction criterion was triggered. PASS remains a counter-test result, not a proof.",
+  "EVIDENCE_LEVEL": "COUNTER_TEST_RESULT",
+  "PROOF_REF": null,
+  "AUTO_PROOF_PROMOTION": false,
+  "NOTES": [
+    "Execution report supplied from the public ZELSTEREOS session.",
+    "Antmux commit 942aba3afef9fb49a8467d0b642a4a1a81126bda was independently resolved through GitHub before intake.",
+    "PASS is not a proof and does not authorize automatic proof promotion."
+  ]
+}

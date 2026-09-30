@@ -1,37 +1,31 @@
-# NEXT ACTION — WAIT FOR REAL COUNTER-TEST OUTPUT
+# NEXT ACTION — VERIFY AND INTEGRATE REAL 369 / 396 RESULT
 
-## Ready plans
+## Branch
 
-1. `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
-2. `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+`results/zelstereos-369-396-counter-test-20260930`
 
-## When real output arrives
+## Required CI proof
 
-1. preserve exact execution/protocol reference;
-2. fill every planned CHECK_ID;
-3. report PASS / FAIL / INCONCLUSIVE / ERROR honestly;
-4. qualify through Counter-Test Result Gate;
-5. append the qualified RESULT to ASTRA STATION ledger;
-6. keep PROOF_REF null;
-7. if a real reviewed proof artifact exists, verify its local path and SHA-256 through Proof Promotion Gate;
-8. append the separate PROOF_REF record.
+Must prove:
+- the raw result passes Counter-Test Result Gate;
+- every planned check is present exactly once;
+- the gate output exactly matches the durable RESULT record;
+- the durable RESULT appends to ASTRA STATION ledger;
+- ledger remains valid;
+- PROOF_REF stays null;
+- no automatic proof promotion occurs.
 
-## No result yet
+## After integration
 
-`WAIT / DO NOT INVENT DATA`
+The 369 / 396 plan becomes a completed counter-test RESULT with verdict PASS.
 
-Do not manufacture experimental values or PASS states.
+This does **not** create a proof.
 
-## Capability rule
+Possible future proof step only if a concrete reviewed artifact exists:
+`RESULT -> REVIEWED ARTIFACT -> SHA256 -> PROOF PROMOTION GATE -> PROOF_REF`
 
-New Verso capability is justified only if a real experiment demonstrates a missing read capability.
-
-Otherwise:
-
-`NO CARD -> STOP -> DESIGN REVIEW`
-
-## Routing boundary
+The other ready plan remains:
+`BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
 
 Preserve:
-
 `LIVE_ROUTING = DENIED`
