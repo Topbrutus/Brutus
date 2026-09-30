@@ -1,0 +1,30 @@
+{
+  "SCHEMA": "BRUTUS-PROTOTYPE-MANIFEST-v0.1",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "TITLE": "Counter-Test Bench",
+  "PURPOSE": "Turn qualified experiment traces into explicit contradiction and reproduction plans without executing them automatically or promoting outcomes to proof.",
+  "STATUS": "ACTIVE",
+  "CARD_IDS": [],
+  "PARAMETERS": {
+    "mode": "PLAN_ONLY",
+    "auto_execute": false,
+    "auto_promote_to_proof": false,
+    "mutable_plan_updates": false,
+    "live_ant_routing": "DENIED",
+    "world_router": "NOT_INVOKED"
+  },
+  "EXPECTED_OUTPUTS": [
+    "immutable counter-test plan",
+    "explicit source records",
+    "explicit confirmation criteria",
+    "explicit contradiction criteria",
+    "later qualified result record"
+  ],
+  "PROOF_REFS": [],
+  "NOTES": [
+    "A plan describes what must be tested; it does not execute code, machines or routes.",
+    "A passing counter-test still requires a separate verified result/proof trace before promotion."
+  ]
+}

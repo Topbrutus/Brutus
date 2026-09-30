@@ -85,6 +85,8 @@ ASTRA STATION reçoit aussi un **ledger append-only de traces** : observations, 
 
 Un **Experiment Intake Bench** permet enfin de déposer les résultats venant d'autres machines comme traces qualifiées. Leur provenance et leur niveau de preuve restent explicites : un résultat reçu n'est pas automatiquement promu en preuve ou en loi.
 
+Un **Counter-Test Bench** transforme ensuite une trace en plan de contradiction/reproduction : il définit ce qu'il faut refaire, ce qui confirmerait le résultat et ce qui le casserait. Il ne lance aucune expérience lui-même.
+
 ### World Router
 
 Gère les passages déclarés entre mondes.

@@ -1,0 +1,54 @@
+{
+  "SCHEMA": "BRUTUS-COUNTER-TEST-PLAN-v0.1",
+  "PLAN_ID": "BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001",
+  "SOURCE_RECORD_IDS": [
+    "BRUTUS-RECORD-BRUTUS-PELL-L7-L8-0001"
+  ],
+  "TITLE": "Audit and attack the L8 exact-rank factor claim",
+  "QUESTION": "Under the stated Pell/Lucas framework, does every relevant prime factor of Q_q = P_(q^2)/P_q have exact rank q^2, and do q = 47, 71, 83 yield reproducible witnesses when Q_q is factored?",
+  "PRIORITY": "P0",
+  "STATUS": "READY",
+  "CHECKS": [
+    {
+      "CHECK_ID": "CT-01",
+      "KIND": "SOURCE_AUDIT",
+      "DESCRIPTION": "Derive the L8 implication from standard Lucas/Pell divisibility and rank properties, stating all exceptional-prime and valuation assumptions explicitly."
+    },
+    {
+      "CHECK_ID": "CT-02",
+      "KIND": "FACTORIZATION",
+      "DESCRIPTION": "Factor Q_47, Q_71 and Q_83 as far as practical while recording complete or partial factorization status separately."
+    },
+    {
+      "CHECK_ID": "CT-03",
+      "KIND": "RANK_VERIFICATION",
+      "DESCRIPTION": "For every prime factor found, independently compute its Pell entry rank and test whether the rank is exactly q^2 rather than a proper divisor."
+    },
+    {
+      "CHECK_ID": "CT-04",
+      "KIND": "BOUNDED_SCAN",
+      "DESCRIPTION": "Reproduce the reported bounded k scan and preserve its exact interval, candidate count and zero-witness result without converting that result into a non-existence proof."
+    }
+  ],
+  "CONFIRMATION_CRITERIA": [
+    "The source audit proves the implication with all required exceptions stated.",
+    "At least one independently verified prime factor for a target q has exact Pell rank q^2.",
+    "The reproduced bounded scan agrees on its exact search interval and reports 4853 prime candidates with zero exact witnesses under the same protocol."
+  ],
+  "CONTRADICTION_CRITERIA": [
+    "A prime factor of Q_q satisfying the stated domain assumptions has Pell rank strictly smaller than q^2.",
+    "The source audit reveals an unstated exceptional case that invalidates the universal wording of L8.",
+    "Independent reproduction changes the reported bounded-scan candidate count or finds an exact witness inside the same scanned interval.",
+    "A claimed factorization witness cannot be reproduced from the recorded Q_q."
+  ],
+  "OUTPUT_RECORD_TYPE": "RESULT",
+  "AUTO_EXECUTE": false,
+  "PROOF_PROMOTION": "MANUAL_AFTER_VERIFICATION",
+  "NOTES": [
+    "L8 remains a derived relation under audit, not a novelty claim.",
+    "Partial factorization must never be reported as complete factorization."
+  ]
+}

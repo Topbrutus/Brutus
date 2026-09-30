@@ -1,57 +1,40 @@
-# NEXT ACTION — INTAKE FIRST, EXPAND ONLY ON EVIDENCE
+# NEXT ACTION — VERIFY COUNTER-TEST BENCH, THEN RETURN RESULTS AS LEDGER RECORDS
 
-## Normal path for the next experiment
+## Branch
 
-When a new external result arrives:
+`astra/counter-test-bench-v01-20260930`
 
-1. identify the existing ASTRA STATION prototype that owns it;
-2. if needed, add a new data-only prototype manifest;
-3. append a qualified ledger record with explicit SOURCE_REF and evidence label;
-4. do not assign PROOF_REF unless a real proof artifact exists;
-5. counter-test or independently rerun the claim when useful;
-6. append a proof reference only after verification;
-7. create a new Verso card only if the experiment demonstrates a missing **read** capability.
+## Immediate gate
 
-## Existing intake workspace
+Run full Brutus CI.
 
-Use:
+Must prove:
+- Counter-Test Bench prototype registers without a Verso card;
+- the two initial plans bind to existing source records;
+- missing source records are rejected;
+- AUTO_EXECUTE=true is rejected;
+- automatic proof promotion is rejected;
+- data-only and credential guards hold;
+- plans are immutable;
+- no update/delete/execute API exists;
+- no network/process/World Router is introduced.
 
-`BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
+## After integration
 
-for incoming experimental material that does not yet deserve a dedicated prototype.
+Execution remains outside the queue.
 
-## Evidence labels
+When a counter-test is actually run, append a new `RESULT` record to ASTRA STATION with:
+- source plan ID;
+- exact protocol/version;
+- observed outputs;
+- PASS / FAIL / INCONCLUSIVE as a test result only;
+- PROOF_REF = null unless a real proof artifact is produced.
 
-Keep distinctions explicit:
+## Important
 
-```text
-SOURCE
-MESURE
-CALCUL
-CANDIDAT
-HYPOTHÈSE
-INTERPRÉTATION
-PROOF_REF
-```
+Do not modify Verso merely to run a counter-test.
 
-Incoming reports are not silently upgraded.
-
-## Verso rule
-
-Do not modify Verso Core to advance an experiment.
-
-Use an existing prepared card if one fits.
-
-If no prepared card fits:
-`NO CARD -> STOP -> DESIGN REVIEW`
-
-not:
-`NO CARD -> EDIT ENGINE`
-
-## Routing boundary
+Do not turn PASS into theorem.
 
 Preserve:
-
 `LIVE_ROUTING = DENIED`
-
-until a separate explicit authorization contract is specified and proven.
