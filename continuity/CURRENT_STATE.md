@@ -3,19 +3,34 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main baseline before real result intake:
-`aad7f241808551dd7db3a0c2d397e9dcb3ef9b7c`
-
-Working branch:
-`results/zelstereos-369-396-counter-test-20260930`
-
+Branch: main
 Visibility: public
+
+Main HEAD after first real counter-test RESULT integration:
+`4adb4ea0fdfd3765007fb4e3a18f19029a49c38e`
+
+Post-merge Brutus CI:
+`36768349794 = SUCCESS`
 
 ## Phase
 
-PHASE 8 — FIRST REAL COUNTER-TEST RESULT INTAKE CANDIDATE
+PHASE 8 — EPISTEMIC PIPELINE HARDENED + FIRST REAL RESULT INTEGRATED
 
-## Real incoming result
+## Integrated epistemic chain
+
+```text
+INTAKE
+  -> QUALIFIED TRACE
+  -> COUNTER-TEST PLAN
+  -> EXTERNAL EXECUTION
+  -> QUALIFIED RESULT
+  -> LEDGER RESULT
+  -> REVIEWED PROOF ARTIFACT
+  -> PROOF PROMOTION GATE
+  -> SEPARATE PROOF_REF
+```
+
+## First real completed counter-test result
 
 Plan:
 `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
@@ -23,13 +38,11 @@ Plan:
 Execution:
 `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001-1790797398415`
 
-Execution window:
-`2026-09-30T19:43:18.415Z -> 2026-09-30T19:43:37.911Z`
-
 Antmux source commit:
 `942aba3afef9fb49a8467d0b642a4a1a81126bda`
 
-That commit was independently confirmed to exist in Topbrutus/Antmux before this intake.
+Execution window:
+`2026-09-30T19:43:18.415Z -> 2026-09-30T19:43:37.911Z`
 
 Protocol:
 - ZELSTEREOS_AI 2.4;
@@ -40,18 +53,20 @@ Protocol:
 Verdict:
 `PASS`
 
-Checks:
-- CT-01 PASS: determinant_396=0, determinant_369=-23004;
-- CT-02 PASS: 852/639=4/3, 528/396=4/3;
-- CT-03 PASS: 1296 branches each, same protocol;
-- CT-04 PASS: 0 equal / 1296 different corresponding branches.
+Measured result:
+- determinant_396 = 0;
+- determinant_369 = -23004;
+- 852/639 = 4/3;
+- 528/396 = 4/3;
+- 1296 branches for 369;
+- 1296 branches for 396;
+- 0 corresponding branches equal;
+- 1296 corresponding branches different.
 
-## Durable candidate artifacts
-
-Raw counter-test result:
+Durable raw result:
 `examples/results/BRUTUS-COUNTER-RESULT-ZELSTEREOS-369-396-0001.json`
 
-Qualified ledger RESULT:
+Durable qualified ledger RESULT:
 `examples/records/BRUTUS-RECORD-COUNTER-ZELSTEREOS-369-396-0001.json`
 
 ## Evidence boundary
@@ -63,8 +78,25 @@ PROOF_REF = null
 AUTO_PROOF_PROMOTION = false
 ```
 
-PASS is not promoted to proof.
+This PASS is not a proof.
 
-## Routing boundary
+No proof artifact has been promoted for the 369 / 396 result.
+
+## Remaining ready counter-test plan
+
+`BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+
+Targets:
+- q = 47;
+- q = 71;
+- q = 83;
+- Q_q factorization;
+- exact rank verification;
+- source audit;
+- bounded-scan reproduction.
+
+## Verso / routing boundary
+
+`VERSO = DEFAULT_LOCKED`
 
 `LIVE_ROUTING = DENIED`
