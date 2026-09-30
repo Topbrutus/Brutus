@@ -1,51 +1,21 @@
-# NEXT ACTION — COMPLETE ONLY THE MISSING L8 CHECKS
+# NEXT ACTION — FACTOR Q_47 ONLY IF COMPUTE IS JUSTIFIED
 
-## Current partial result
+CT-01 is complete. Do not rerun the L8 derivation without a specific objection.
 
-Durable raw result candidate:
-`examples/results/BRUTUS-COUNTER-RESULT-BRUTUS-PELL-L8-PARTIAL-0001.json`
+The only unresolved check is CT-03.
 
-Durable qualified RESULT candidate:
-`examples/records/BRUTUS-RECORD-COUNTER-BRUTUS-PELL-L8-PARTIAL-0001.json`
+If compute is available, target Q_47 with a native factorization tool such as GMP-ECM.
+Stop when a prime factor r is found, then verify:
+- primality of r;
+- Q_47 mod r = 0;
+- P_47 mod r != 0;
+- P_2209 mod r = 0;
+- exact z_P(r)=2209.
 
-Current status:
-`INCONCLUSIVE`
+Do not redo the huge Q values, trial division below 1,000,000, the 4,853-candidate scan, or CT-01.
 
-## Missing CT-01
+Until a factor is found:
+OVERALL_VERDICT = INCONCLUSIVE
+PROOF_REF = null
 
-Need the mathematical audit:
-
-- L8_STATUS;
-- assumptions;
-- exceptions;
-- derivation;
-- explicit answer whether an admissible prime factor of Q_q can have rank below q^2.
-
-Do not repeat the large Q calculations.
-
-## Missing CT-03
-
-Need at least one actual prime factor r of some Q_q, or an explicit statement that no factor was obtained beyond the current trial-division bound.
-
-If a factor is found:
-- identify q;
-- identify r;
-- verify r divides Q_q;
-- compute P_q mod r;
-- compute P_(q^2) mod r;
-- compute exact z_P(r) independently;
-- report WITNESS true/false.
-
-## CT-04
-
-Already reproduced:
-`4853 candidates / 0 witnesses`
-
-Do not spend time rerunning it unless the protocol changes.
-
-## Evidence rule
-
-Do not convert the partial result to PASS until CT-01 and CT-03 are actually resolved.
-
-Preserve:
-`LIVE_ROUTING = DENIED`
+LIVE_ROUTING = DENIED
