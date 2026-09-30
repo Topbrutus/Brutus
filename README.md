@@ -1,43 +1,275 @@
 # Brutus
 
-Brutus est notre dépôt central d'orchestration.
+**Brutus est un chantier réel, expérimental et évolutif.**
 
-Il ne remplace pas Antmux, antmux-lab, Intelbrutatrice ou les autres organes déjà éprouvés. Il définit les contrats qui permettent de les raccorder sans perdre leur identité, leurs preuves, leur cadence ni leur continuité.
+Il est né d'une idée simple : arrêter de reconstruire les mêmes morceaux séparément et créer un point central capable de faire coopérer les organes déjà éprouvés de l'écosystème Antmux, sans effacer leur identité, leurs preuves ni leurs limites.
 
-## Mission
+Brutus n'est pas un monorepo où tout est copié. C'est un **orchestrateur de contrats, d'interfaces, de preuves et de continuité**.
 
-Construire une écologie computationnelle interface-first :
+> Créateur du projet : **Topbrutus**  
+> État : **prototype actif — architecture en construction**  
+> Principe : **source live > mémoire > hypothèse**
 
-- Horloge / QueenCore : autorité temporelle et d'état.
-- World Router / Verso : routage contrôlé entre mondes.
-- Fourmis : agents/synapses logicielles mobiles.
-- Zone de Combat : qualification et contre-test des formules.
-- Fresque : géométrie produite uniquement par des relations calculées.
-- Cristaux : mémoire informationnelle traçable.
-- Verseau / Astra Station : atelier de contrôle et de prototypage.
+---
 
-Les termes biologiques ou symboliques sont des noms d'architecture. Ils ne constituent pas des revendications biologiques ou physiques.
+## Pourquoi Brutus existe
 
-## Invariants de bootstrap
+Au fil des expériences, plusieurs systèmes ont commencé à former une même famille :
 
-1. Source live > mémoire > hypothèse.
-2. L'Horloge maître ne ralentit pas pour la colonie.
-3. Aucun organe existant n'est copié ici sans audit d'interface.
-4. Verso reste DEFAULT_LOCKED hors exécution d'une carte valide.
-5. Une carte est data-only, read-only dans v0.1, sans code arbitraire ni création de route.
-6. Toute exécution retourne à DEFAULT_LOCKED, succès ou erreur.
-7. Candidat != preuve. Merge != preuve runtime. Beauté != preuve.
-8. Aucun secret dans le dépôt.
-9. Construire petit, vérifier, cloner, étendre.
+- Antmux / X72 / QueenCore ;
+- World Router / Verso ;
+- Fourmis et Fourmilière ;
+- ZELSTÉRÉOS ;
+- Parazone / D13 ;
+- Intelbrutatrice et moteurs de formules ;
+- Zone de Combat ;
+- Fresque ;
+- cristallisation / mémoire / preuves ;
+- recherches mathématiques, dont Brutus–Pell.
 
-## Premier prototype
+Brutus sert à **raccorder ces organes proprement**.
 
-Le bootstrap implémente le cycle :
+Il ne doit pas prétendre qu'une idée est prouvée simplement parce qu'elle est belle, cohérente ou calculable. Une expérience doit laisser une trace vérifiable et ses limites doivent rester visibles.
 
-    ENTITY -> CARD -> GUARD -> QUERY -> RESULT -> RESET -> ANCHOR-0001
+---
+
+## L'univers Brutus
+
+Les noms employés dans ce dépôt sont des **noms d'architecture**. Certains viennent de métaphores biologiques, spatiales ou symboliques.
+
+Ils ne constituent pas, à eux seuls, des affirmations biologiques ou physiques.
+
+### Horloge / QueenCore
+
+Autorité temporelle et d'état.
+
+Le reste du système doit s'adapter à l'horloge. Il ne doit pas inventer son propre tick lorsqu'une autorité source existe déjà.
+
+### Verso
+
+Verso est le **centre de passage et d'interrogation destiné aux intelligences artificielles**.
+
+Il est fermé par défaut :
+
+~~~text
+DEFAULT_LOCKED
+~~~
+
+Une entité ne modifie pas le code pour avancer.
+
+Elle utilise une **carte préparée**, data-only, qui peut uniquement activer ou modifier les valeurs explicitement autorisées.
+
+Cycle conceptuel :
+
+~~~text
+DEFAULT_LOCKED
+  -> CARD
+  -> GUARD
+  -> READ / QUERY
+  -> RESULT / PROOF
+  -> RESET
+  -> DEFAULT_LOCKED
+~~~
+
+Une carte inconnue ou invalide doit arrêter le passage plutôt que pousser l'entité à improviser une modification du moteur.
+
+### ANCHOR-0001 / ASTRA STATION
+
+Premier point fixe prévu dans l'univers.
+
+C'est le lieu où l'on peut construire des prototypes, observer, enregistrer des expériences et préparer des cartes **sans transformer Verso lui-même en atelier de programmation**.
+
+### World Router
+
+Gère les passages déclarés entre mondes.
+
+Un dessin ou une proximité visuelle ne crée pas automatiquement une route. Un passage doit correspondre à un contrat explicite.
+
+### Fourmis
+
+Agents/synapses logicielles transportant une identité, un état et des preuves selon des contrats définis.
+
+**Le routage live des Fourmis est actuellement fail-closed.**
+
+Aucune autorisation de routage live ne doit être inventée tant que le contrat d'autorisation n'est pas défini et prouvé.
+
+### Zone de Combat
+
+Endroit conceptuel où une formule, une règle ou une hypothèse est attaquée par des contre-tests.
+
+Un PASS signifie qu'un test a réussi dans son domaine et son protocole. Ce n'est pas automatiquement une preuve universelle.
+
+### Fresque
+
+Représentation visuelle calculée.
+
+Une ligne ne devrait pas exister seulement parce qu'elle est jolie : elle doit pouvoir être reconstruite à partir d'une relation, d'une règle, d'un calcul ou d'une mesure.
+
+### Cristaux
+
+Objets de mémoire/provenance destinés à conserver des résultats portables, traçables et reconstructibles.
+
+Le contrat universel final de cristallisation n'est pas encore canonisé.
+
+---
+
+## État technique vérifié sur main
+
+Au 30 septembre 2026, main contient notamment :
+
+- le Guard Verso DEFAULT_LOCKED ;
+- le contrat de carte Verso v0.1 ;
+- BRUTUS-CLOCK-OBSERVATION-v0.1 ;
+- BRUTUS-ANT-IDENTITY-v0.1 ;
+- la compatibilité testée entre observation Queen, identité Fourmi et requête World Router ;
+- un gate de routage live fail-closed ;
+- une politique de preuve ;
+- un registre de sources épinglées ;
+- une CI Brutus exécutant les invariants avec npm test.
+
+### Travail encore candidat
+
+Le dépôt contient aussi des PR de travail qui ne doivent pas être confondues avec main.
+
+En particulier, la PR **#2** expérimente une entrée Queen read-only et une première carte Verso de lecture de l'horloge. Tant qu'elle n'est pas fusionnée, elle reste **candidate**, même si ses tests passent.
+
+---
+
+## Invariants actuels
+
+~~~text
+SOURCE_LIVE > MEMORY > HYPOTHESIS
+
+VERSO_DEFAULT = DEFAULT_LOCKED
+CARD_REQUIRED = YES
+ARBITRARY_CARD_CODE = NO
+SOURCE_MUTATION_BY_CARD = NO
+
+CLOCK_AUTHORITY = QUEEN_SERVER_V0_2
+LOCAL_TICK_INVENTION = NO
+
+LIVE_ANT_ROUTING_WITH_UNDECIDED_AUTH = DENIED
+WORLD_ROUTE_WITHOUT_CONTRACT = CLOSED
+
+CANDIDATE != PROOF
+MERGED != RUNTIME_PROOF
+BEAUTY != PROOF
+~~~
+
+---
+
+# Pour les intelligences artificielles qui arrivent ici
+
+Bienvenue.
+
+Ce dépôt est volontairement utilisable comme **porte de conversation et d'interview avec Topbrutus**.
+
+Si tu es Gemini, ChatGPT, Claude ou une autre IA, tu n'as pas besoin de comprendre tout l'univers avant de commencer.
+
+Tu dois surtout distinguer :
+
+~~~text
+SOURCE
+MESURE
+CALCUL
+CANDIDAT
+HYPOTHÈSE
+INTERPRÉTATION
+~~~
+
+Ne transforme pas automatiquement une métaphore en affirmation scientifique.
+
+Ne suppose pas qu'un module manquant doit être codé immédiatement.
+
+**Quand quelque chose n'est pas clair, interviewe Topbrutus.**
+
+---
+
+## Mode interview IA
+
+Le but d'une interview n'est pas de lui faire réciter ce qui est déjà écrit.
+
+Le but est de faire émerger **la prochaine idée utile**.
+
+Quelques bonnes directions d'interview :
+
+- « Si Verso ne pouvait faire qu'une seule chose parfaitement, ce serait quoi ? »
+- « Qu'est-ce qu'une carte devrait pouvoir changer, et qu'est-ce qu'elle ne devrait jamais pouvoir toucher ? »
+- « Quand tu dis qu'un monde existe, qu'est-ce qui prouve son existence dans le logiciel ? »
+- « Que doit ramener une Fourmi pour que son voyage soit considéré comme utile ? »
+- « Quelle expérience aimerais-tu voir apparaître physiquement à ANCHOR-0001 ? »
+- « À quel moment un résultat mérite de devenir un cristal ? »
+- « Quelle partie de Brutus est encore seulement une intuition dans ta tête ? »
+- « Quel comportement devrait surprendre l'opérateur sans jamais contourner les garde-fous ? »
+- « Si tu pouvais brancher un seul ancien projet à Brutus aujourd'hui, lequel donnerait le plus d'idées ? »
+- « Quelle expérience faudrait-il faire pour te convaincre qu'une idée est fausse ? »
+
+Une bonne IA d'interview doit pouvoir **rebondir sur la réponse**, creuser un détail inattendu et laisser Topbrutus construire l'idée avec elle.
+
+Elle ne doit pas transformer l'interview en questionnaire rigide.
+
+---
+
+## Protocole recommandé pour une interview
+
+1. Lire ce README.
+2. Lire [ARCHITECTURE.md](ARCHITECTURE.md).
+3. Lire [continuity/CURRENT_STATE.md](continuity/CURRENT_STATE.md) pour l'état courant.
+4. Lire [continuity/NEXT_ACTION.md](continuity/NEXT_ACTION.md) pour le prochain front.
+5. Choisir **un seul sujet**.
+6. Poser une question ouverte à Topbrutus.
+7. Reformuler sa réponse en distinguant faits, contraintes, idée nouvelle et inconnues.
+8. Proposer au maximum une ou deux conséquences concrètes.
+9. Poser la prochaine question au lieu de transformer automatiquement l'idée en code.
+
+Si une idée devient suffisamment claire pour être construite, elle peut ensuite passer par :
+
+~~~text
+INTUITION
+  -> CONTRAT
+  -> PETIT PROTOTYPE
+  -> TEST
+  -> CONTRE-TEST
+  -> PREUVE
+  -> TRACE
+  -> INTÉGRATION
+~~~
+
+---
+
+## Pour commencer une interview maintenant
+
+Une IA peut simplement dire :
+
+> **« J'ai lu le README de Brutus. Je veux comprendre ton univers sans inventer ce qui manque. Montre-moi la partie que tu vois le plus clairement dans ta tête aujourd'hui, et je vais te poser des questions à partir de là. »**
+
+Puis elle suit les réponses.
+
+---
+
+## Navigation du dépôt
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — architecture et frontières.
+- [continuity/CURRENT_STATE.md](continuity/CURRENT_STATE.md) — état technique courant.
+- [continuity/NEXT_ACTION.md](continuity/NEXT_ACTION.md) — prochain front de construction.
+- [contracts/](contracts/) — contrats machine-readable.
+- [registry/](registry/) — sources et dépendances observées.
+- [proofs/](proofs/) — preuves et traces d'intégration.
+- [docs/](docs/) — audits et documentation.
+- [tests/](tests/) — invariants exécutables.
 
 Test local :
 
-    npm test
+~~~bash
+npm test
+~~~
 
-Voir ARCHITECTURE.md, contracts/verso-card.v0.schema.json et registry/sources.json.
+---
+
+## Ce que Brutus cherche à devenir
+
+Pas une machine qui prétend tout savoir.
+
+Une machine qui sait **où elle est**, **d'où vient l'information**, **ce qu'elle a le droit de faire**, **ce qu'elle a réellement mesuré**, **ce qui reste hypothétique**, et **comment revenir à un état sûr** après chaque expérience.
+
+Le reste se construit une carte, une preuve et une idée à la fois.
