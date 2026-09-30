@@ -3,71 +3,57 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main HEAD before ledger branch:
-`83b4f33d6db245f3ba0ad7199f4a258b791904bd`
+Main HEAD before intake branch:
+`fe8fdb2cd17bab9b2168288d41a0b90878ca0cf5`
 
 Working branch:
-`astra/anchor-ledger-v01-20260930`
-
-Draft PR:
-`#6 — Add append-only ASTRA STATION trace ledger v0.1`
+`astra/experiment-intake-bench-v01-20260930`
 
 Visibility: public
 
 ## Phase
 
-PHASE 4 — ASTRA STATION LEDGER + READ-ONLY STATUS CARD CANDIDATE
+PHASE 5 — EXPERIMENT INTAKE AT ASTRA STATION
 
 ## Integrated on main
 
 - Verso DEFAULT_LOCKED;
 - prepared Card Registry / UNKNOWN_CARD => STOP;
-- Queen read-only path with public runtime proof;
+- Queen read-only public path and proof;
 - ANCHOR-0001 / ASTRA STATION;
-- prototype manifests;
-- station status card;
+- read-only station status card;
+- append-only SHA-256 trace ledger;
+- read-only ledger status card;
 - LIVE_ROUTING = DENIED.
 
-## New ledger candidate
+Phase 4 post-merge CI:
+`36753282491 = SUCCESS`
 
-Contract:
-`contracts/anchor-record.v0.schema.json`
+## New candidate
 
-Runtime:
-`src/anchor-ledger.mjs`
+Prototype:
+`BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
 
-First durable example:
-`examples/records/BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001.json`
+Purpose:
+receive external experiment reports as qualified traces without auto-execution or proof promotion.
 
-Prepared read-only card:
-`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
+First intake records:
+- `BRUTUS-RECORD-ZELSTEREOS-369-396-0001`
+- `BRUTUS-RECORD-BRUTUS-PELL-L7-L8-0001`
 
-Adapter:
-`src/adapters/verso-astra-ledger-status.mjs`
+Evidence boundaries:
+- ZELSTEREOS record = USER_REPORTED_NOT_REVERIFIED_BY_BRUTUS;
+- L7/L8 record = EXTERNAL_DERIVED_RELATIONS_NOT_REVERIFIED_BY_BRUTUS.
 
-## Ledger invariants
+Neither record is a Brutus proof.
 
-```text
-MODE = APPEND_ONLY
-UPDATE = ABSENT
-DELETE = ABSENT
-KNOWN_PROTOTYPE_REQUIRED = YES
-KNOWN_CARD_REQUIRED_IF_PRESENT = YES
-DATA_ONLY = YES
-CREDENTIAL_STORAGE = DENIED
-HASH_CHAIN = SHA256
-```
+## Architectural rule
 
-Status card may return only:
-- anchor_id;
-- mode;
-- entry_count;
-- head_h256;
-- valid.
+New experimental information should first use:
+`PROTOTYPE -> QUALIFIED TRACE -> COUNTER-TEST -> PROOF LINK`
 
-It cannot append.
+Do not create a new Verso card merely because a new experiment exists.
 
 ## Routing boundary
 
 LIVE_ROUTING = DENIED
-WORLD_ROUTER = NOT_INVOKED

@@ -1,0 +1,32 @@
+{
+  "SCHEMA": "BRUTUS-ANCHOR-RECORD-v0.1",
+  "RECORD_ID": "BRUTUS-RECORD-ZELSTEREOS-369-396-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001",
+  "RECORD_TYPE": "RESULT",
+  "CARD_ID": null,
+  "SOURCE_REF": "USER_REPORT:ZELSTEREOS-369-396:2026-09-30",
+  "OBSERVED_AT_UTC": null,
+  "DATA": {
+    "claim_status": "USER_REPORTED_NOT_REVERIFIED_BY_BRUTUS",
+    "inputs": [369, 396],
+    "machine_differentiation": {
+      "equal_final_branches": 0,
+      "total_final_branches": 1296,
+      "different_final_branches": 1296
+    },
+    "exact_external_calculation": {
+      "determinant_for_396": 0,
+      "determinant_for_369": -23004,
+      "ratio_852_over_639": "4/3",
+      "ratio_528_over_396": "4/3"
+    },
+    "interpretation_boundary": "396 has the reported exact rank-1 proportional relation; 369 is a reported exact counterexample to that relation. Brutus has not independently rerun the ZELSTEREOS experiment in this intake record."
+  },
+  "PROOF_REF": null,
+  "NOTES": [
+    "Stored as an incoming experimental result, not as a Brutus proof.",
+    "The open 369 <-> 396 anomaly remains separate from Brutus-Pell laws unless a later experiment links them."
+  ]
+}

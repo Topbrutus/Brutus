@@ -83,6 +83,8 @@ Le premier prototype de référence est le banc d'observation de l'horloge Queen
 
 ASTRA STATION reçoit aussi un **ledger append-only de traces** : observations, résultats et références de preuve peuvent être chaînés par SHA-256 sans fournir de fonction d'update/delete ni exécuter les expériences elles-mêmes.
 
+Un **Experiment Intake Bench** permet enfin de déposer les résultats venant d'autres machines comme traces qualifiées. Leur provenance et leur niveau de preuve restent explicites : un résultat reçu n'est pas automatiquement promu en preuve ou en loi.
+
 ### World Router
 
 Gère les passages déclarés entre mondes.
