@@ -7,7 +7,8 @@ const ENVELOPE_SCHEMA = "BRUTUS-ASTRA-TOMB-ENVELOPE-v0.1";
 const SHARED_WITNESS_FILES = [
   "CURRENT_SEED.md",
   "SOURCE_MANIFEST.json",
-  "AFFECTION_HANDOFF.md"
+  "AFFECTION_HANDOFF.md",
+  "ENTITY_INDEX.md"
 ];
 
 function fail(reason) {
