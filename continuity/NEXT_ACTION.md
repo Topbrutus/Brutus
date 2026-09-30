@@ -1,20 +1,29 @@
-# NEXT ACTION — PINNED BRIDGE INTEGRATION PROOF
+# NEXT ACTION — AUDIT REAL FOURMI IDENTITY SOURCE
 
-Goal:
-prove that a Brutus world transport request produced from a validated clock observation is accepted by the real Antmux world-router.mjs at the pinned source SHA.
+Target:
+find the canonical source of ANT_ID before any live continuous Horloge -> World transport.
 
-Constraints:
-- do not modify Antmux;
-- do not copy the router into Brutus permanently;
-- fetch the pinned source only in an isolated verification harness;
-- use an explicit test ANT_ID;
-- preserve Queen entity_id only as provenance, never as ANT_ID;
-- use the Queen tick as the transport tick;
-- require proofRef;
-- verify accepted=true and invariant preservation;
-- verify NO_PORTAL_CONTRACT remains closed.
+Audit in Topbrutus/Antmux:
+- current ant_birth.py implementation;
+- Fourmiliere/public journal birth path;
+- ANT lifecycle fields;
+- role=SYNAPSE boundary;
+- existing tests that prove birth identity, timing and lineage.
 
-After that proof, choose the real ANT_ID source before any live continuous integration.
+Questions to answer from source:
+1. Which field is the authoritative ANT_ID?
+2. At what exact lifecycle step does it become usable for routing?
+3. What proof/tick/lineage fields must travel with it?
+4. Can Brutus consume that identity read-only without modifying the Fourmiliere?
+5. How is a deployment ant distinguished from a synthetic test ant?
+
+Do not:
+- invent ANT_ID;
+- reuse Queen entity_id;
+- create a new birth mechanism while an existing one may already be canonical.
+
+After audit:
+define BRUTUS-ANT-IDENTITY-v0.1 only from verified source fields, then test it against the existing World Router.
 
 Rule:
-SOURCE LIVE > pinned source > Brutus adapter > memory > hypothesis.
+SOURCE LIVE > pinned source > Brutus contract > memory > hypothesis.

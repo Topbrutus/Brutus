@@ -8,9 +8,9 @@ Visibility: private
 
 ## Phase
 
-PHASE 1 — FIRST INTERFACE CONTRACT
+PHASE 1 — FIRST INTERFACE PROVEN AT PINNED SOURCE
 
-Bootstrap already established:
+Established:
 - source registry;
 - architecture and proof policy;
 - Verso card v0.1;
@@ -18,15 +18,19 @@ Bootstrap already established:
 - guaranteed DEFAULT_LOCKED reset;
 - automated tests.
 
-First source audit completed:
-- interface: Horloge X72 <-> World Router;
+Horloge X72 <-> World Router:
 - Antmux HEAD audited: d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e;
-- WORLD-ROUNDTRIP-0001 rerun directly: 4/4 PASS;
+- source WORLD-ROUNDTRIP-0001 rerun: 4/4 PASS;
 - Queen read boundary identified through X72ObservationAdapter;
 - World transport boundary identified through transportEnvelope;
-- identity mismatch identified: Queen entity_id is not Fourmi antId;
-- intermediate BRUTUS-CLOCK-OBSERVATION-v0.1 introduced;
-- bridge requires explicit antId and never creates one automatically.
+- Queen entity_id is explicitly forbidden as Fourmi antId;
+- BRUTUS-CLOCK-OBSERVATION-v0.1 implemented;
+- bridge tests at Brutus 17ccd9d: 13/13 PASS;
+- pinned Brutus -> real Antmux transportEnvelope harness: PASS;
+- negative control without portal contract: CLOSED / NO_PORTAL_CONTRACT.
+
+Machine proof:
+proofs/BRUTUS-PROOF-X72-WORLD-PINNED-0001.json
 
 ## Standing invariants
 
@@ -36,17 +40,12 @@ LOCAL_TICK_CREATION = NO
 QUEEN_ENTITY_ID_AS_ANT_ID = FORBIDDEN
 WORLD_TRANSPORT_REQUIRES_FRESH_CLOCK = YES
 WORLD_TRANSPORT_REQUIRES_QUEEN_INTEGRITY = YES
+WORLD_ROUTE_WITHOUT_CONTRACT = CLOSED
 ARBITRARY_CODE_IN_CARD = NO
 SOURCE_MUTATION_BY_BRUTUS = NO
 
-## Unknowns preserved
+## Primary unknown
 
-- source of the first real ANT_ID used by Brutus;
-- live network connection from Brutus to Queen observation stream;
-- production invocation boundary for Antmux transportEnvelope;
-- final universal crystal contract;
-- resource governor / Chaudiere d'esprit;
-- accumulator and movement dephaser;
-- complete EmojiLogic opcode bank;
-- chakra crystallization levels;
-- unified microphone/voice path.
+The first real production ANT_ID source has not been selected.
+
+Brutus must not synthesize it silently.

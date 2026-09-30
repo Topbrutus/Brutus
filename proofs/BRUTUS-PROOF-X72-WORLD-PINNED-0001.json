@@ -1,0 +1,34 @@
+{
+  "schema": "BRUTUS-INTEGRATION-PROOF-v0.1",
+  "proof_id": "BRUTUS-PROOF-X72-WORLD-PINNED-0001",
+  "observed_on": "2026-09-30",
+  "brutus_commit_tested": "17ccd9d49b94d10b3522c18e7ff44910dcc352ac",
+  "antmux_commit_tested": "d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e",
+  "antmux_file": "laboratoire/c3rutus/world-router.mjs",
+  "antmux_blob": "a4e1d4d90f084edcf50b579a7a38d2a8a3a03e35",
+  "harness": "temporary_isolated_not_committed",
+  "source_mutation": false,
+  "test_ant_id": "ANT-BRUTUS-VERIFY-0001",
+  "input_tick": 273,
+  "proof_ref": "PROOF-BRUTUS-PINNED-0001",
+  "positive_control": {
+    "from": "MATTER/CARBON",
+    "to": "INFORMATION/CRYPTO",
+    "accepted": true,
+    "invariant_tick": 273,
+    "invariant_ant_id": "ANT-BRUTUS-VERIFY-0001",
+    "invariant_proof_ref": "PROOF-BRUTUS-PINNED-0001"
+  },
+  "negative_control": {
+    "from": "MATTER/CARBON",
+    "to": "TIME/CLOCK",
+    "accepted": false,
+    "reason": "NO_PORTAL_CONTRACT"
+  },
+  "result": "PASS",
+  "limitations": [
+    "Test ANT_ID is synthetic verification identity, not a production Fourmi.",
+    "Queen network stream was not contacted live.",
+    "Proof is pinned to the listed Brutus and Antmux commits."
+  ]
+}

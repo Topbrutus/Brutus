@@ -122,11 +122,48 @@ La première version reste:
 - bloquée si observation STALE;
 - bloquée si integrity_match != true.
 
+## PREUVE — raccord Brutus -> routeur Antmux épinglé
+
+Brutus testé:
+17ccd9d49b94d10b3522c18e7ff44910dcc352ac
+
+Antmux testé:
+d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e
+
+Méthode:
+- clone frais de Brutus;
+- world-router.mjs téléchargé brut depuis le SHA Antmux épinglé;
+- aucun fichier Antmux modifié;
+- harness temporaire non commité;
+- observation fixture normalisée par Brutus;
+- ANT_ID de vérification fourni explicitement;
+- requête Brutus passée au vrai transportEnvelope.
+
+Résultat positif:
+- accepted = true;
+- tick = 273 conservé;
+- antId = ANT-BRUTUS-VERIFY-0001 conservé;
+- proofRef = PROOF-BRUTUS-PINNED-0001 conservé.
+
+Contrôle négatif:
+- destination TIME/CLOCK;
+- aucun contrat de portail;
+- accepted = false;
+- reason = NO_PORTAL_CONTRACT.
+
+Preuve machine:
+proofs/BRUTUS-PROOF-X72-WORLD-PINNED-0001.json
+
 ## Frontière de preuve
 
-Cet audit ne prouve pas encore:
-- une connexion réseau live Brutus -> Queen;
-- l'appel du World Router depuis Brutus en production;
-- un transport d'une vraie Fourmi issue de la Fourmilière.
+Prouvé:
+- forme des interfaces au SHA audité;
+- roundtrip source 4/4;
+- bridge Brutus 13/13 au commit testé;
+- compatibilité d'une requête Brutus avec le vrai transportEnvelope épinglé;
+- fermeture d'une route non contractée.
 
-Il prouve la forme des interfaces au SHA audité et le fonctionnement du roundtrip source réexécuté.
+Non prouvé:
+- connexion réseau live Brutus -> Queen;
+- transport d'une vraie Fourmi issue de la Fourmilière;
+- intégration production continue.
