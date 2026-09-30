@@ -1,47 +1,51 @@
-# NEXT ACTION — REAL L8 COUNTER-TEST OR REVIEWED 369/396 PROOF ARTIFACT
+# NEXT ACTION — COMPLETE ONLY THE MISSING L8 CHECKS
 
-## Preferred experimental next step
+## Current partial result
 
-Execute:
+Durable raw result candidate:
+`examples/results/BRUTUS-COUNTER-RESULT-BRUTUS-PELL-L8-PARTIAL-0001.json`
 
-`BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+Durable qualified RESULT candidate:
+`examples/records/BRUTUS-RECORD-COUNTER-BRUTUS-PELL-L8-PARTIAL-0001.json`
 
-Required work:
-1. audit the L8 implication and state every exception/assumption;
-2. factor Q_47, Q_71 and Q_83 as far as practical;
-3. independently verify exact Pell rank for every factor used as a witness;
-4. reproduce the bounded scan with its exact interval and candidate count;
-5. return every planned CHECK_ID through Counter-Test Result Gate.
+Current status:
+`INCONCLUSIVE`
 
-## 369 / 396 status
+## Missing CT-01
 
-The counter-test RESULT is complete and integrated:
+Need the mathematical audit:
 
-`VERDICT = PASS`
+- L8_STATUS;
+- assumptions;
+- exceptions;
+- derivation;
+- explicit answer whether an admissible prime factor of Q_q can have rank below q^2.
 
-But:
+Do not repeat the large Q calculations.
 
-`PROOF_REF = null`
+## Missing CT-03
 
-Do not promote it further unless a concrete reviewed proof artifact exists.
+Need at least one actual prime factor r of some Q_q, or an explicit statement that no factor was obtained beyond the current trial-division bound.
 
-If such an artifact arrives:
-1. place it under `proofs/`;
-2. compute exact SHA-256;
-3. record explicit review approval and scope;
-4. pass through Proof Promotion Gate;
-5. append the separate PROOF_REF record.
+If a factor is found:
+- identify q;
+- identify r;
+- verify r divides Q_q;
+- compute P_q mod r;
+- compute P_(q^2) mod r;
+- compute exact z_P(r) independently;
+- report WITNESS true/false.
 
-## No synthetic continuation
+## CT-04
 
-If neither a real L8 result nor a real reviewed proof artifact exists:
+Already reproduced:
+`4853 candidates / 0 witnesses`
 
-`WAIT / DO NOT INVENT DATA`
+Do not spend time rerunning it unless the protocol changes.
 
-## Capability rule
+## Evidence rule
 
-Do not add a new Verso capability unless a real experiment demonstrates a missing read capability.
+Do not convert the partial result to PASS until CT-01 and CT-03 are actually resolved.
 
 Preserve:
-
 `LIVE_ROUTING = DENIED`

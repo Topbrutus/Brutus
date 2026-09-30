@@ -3,100 +3,97 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Branch: main
+Main baseline before L8 partial-result branch:
+`904216ddf7c071ede91085fd5042439fd2187db9`
+
+Working branch:
+`results/brutus-pell-l8-partial-20260930`
+
 Visibility: public
-
-Main HEAD after first real counter-test RESULT integration:
-`4adb4ea0fdfd3765007fb4e3a18f19029a49c38e`
-
-Post-merge Brutus CI:
-`36768349794 = SUCCESS`
 
 ## Phase
 
-PHASE 8 — EPISTEMIC PIPELINE HARDENED + FIRST REAL RESULT INTEGRATED
+PHASE 8 — L8 PARTIAL COUNTER-TEST RESULT CANDIDATE
 
-## Integrated epistemic chain
+## Incoming source
 
-```text
-INTAKE
-  -> QUALIFIED TRACE
-  -> COUNTER-TEST PLAN
-  -> EXTERNAL EXECUTION
-  -> QUALIFIED RESULT
-  -> LEDGER RESULT
-  -> REVIEWED PROOF ARTIFACT
-  -> PROOF PROMOTION GATE
-  -> SEPARATE PROOF_REF
-```
+File:
+`BRUTUS_COUNTER_TEST_L8_0001_exact(1).txt`
 
-## First real completed counter-test result
+Generated UTC:
+`2026-09-30T21:19:31.888836+00:00`
 
-Plan:
-`BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
+Runtime:
+- Python 3.13.5
+- SymPy 1.14.0
 
-Execution:
-`BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001-1790797398415`
+## Result classification
 
-Antmux source commit:
-`942aba3afef9fb49a8467d0b642a4a1a81126bda`
+Overall:
+`INCONCLUSIVE`
 
-Execution window:
-`2026-09-30T19:43:18.415Z -> 2026-09-30T19:43:37.911Z`
+Check status:
+- CT-01 = INCONCLUSIVE — theoretical L8 audit not supplied;
+- CT-02 = PASS — exact Q values supplied, bounded trial division clearly partial;
+- CT-03 = INCONCLUSIVE — no prime factor supplied, so no exact-rank witness can be checked;
+- CT-04 = PASS — bounded scan reproduces 4,853 candidates and 0 witnesses.
 
-Protocol:
-- ZELSTEREOS_AI 2.4;
-- ANTMUX-ZELSTEREOS-ENTITY38-RADIX-AUDIO-TEST-v3;
-- ANTMUX-ZELSTEREOS-ENTITY38-EVOLUTION-CASCADE-v1;
-- ANTMUX-ZELSTEREOS-RADIX-ZX-BRAID-v1.
+## CT-02 exact data
 
-Verdict:
-`PASS`
+q=47:
+- Q digits = 828;
+- gcd(P_q,Q_q)=1;
+- trial division bound = 1,000,000;
+- factors below bound = none.
 
-Measured result:
-- determinant_396 = 0;
-- determinant_369 = -23004;
-- 852/639 = 4/3;
-- 528/396 = 4/3;
-- 1296 branches for 369;
-- 1296 branches for 396;
-- 0 corresponding branches equal;
-- 1296 corresponding branches different.
+q=71:
+- Q digits = 1903;
+- gcd(P_q,Q_q)=1;
+- trial division bound = 1,000,000;
+- factors below bound = none.
 
-Durable raw result:
-`examples/results/BRUTUS-COUNTER-RESULT-ZELSTEREOS-369-396-0001.json`
+q=83:
+- Q digits = 2606;
+- gcd(P_q,Q_q)=1;
+- trial division bound = 1,000,000;
+- factors below bound = none.
 
-Durable qualified ledger RESULT:
-`examples/records/BRUTUS-RECORD-COUNTER-ZELSTEREOS-369-396-0001.json`
+Brutus CI independently recomputes:
+- exact P_q;
+- exact Q_q;
+- Q digit counts;
+- Q SHA-256;
+- gcd(P_q,Q_q);
+- Q congruence checks.
+
+It does not claim independent reproduction of the external trial-division search.
+
+## CT-04
+
+Exact supplied scan:
+- k_start = 10,000,000,000;
+- k_end = 10,000,100,000;
+- q47 = 1673 candidates / 0 witness;
+- q71 = 1590 candidates / 0 witness;
+- q83 = 1590 candidates / 0 witness;
+- TOTAL = 4853 candidates / 0 witness.
+
+Interpretation:
+`NO_WITNESS_IN_SCANNED_INTERVAL`
+
+not:
+`NO_WITNESS_EXISTS`
 
 ## Evidence boundary
 
 ```text
-EVIDENCE_LEVEL = COUNTER_TEST_RESULT
-VERDICT = PASS
+VERDICT = INCONCLUSIVE
 PROOF_REF = null
 AUTO_PROOF_PROMOTION = false
 ```
 
-This PASS is not a proof.
+No L8 validity claim is promoted from this partial result.
 
-No proof artifact has been promoted for the 369 / 396 result.
-
-## Remaining ready counter-test plan
-
-`BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
-
-Targets:
-- q = 47;
-- q = 71;
-- q = 83;
-- Q_q factorization;
-- exact rank verification;
-- source audit;
-- bounded-scan reproduction.
-
-## Verso / routing boundary
-
-`VERSO = DEFAULT_LOCKED`
+## Routing boundary
 
 `LIVE_ROUTING = DENIED`
