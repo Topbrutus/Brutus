@@ -9,11 +9,14 @@ Main HEAD source at branch creation:
 Working branch:
 `astra/queen-observation-ingress-v01-20260930`
 
+Draft PR:
+`#2 — Queen observation ingress v0.1 — read-only fail-closed boundary`
+
 Visibility: private
 
 ## Phase
 
-PHASE 2 — SAFE QUEEN READ INPUT CANDIDATE / LIVE ROUTING FAIL-CLOSED
+PHASE 2 — VERSO QUEEN CLOCK CARD CANDIDATE / LIVE ROUTING FAIL-CLOSED
 
 Established on main:
 - Verso DEFAULT_LOCKED card guard;
@@ -34,7 +37,10 @@ Candidate on current branch:
 - integrity_match=true required for downstream use;
 - bounded retry/backoff;
 - no Queen mutation transport;
-- no automatic World Router invocation.
+- no automatic World Router invocation;
+- BRUTUS-CARD-QUEEN-CLOCK-0001;
+- Verso Queen clock adapter;
+- read-only card path returns to DEFAULT_LOCKED.
 
 ## Source audit
 
@@ -46,6 +52,20 @@ Source adapter:
 
 Decision:
 reuse the proven source observer; do not build a second Queen network observer inside Brutus.
+
+## Card path
+
+```text
+ANCHOR-0001 / ASTRA_STATION
+  -> BRUTUS-CARD-QUEEN-CLOCK-0001
+  -> Verso Guard
+  -> QueenObservationIngress
+  -> verified Queen clock result
+  -> DEFAULT_LOCKED
+  -> ANCHOR-0001
+```
+
+The path contains no World Router call.
 
 ## Routing authorization
 
@@ -67,13 +87,17 @@ WORLD_ROUTE_WITHOUT_PORTAL_CONTRACT = CLOSED
 SOURCE_MUTATION_BY_BRUTUS = NO
 QUEEN_INGRESS_NETWORK_TRANSPORT = NONE
 QUEEN_INGRESS_WORLD_ROUTER_CALL = NONE
+QUEEN_CLOCK_CARD_MUTABLE_VALUES = NONE
 
 ## Test proof
 
-Targeted local test before commit:
-`tests/queen-observation-ingress.test.mjs = 9 PASS / 0 FAIL`
+Ingress targeted local test before first commit:
+`9 PASS / 0 FAIL`
 
-Main CI independently observed before this branch:
-run `36702592041` = SUCCESS at main SHA `d5267622b544d07b14e8cf12e7420402fe458772`.
+PR #2 first-head CI:
+run `36746408085` = SUCCESS at `c400244213349d8ae2091e6cbddd72370afc0513`.
 
-Branch CI remains to be observed after PR creation.
+Ingress + Verso Queen card targeted local tests before second commit:
+`14 PASS / 0 FAIL`.
+
+Full CI for the new branch head remains to be observed after this commit.

@@ -1,49 +1,53 @@
-# NEXT ACTION — VERIFY QUEEN INGRESS, THEN CONNECT ONE READ-ONLY VERSO CARD
+# NEXT ACTION — VERIFY PR #2 FINAL HEAD, THEN HOLD MERGE BOUNDARY
 
-## Current candidate
+## Candidate
 
 Branch:
 `astra/queen-observation-ingress-v01-20260930`
 
-Purpose:
-consume Antmux `X72ObservationAdapter` ObservationEnvelope frames without duplicating Queen network observation.
+Draft PR:
+`#2`
+
+Implemented:
+- QueenObservationIngress v0.1;
+- source reuse audit;
+- BRUTUS-CARD-QUEEN-CLOCK-0001;
+- Verso Queen clock adapter;
+- fail-closed FRESH / STALE / UNKNOWN handling;
+- identity and integrity guards;
+- bounded retry/backoff;
+- DEFAULT_LOCKED restoration.
 
 ## Immediate gate
 
-1. open a draft PR;
-2. observe full Brutus CI on the branch head;
-3. keep the PR unmerged until the candidate is reviewed;
-4. do not open live ANT routing.
+1. observe full Brutus CI on the final PR head;
+2. verify PR remains mergeable and main has not drifted incompatibly;
+3. keep live ANT routing closed;
+4. do not merge this integration blindly.
 
-## After CI PASS
+## After candidate integration
 
-Build one minimal data-only Verso card whose only job is to request a Queen clock observation through the ingress.
+The next construction step is a real read-only provider binding that feeds existing Antmux `X72ObservationAdapter` envelopes into this card path without copying the observer.
 
-Required lifecycle:
+Required runtime path:
 
 ```text
-DEFAULT_LOCKED
-  -> CARD_APPLIED
+Queen Server
+  -> existing X72ObservationAdapter
+  -> ObservationEnvelope
   -> QueenObservationIngress
-  -> verified read-only result
-  -> RESULT_READY
+  -> BRUTUS-CARD-QUEEN-CLOCK-0001
+  -> result/proof
   -> DEFAULT_LOCKED
   -> ANCHOR-0001
 ```
 
-The card must not:
-- call World Router;
-- create or authorize an ANT;
-- modify Queen;
-- invent a tick;
-- retry forever;
-- use STALE / UNKNOWN / integrity mismatch as valid clock input.
+Still forbidden:
+- Queen mutation;
+- local tick invention;
+- automatic World Router invocation;
+- ANT live routing without explicit authorization;
+- code modification initiated by a card/entity.
 
-## Preserve
-
+Preserve:
 `LIVE_ROUTING = DENIED`
-
-until a separate explicit routing authorization contract exists.
-
-Rule:
-reuse proven source before inventing a second observer.
