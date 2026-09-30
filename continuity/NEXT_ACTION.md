@@ -1,34 +1,42 @@
-# NEXT ACTION — VERIFY PREPARED CARD REGISTRY
+# NEXT ACTION — VERIFY ASTRA STATION STATUS CARD, THEN INTEGRATE PHASE 3
 
-## Candidate branch
+## Branch
 
-`astra/queen-observation-ingress-v01-20260930`
+`astra/anchor-0001-station-v01-20260930`
 
 Draft PR:
-`#2`
+`#5`
 
 ## Immediate gate
 
-Run full Brutus CI after Card Registry hardening.
+Run full Brutus CI.
 
 Must prove:
-- BRUTUS-CARD-0001 still passes;
-- BRUTUS-CARD-QUEEN-CLOCK-0001 still passes;
-- unknown CARD_ID is rejected;
-- known ID with changed TARGET is rejected;
-- known ID with changed READ is rejected;
-- runtime cannot expand mutable VALUES;
-- adapter errors still reset DEFAULT_LOCKED;
-- Queen read path remains read-only;
+- ANCHOR-0001 fixed station tests pass;
+- BRUTUS-CARD-ASTRA-STATION-STATUS-0001 is accepted from registry;
+- it reports registered prototype status;
+- it returns DEFAULT_LOCKED;
+- it has no mutable VALUES;
+- altered READ contract is rejected;
+- adapter has no network/process execution;
+- adapter does not register prototypes;
 - LIVE_ROUTING remains DENIED.
 
-## After CI
+## After CI success
 
-Keep PR #2 draft for review/integration decision.
+If branch remains synchronized and mergeable:
+- integrate PR #5;
+- verify post-merge main CI;
+- update continuity to Phase 3 integrated.
 
-Do not merge automatically merely because CI is green.
+## Next build after integration
 
-Next architectural expansion after integration:
-- add new cards only by explicit registry entry + tests;
-- keep Verso Core unchanged for ordinary navigation;
-- let ANCHOR-0001 become the prototype workspace around the locked center.
+Add an **append-only observation/proof ledger at ASTRA STATION**.
+
+It must accept data records only and must not execute cards itself.
+
+Goal:
+let prototypes leave trace references at the fixed point without turning ASTRA STATION into a source-code editor or World Router.
+
+Preserve:
+`LIVE_ROUTING = DENIED`

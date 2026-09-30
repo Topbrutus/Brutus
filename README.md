@@ -75,9 +75,11 @@ Une carte inconnue ou invalide doit arrêter le passage plutôt que pousser l'en
 
 ### ANCHOR-0001 / ASTRA STATION
 
-Premier point fixe prévu dans l'univers.
+Premier point fixe de l'univers Brutus.
 
-C'est le lieu où l'on peut construire des prototypes, observer, enregistrer des expériences et préparer des cartes **sans transformer Verso lui-même en atelier de programmation**.
+ASTRA STATION possède maintenant un registre d'ancrage et un contrat de manifest de prototype. C'est le lieu où l'on peut établir des prototypes data-only, observer et référencer des preuves **sans transformer Verso lui-même en atelier de programmation**.
+
+Le premier prototype de référence est le banc d'observation de l'horloge Queen. Le station runtime reste sans réseau, sans exécution de processus, sans création de route et sans mutation de Verso Core.
 
 ### World Router
 

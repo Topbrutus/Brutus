@@ -1,0 +1,31 @@
+{
+  "schema": "BRUTUS-ANCHOR-REGISTRY-v0.1",
+  "registryVersion": 1,
+  "anchors": [
+    {
+      "ANCHOR_ID": "ANCHOR-0001",
+      "NAME": "ASTRA STATION",
+      "KIND": "FIXED_PROTOTYPE_STATION",
+      "STATUS": "ESTABLISHED",
+      "RETURN_POINT": true,
+      "RELATION_TO_VERSO": "FIXED_ADJACENT_RETURN_POINT",
+      "VERSO_CORE_MUTATION": false,
+      "WORLD_ROUTER_INVOCATION": false,
+      "ALLOWED_CAPABILITIES": [
+        "prototype_manifest.register_session",
+        "prototype_manifest.read",
+        "prototype_manifest.list",
+        "card.reference",
+        "proof.reference",
+        "observation.reference"
+      ],
+      "FORBIDDEN_CAPABILITIES": [
+        "verso_core.modify",
+        "world_router.invoke",
+        "route.create",
+        "source_code.execute",
+        "credential.store"
+      ]
+    }
+  ]
+}
