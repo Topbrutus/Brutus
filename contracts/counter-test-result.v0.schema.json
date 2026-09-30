@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/counter-test-result.v0.schema.json",
+  "title": "Brutus Counter-Test Result v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "RESULT_ID",
+    "RECORD_ID",
+    "VERSION",
+    "ANCHOR_ID",
+    "PLAN_ID",
+    "EXECUTION_REF",
+    "EXECUTED_AT_UTC",
+    "PROTOCOL_VERSION",
+    "VERDICT",
+    "CHECK_RESULTS",
+    "SUMMARY",
+    "EVIDENCE_LEVEL",
+    "PROOF_REF",
+    "AUTO_PROOF_PROMOTION",
+    "NOTES"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-COUNTER-TEST-RESULT-v0.1"
+    },
+    "RESULT_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-COUNTER-RESULT-[A-Z0-9-]+$"
+    },
+    "RECORD_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-RECORD-[A-Z0-9-]+$"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "ANCHOR_ID": {
+      "const": "ANCHOR-0001"
+    },
+    "PLAN_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-COUNTER-TEST-[A-Z0-9-]+$"
+    },
+    "EXECUTION_REF": {
+      "type": "string",
+      "minLength": 1
+    },
+    "EXECUTED_AT_UTC": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "PROTOCOL_VERSION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "VERDICT": {
+      "enum": ["PASS", "FAIL", "INCONCLUSIVE", "ERROR"]
+    },
+    "CHECK_RESULTS": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "CHECK_ID",
+          "STATUS",
+          "OBSERVED",
+          "NOTES"
+        ],
+        "properties": {
+          "CHECK_ID": {
+            "type": "string",
+            "pattern": "^CT-[0-9]{2}$"
+          },
+          "STATUS": {
+            "enum": ["PASS", "FAIL", "INCONCLUSIVE", "ERROR"]
+          },
+          "OBSERVED": {
+            "type": "object"
+          },
+          "NOTES": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "SUMMARY": {
+      "type": "string",
+      "minLength": 1
+    },
+    "EVIDENCE_LEVEL": {
+      "const": "COUNTER_TEST_RESULT"
+    },
+    "PROOF_REF": {
+      "type": "null"
+    },
+    "AUTO_PROOF_PROMOTION": {
+      "const": false
+    },
+    "NOTES": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-brutus-status": "COUNTER_TEST_RESULT_GATE",
+  "x-security": "Result qualification only. PROOF_REF must remain null; proof promotion is a separate reviewed operation."
+}

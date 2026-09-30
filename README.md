@@ -87,6 +87,8 @@ Un **Experiment Intake Bench** permet enfin de déposer les résultats venant d'
 
 Un **Counter-Test Bench** transforme ensuite une trace en plan de contradiction/reproduction : il définit ce qu'il faut refaire, ce qui confirmerait le résultat et ce qui le casserait. Il ne lance aucune expérience lui-même.
 
+Un **Counter-Test Result Gate** contrôle ensuite le retour d'une expérience : tous les checks doivent être déclarés, le verdict doit être cohérent et `PROOF_REF` reste obligatoirement nul à cette étape.
+
 ### World Router
 
 Gère les passages déclarés entre mondes.
