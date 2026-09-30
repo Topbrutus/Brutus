@@ -8,36 +8,31 @@ Visibility: private
 
 ## Phase
 
-PHASE 2 — CLOCK + ANT IDENTITY + PINNED WORLD COMPATIBILITY
+PHASE 2 — VERIFIED COMPATIBILITY / LIVE ROUTING FAIL-CLOSED
 
 Established:
-- Verso card v0.1 / DEFAULT_LOCKED guard;
-- proof policy and source registry;
+- Verso DEFAULT_LOCKED card guard;
+- proof policy and pinned source registry;
 - BRUTUS-CLOCK-OBSERVATION-v0.1;
 - BRUTUS-ANT-IDENTITY-v0.1;
-- pinned X72 clock -> World Router compatibility;
-- pinned ANT identity + Queen clock -> World Router compatibility;
-- source ant birth test proof;
-- continuous invariant test workflow.
+- pinned Queen-timed World Router compatibility;
+- pinned ANT identity + Queen tick compatibility;
+- ant birth source proof;
+- fail-closed live routing gate;
+- Brutus CI workflow committed.
 
-## Verified local/integration results
+## Routing authorization audit
 
-Brutus 2b157325130e10cffd049c0b998c0d2c2fc665f8:
-- npm test = 19 PASS / 0 FAIL.
+At Antmux d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e:
+- public_journal.py exposes no GET endpoint for existing ant receipts;
+- no source rule was found linking SINGING_TO_MEET / ANT_READY_TO_SING to World Router authorization;
+- World Router validates route contract and envelope fields, not ant lifecycle eligibility.
 
-Antmux source d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e:
-- WORLD-ROUNDTRIP-0001 source tests = 4 PASS / 0 FAIL.
-- public journal source test = 9 PASS markers / exit code 0.
+Therefore:
+ROUTING_AUTHORIZATION = UNDECIDED
+LIVE_ROUTING = DENIED
 
-Pinned compatibility:
-- ANT_ID from ANTMUX-ANT-BIRTH-v1.
-- TICK from QUEEN_SERVER_V0_2 observation.
-- CARBON -> CRYPTO accepted.
-- TIME/CLOCK without portal contract closed as NO_PORTAL_CONTRACT.
-- birth wall-clock milliseconds never used as World Router tick.
-
-Proof:
-proofs/BRUTUS-PROOF-ANT-CLOCK-WORLD-PINNED-0001.json
+Compatibility tests remain allowed and isolated.
 
 ## Standing invariants
 
@@ -47,15 +42,14 @@ WORLD_TICK_SOURCE = QUEEN tick_count
 ANT_BIRTH_WALLCLOCK_AS_WORLD_TICK = FORBIDDEN
 QUEEN_ENTITY_ID_AS_ANT_ID = FORBIDDEN
 ANT_ID_MUST_BE_EXPLICIT = YES
-ROUTING_AUTHORIZATION_FROM_BIRTH_RECEIPT = UNDECIDED
-WORLD_ROUTE_WITHOUT_CONTRACT = CLOSED
+LIVE_ROUTE_WITH_UNDECIDED_AUTH = DENIED
+WORLD_ROUTE_WITHOUT_PORTAL_CONTRACT = CLOSED
 SOURCE_MUTATION_BY_BRUTUS = NO
 
-## Unknowns preserved
+## CI proof boundary
 
-- production routing policy deciding which born ants may route;
-- read-only ingestion boundary for existing ant receipts;
-- live Queen observation consumer in Brutus;
-- final crystal contract;
-- Chaudiere d'esprit / accumulator / dephaser;
-- complete EmojiLogic opcode bank.
+Workflow file is present on main:
+.github/workflows/brutus-ci.yml
+
+Its GitHub Actions push-run status has not yet been independently confirmed by the available connector.
+Do not report CI PASS until a run result is observed directly.

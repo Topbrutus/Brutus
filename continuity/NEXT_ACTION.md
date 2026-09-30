@@ -1,20 +1,25 @@
-# NEXT ACTION — ROUTING AUTHORIZATION / ANT INGESTION AUDIT
+# NEXT ACTION — DEFINE THE FIRST SAFE LIVE INPUT, NOT LIVE ROUTING
 
-Do not connect live streams yet.
+Because routing authorization is absent, do not open live world transport yet.
 
-Audit Topbrutus/Antmux for:
-1. any existing read-only API or service that exposes an existing ant receipt or ant registry safely;
-2. any existing rule that authorizes a born ant to enter World Router;
-3. lifecycle semantics after SINGING_TO_MEET;
-4. whether moderation/publication state affects ant operational eligibility;
-5. how a deployment ant should differ from a visitor-message ant.
+Next safest step:
+design a read-only Brutus ingestion boundary for Queen observations first.
 
-Deliverable:
-- exact source paths and SHAs;
-- an explicit answer: existing policy found / no policy found;
-- no invented authorization.
+Requirements:
+- consume only authoritative Queen read interfaces;
+- no QueenCore creation;
+- no local tick;
+- no mutation HTTP methods;
+- identity continuity enforcement;
+- FRESH / STALE semantics;
+- integrity_match required before downstream use;
+- bounded retry/backoff;
+- no automatic World Router invocation.
 
-Only after that audit may Brutus define a routing authorization contract.
+In parallel, leave ANT live routing closed until an explicit authorization contract exists.
 
-Parallel guard:
-keep CI green and preserve all current proofs.
+Before implementation:
+audit whether Antmux's existing X72ObservationAdapter can be reused directly or wrapped without duplication.
+
+Rule:
+reuse proven source before inventing a second observer.
