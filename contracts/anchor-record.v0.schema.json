@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/anchor-record.v0.schema.json",
+  "title": "Brutus Anchor Record v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "RECORD_ID",
+    "VERSION",
+    "ANCHOR_ID",
+    "PROTOTYPE_ID",
+    "RECORD_TYPE",
+    "CARD_ID",
+    "SOURCE_REF",
+    "OBSERVED_AT_UTC",
+    "DATA",
+    "PROOF_REF",
+    "NOTES"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-ANCHOR-RECORD-v0.1"
+    },
+    "RECORD_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-RECORD-[A-Z0-9-]+$"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "ANCHOR_ID": {
+      "const": "ANCHOR-0001"
+    },
+    "PROTOTYPE_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-PROTOTYPE-[A-Z0-9-]+$"
+    },
+    "RECORD_TYPE": {
+      "enum": ["OBSERVATION", "RESULT", "PROOF_REF", "NOTE"]
+    },
+    "CARD_ID": {
+      "type": ["string", "null"]
+    },
+    "SOURCE_REF": {
+      "type": "string",
+      "minLength": 1
+    },
+    "OBSERVED_AT_UTC": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "DATA": {
+      "type": "object"
+    },
+    "PROOF_REF": {
+      "type": ["string", "null"]
+    },
+    "NOTES": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-brutus-status": "ANCHOR_APPEND_ONLY_RECORD",
+  "x-security": "Data-only, no credentials, no executable code."
+}

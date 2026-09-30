@@ -1,42 +1,42 @@
-# NEXT ACTION — VERIFY ASTRA STATION STATUS CARD, THEN INTEGRATE PHASE 3
+# NEXT ACTION — VERIFY ASTRA STATION LEDGER, THEN ADD READ-ONLY LEDGER CARD
 
 ## Branch
 
-`astra/anchor-0001-station-v01-20260930`
-
-Draft PR:
-`#5`
+`astra/anchor-ledger-v01-20260930`
 
 ## Immediate gate
 
 Run full Brutus CI.
 
 Must prove:
-- ANCHOR-0001 fixed station tests pass;
-- BRUTUS-CARD-ASTRA-STATION-STATUS-0001 is accepted from registry;
-- it reports registered prototype status;
-- it returns DEFAULT_LOCKED;
-- it has no mutable VALUES;
-- altered READ contract is rejected;
-- adapter has no network/process execution;
-- adapter does not register prototypes;
-- LIVE_ROUTING remains DENIED.
+- first proof record appends;
+- hash chain verifies;
+- second record links to first;
+- duplicate record IDs are rejected;
+- unknown prototype is rejected;
+- unknown card is rejected;
+- wrong anchor is rejected;
+- executable values are rejected;
+- credential-shaped fields are rejected;
+- PROOF_REF records require proof references;
+- update/delete APIs do not exist;
+- no network/process/World Router exists.
 
 ## After CI success
 
-If branch remains synchronized and mergeable:
-- integrate PR #5;
-- verify post-merge main CI;
-- update continuity to Phase 3 integrated.
+Add one prepared read-only Verso card:
 
-## Next build after integration
+`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
 
-Add an **append-only observation/proof ledger at ASTRA STATION**.
+It may return only:
+- anchor id;
+- entry count;
+- ledger head hash;
+- validity.
 
-It must accept data records only and must not execute cards itself.
+It must not append records.
 
-Goal:
-let prototypes leave trace references at the fixed point without turning ASTRA STATION into a source-code editor or World Router.
+Then integrate Phase 4 only after final CI.
 
 Preserve:
 `LIVE_ROUTING = DENIED`
