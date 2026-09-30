@@ -1,50 +1,42 @@
-# NEXT ACTION — VERIFY ASTRA STATION, THEN ADD A READ-ONLY STATION CARD
+# NEXT ACTION — VERIFY ASTRA STATION STATUS CARD, THEN INTEGRATE PHASE 3
 
-## Candidate branch
+## Branch
 
 `astra/anchor-0001-station-v01-20260930`
+
+Draft PR:
+`#5`
 
 ## Immediate gate
 
 Run full Brutus CI.
 
 Must prove:
-- ANCHOR-0001 is established;
-- it is a fixed return point;
-- Verso Core mutation is false;
-- World Router invocation is false;
-- first Queen clock bench registers;
-- unknown card references are rejected;
-- wrong anchor is rejected;
-- executable/non-data manifest content is rejected;
-- duplicate prototype IDs are rejected;
-- no network/process execution exists in the station runtime.
+- ANCHOR-0001 fixed station tests pass;
+- BRUTUS-CARD-ASTRA-STATION-STATUS-0001 is accepted from registry;
+- it reports registered prototype status;
+- it returns DEFAULT_LOCKED;
+- it has no mutable VALUES;
+- altered READ contract is rejected;
+- adapter has no network/process execution;
+- adapter does not register prototypes;
+- LIVE_ROUTING remains DENIED.
 
-## After CI
+## After CI success
 
-Add one prepared read-only card:
+If branch remains synchronized and mergeable:
+- integrate PR #5;
+- verify post-merge main CI;
+- update continuity to Phase 3 integrated.
 
-`BRUTUS-CARD-ASTRA-STATION-STATUS-0001`
+## Next build after integration
 
-Purpose:
-allow an AI at Verso to ask only:
+Add an **append-only observation/proof ledger at ASTRA STATION**.
 
-- where is my fixed return point?
-- which prototypes are registered?
-- what is their status?
+It must accept data records only and must not execute cards itself.
 
-The card must not register, modify or execute a prototype.
-
-Cycle:
-
-```text
-DEFAULT_LOCKED
-  -> prepared station-status card
-  -> read ASTRA STATION snapshot
-  -> result
-  -> DEFAULT_LOCKED
-  -> ANCHOR-0001
-```
+Goal:
+let prototypes leave trace references at the fixed point without turning ASTRA STATION into a source-code editor or World Router.
 
 Preserve:
 `LIVE_ROUTING = DENIED`

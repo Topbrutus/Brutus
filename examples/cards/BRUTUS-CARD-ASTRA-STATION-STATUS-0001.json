@@ -1,0 +1,31 @@
+{
+  "CARD_ID": "BRUTUS-CARD-ASTRA-STATION-STATUS-0001",
+  "VERSION": "0.1",
+  "ANCHOR": "ANCHOR-0001",
+  "SOURCE": "ASTRA_STATION",
+  "TARGET": "ASTRA_STATION_STATUS",
+  "VERSO": "DEFAULT_LOCKED",
+  "READ": [
+    "anchor.identity",
+    "anchor.prototypes"
+  ],
+  "MEASURE": [
+    "fixed_return_point",
+    "safety_boundary"
+  ],
+  "RETURN_DATA": [
+    "anchor_id",
+    "name",
+    "status",
+    "return_point",
+    "prototype_count",
+    "prototypes"
+  ],
+  "WRITE": false,
+  "CODE_CHANGE": false,
+  "CREATE_ROUTE": false,
+  "VALUES": {},
+  "EXPECTED_OUTPUT": "Read-only Astra Station status and prototype index",
+  "PROOF_REQUIRED": true,
+  "AFTER": "DEFAULT_LOCKED"
+}

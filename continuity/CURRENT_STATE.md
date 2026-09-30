@@ -9,11 +9,14 @@ Main HEAD before ANCHOR-0001 branch:
 Working branch:
 `astra/anchor-0001-station-v01-20260930`
 
+Draft PR:
+`#5 — Establish ANCHOR-0001 / ASTRA STATION v0.1`
+
 Visibility: public
 
 ## Phase
 
-PHASE 3 — ANCHOR-0001 / ASTRA STATION CANDIDATE
+PHASE 3 — ASTRA STATION + READ-ONLY STATUS CARD CANDIDATE
 
 ## Integrated baseline on main
 
@@ -27,55 +30,46 @@ PHASE 3 — ANCHOR-0001 / ASTRA STATION CANDIDATE
 - LIVE_ROUTING = DENIED;
 - authentic public README.
 
-Integrated Queen proof:
-`proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
+## ANCHOR-0001 candidate
 
-Main post-merge Brutus CI:
-`36751838172 = SUCCESS`
+Fixed anchor:
+`ANCHOR-0001 / ASTRA STATION`
 
-## New candidate
-
-Fixed anchor registry:
-`registry/anchors.v0.json`
-
-Prototype manifest contract:
-`contracts/prototype-manifest.v0.schema.json`
-
-Astra Station runtime:
-`src/anchor-station.mjs`
+Files:
+- `registry/anchors.v0.json`
+- `contracts/prototype-manifest.v0.schema.json`
+- `src/anchor-station.mjs`
+- `docs/ASTRA_STATION_v0.1.md`
 
 First prototype:
-`examples/prototypes/BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001.json`
+`BRUTUS-PROTOTYPE-QUEEN-CLOCK-BENCH-0001`
 
-## Anchor invariants
+First station card:
+`BRUTUS-CARD-ASTRA-STATION-STATUS-0001`
+
+Purpose:
+read only:
+- anchor identity;
+- station status;
+- fixed return point;
+- prototype count;
+- prototype list/status.
+
+## Safety invariants
 
 ```text
 ANCHOR_ID = ANCHOR-0001
-NAME = ASTRA STATION
-STATUS = ESTABLISHED
 RETURN_POINT = YES
-
 VERSO_CORE_MUTATION = NO
 WORLD_ROUTER_INVOCATION = NO
-ROUTE_CREATION = NO
-SOURCE_CODE_EXECUTION = NO
-CREDENTIAL_STORAGE = NO
+
+STATION_STATUS_CARD_WRITE = NO
+STATION_STATUS_CARD_CODE_CHANGE = NO
+STATION_STATUS_CARD_CREATE_ROUTE = NO
+STATION_STATUS_CARD_MUTABLE_VALUES = NONE
 ```
 
-Prototype manifests:
-- data-only;
-- known fields only;
-- remain at ANCHOR-0001;
-- may reference only prepared CARD_ID values;
-- duplicate IDs are rejected.
-
-## Persistence boundary
-
-Session registrations are in-memory only.
-
-Durable manifests are repository data files.
-
-No mutable database is introduced yet.
+Prototype manifests remain data-only and may reference only prepared Verso cards.
 
 ## Routing boundary
 
