@@ -1,33 +1,37 @@
-# NEXT ACTION — VERIFY PHASE 8 TRUST HARDENING
+# NEXT ACTION — WAIT FOR REAL COUNTER-TEST OUTPUT
 
-## Branch
+## Ready plans
 
-`hardening/phase8-trust-boundaries-20260930`
+1. `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
+2. `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
 
-## Required CI proof
+## When real output arrives
 
-Must prove:
-- normal reviewed promotion still passes;
-- forged direct-ledger RESULT is rejected;
-- RESULT from wrong prototype is rejected;
-- missing proof is rejected;
-- SHA mismatch is rejected;
-- lexical path traversal is rejected;
-- proof symlink is rejected;
-- symlinked proofs/ root is rejected;
-- prototype manifests reject token-shaped fields;
-- ledger records reject token-shaped fields;
-- no new execution/network/World Router path appears.
+1. preserve exact execution/protocol reference;
+2. fill every planned CHECK_ID;
+3. report PASS / FAIL / INCONCLUSIVE / ERROR honestly;
+4. qualify through Counter-Test Result Gate;
+5. append the qualified RESULT to ASTRA STATION ledger;
+6. keep PROOF_REF null;
+7. if a real reviewed proof artifact exists, verify its local path and SHA-256 through Proof Promotion Gate;
+8. append the separate PROOF_REF record.
 
-## After success
+## No result yet
 
-Merge as hardening only.
+`WAIT / DO NOT INVENT DATA`
 
-Then return to:
+Do not manufacture experimental values or PASS states.
 
-`WAIT FOR REAL COUNTER-TEST OUTPUT`
+## Capability rule
 
-Do not invent experimental data.
+New Verso capability is justified only if a real experiment demonstrates a missing read capability.
+
+Otherwise:
+
+`NO CARD -> STOP -> DESIGN REVIEW`
+
+## Routing boundary
 
 Preserve:
+
 `LIVE_ROUTING = DENIED`
