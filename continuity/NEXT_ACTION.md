@@ -1,53 +1,51 @@
-# NEXT ACTION — VERIFY PR #2 FINAL HEAD, THEN HOLD MERGE BOUNDARY
+# NEXT ACTION — VERIFY REAL X72 PROVIDER CANDIDATE
 
-## Candidate
+## Branch
 
-Branch:
 `astra/queen-observation-ingress-v01-20260930`
 
 Draft PR:
 `#2`
 
-Implemented:
-- QueenObservationIngress v0.1;
-- source reuse audit;
-- BRUTUS-CARD-QUEEN-CLOCK-0001;
-- Verso Queen clock adapter;
-- fail-closed FRESH / STALE / UNKNOWN handling;
-- identity and integrity guards;
-- bounded retry/backoff;
-- DEFAULT_LOCKED restoration.
+## Immediate verification
 
-## Immediate gate
+Observe Brutus CI on the provider commit.
 
-1. observe full Brutus CI on the final PR head;
-2. verify PR remains mergeable and main has not drifted incompatibly;
-3. keep live ANT routing closed;
-4. do not merge this integration blindly.
+Required checks:
+- full `npm test` passes;
+- provider tests pass;
+- Verso returns DEFAULT_LOCKED;
+- provider remains STATE_ONLY;
+- no World Router invocation;
+- no shell execution;
+- no embedded credentials;
+- main is not overwritten.
 
-## After candidate integration
+## Runtime proof still required later
 
-The next construction step is a real read-only provider binding that feeds existing Antmux `X72ObservationAdapter` envelopes into this card path without copying the observer.
+CI proves the provider contract with injected process output.
 
-Required runtime path:
+It does **not** prove a physical Queen endpoint is reachable from the deployment environment.
+
+A later runtime proof must use:
 
 ```text
-Queen Server
-  -> existing X72ObservationAdapter
-  -> ObservationEnvelope
-  -> QueenObservationIngress
-  -> BRUTUS-CARD-QUEEN-CLOCK-0001
-  -> result/proof
-  -> DEFAULT_LOCKED
-  -> ANCHOR-0001
+existing Antmux checkout
++ existing X72ObservationAdapter
++ authorized/readable Queen base URL
++ BRUTUS-CARD-QUEEN-CLOCK-0001
 ```
 
-Still forbidden:
-- Queen mutation;
-- local tick invention;
-- automatic World Router invocation;
-- ANT live routing without explicit authorization;
-- code modification initiated by a card/entity.
+and record:
+- Antmux source HEAD;
+- Queen entity_id;
+- Queen tick;
+- FRESH status;
+- integrity_match;
+- Verso trace ending DEFAULT_LOCKED.
 
-Preserve:
+## Preserve
+
 `LIVE_ROUTING = DENIED`
+
+No ANT route is opened by this work.
