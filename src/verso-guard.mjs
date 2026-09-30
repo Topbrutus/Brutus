@@ -1,3 +1,5 @@
+import { getVersoCardPolicy } from "./verso-card-registry.mjs";
+
 const REQUIRED_FIELDS = [
   "CARD_ID",
   "VERSION",
@@ -18,8 +20,21 @@ const REQUIRED_FIELDS = [
 ];
 
 const ALLOWED_FIELDS = new Set(REQUIRED_FIELDS);
-const FALSE_ONLY_FIELDS = ["WRITE", "CODE_CHANGE", "CREATE_ROUTE"];
 const DEFAULT_STATE = "DEFAULT_LOCKED";
+const STATIC_SCALAR_FIELDS = [
+  "VERSION",
+  "ANCHOR",
+  "SOURCE",
+  "TARGET",
+  "VERSO",
+  "WRITE",
+  "CODE_CHANGE",
+  "CREATE_ROUTE",
+  "EXPECTED_OUTPUT",
+  "PROOF_REQUIRED",
+  "AFTER"
+];
+const STATIC_ARRAY_FIELDS = ["READ", "MEASURE", "RETURN_DATA"];
 
 function reject(reason) {
   throw new Error("CARD_REJECTED: " + reason);
@@ -66,6 +81,15 @@ function assertStringArray(value, field) {
   }
 }
 
+function sameArray(actual, expected) {
+  return (
+    Array.isArray(actual) &&
+    Array.isArray(expected) &&
+    actual.length === expected.length &&
+    actual.every((value, index) => value === expected[index])
+  );
+}
+
 function deepFreeze(value) {
   if (value && typeof value === "object" && !Object.isFrozen(value)) {
     Object.freeze(value);
@@ -74,7 +98,21 @@ function deepFreeze(value) {
   return value;
 }
 
-export function guardCard(card, { mutableValues = [] } = {}) {
+function assertPreparedCardContract(card, policy) {
+  for (const field of STATIC_SCALAR_FIELDS) {
+    if (card[field] !== policy[field]) {
+      reject("prepared card contract mismatch: " + field);
+    }
+  }
+
+  for (const field of STATIC_ARRAY_FIELDS) {
+    if (!sameArray(card[field], policy[field])) {
+      reject("prepared card contract mismatch: " + field);
+    }
+  }
+}
+
+export function guardCard(card, { mutableValues = null } = {}) {
   assertDataOnly(card);
 
   if (!isPlainObject(card)) reject("card must be a plain object");
@@ -89,28 +127,37 @@ export function guardCard(card, { mutableValues = [] } = {}) {
     }
   }
 
-  if (card.VERSION !== "0.1") reject("unsupported VERSION");
-  if (card.ANCHOR !== "ANCHOR-0001") reject("unknown ANCHOR");
-  if (card.VERSO !== DEFAULT_STATE) reject("VERSO must start DEFAULT_LOCKED");
-  if (card.AFTER !== DEFAULT_STATE) reject("AFTER must be DEFAULT_LOCKED");
-  if (card.PROOF_REQUIRED !== true) reject("PROOF_REQUIRED must be true");
-
-  for (const field of FALSE_ONLY_FIELDS) {
-    if (card[field] !== false) reject(field + " must be false in v0.1");
+  if (typeof card.CARD_ID !== "string" || card.CARD_ID.length === 0) {
+    reject("CARD_ID is required");
   }
 
-  if (typeof card.CARD_ID !== "string" || card.CARD_ID.length === 0) reject("CARD_ID is required");
-  if (typeof card.SOURCE !== "string" || card.SOURCE.length === 0) reject("SOURCE is required");
-  if (typeof card.TARGET !== "string" || card.TARGET.length === 0) reject("TARGET is required");
-  if (typeof card.EXPECTED_OUTPUT !== "string" || card.EXPECTED_OUTPUT.length === 0) reject("EXPECTED_OUTPUT is required");
+  const policy = getVersoCardPolicy(card.CARD_ID);
+  if (policy === null) {
+    reject("unknown CARD_ID " + card.CARD_ID);
+  }
 
   assertStringArray(card.READ, "READ");
   assertStringArray(card.MEASURE, "MEASURE");
   assertStringArray(card.RETURN_DATA, "RETURN_DATA");
+  assertPreparedCardContract(card, policy);
 
   if (!isPlainObject(card.VALUES)) reject("VALUES must be a plain object");
 
-  const allowedValues = new Set(mutableValues);
+  const policyMutable = new Set(policy.MUTABLE_VALUES);
+  let allowedValues = policyMutable;
+
+  if (mutableValues !== null) {
+    if (!Array.isArray(mutableValues)) reject("runtime mutableValues must be an array");
+    const narrowed = new Set();
+    for (const key of mutableValues) {
+      if (!policyMutable.has(key)) {
+        reject("runtime mutableValues cannot expand prepared card policy: " + key);
+      }
+      narrowed.add(key);
+    }
+    allowedValues = narrowed;
+  }
+
   for (const key of Object.keys(card.VALUES)) {
     if (!allowedValues.has(key)) reject("VALUES key is not mutable: " + key);
   }
@@ -119,7 +166,7 @@ export function guardCard(card, { mutableValues = [] } = {}) {
   return deepFreeze(safeCopy);
 }
 
-export function createVersoRuntime({ mutableValues = [] } = {}) {
+export function createVersoRuntime({ mutableValues = null } = {}) {
   let state = DEFAULT_STATE;
   let sequence = 0;
 

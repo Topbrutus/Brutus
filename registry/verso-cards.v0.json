@@ -1,0 +1,66 @@
+{
+  "registryVersion": 1,
+  "schema": "BRUTUS-VERSO-CARD-REGISTRY-v0.1",
+  "cards": [
+    {
+      "CARD_ID": "BRUTUS-CARD-0001",
+      "VERSION": "0.1",
+      "ANCHOR": "ANCHOR-0001",
+      "SOURCE": "ASTRA_STATION",
+      "TARGET": "BRUTUS_REGISTRY",
+      "VERSO": "DEFAULT_LOCKED",
+      "READ": [
+        "registry.sources"
+      ],
+      "MEASURE": [
+        "sha_consistency"
+      ],
+      "RETURN_DATA": [
+        "repo",
+        "head",
+        "role"
+      ],
+      "WRITE": false,
+      "CODE_CHANGE": false,
+      "CREATE_ROUTE": false,
+      "EXPECTED_OUTPUT": "Verified registry data only",
+      "PROOF_REQUIRED": true,
+      "AFTER": "DEFAULT_LOCKED",
+      "MUTABLE_VALUES": [
+        "query.organ_id"
+      ]
+    },
+    {
+      "CARD_ID": "BRUTUS-CARD-QUEEN-CLOCK-0001",
+      "VERSION": "0.1",
+      "ANCHOR": "ANCHOR-0001",
+      "SOURCE": "ASTRA_STATION",
+      "TARGET": "QUEEN_CLOCK",
+      "VERSO": "DEFAULT_LOCKED",
+      "READ": [
+        "queen.clock"
+      ],
+      "MEASURE": [
+        "identity_continuity",
+        "freshness_status",
+        "integrity_match"
+      ],
+      "RETURN_DATA": [
+        "entity_id",
+        "tick",
+        "generation",
+        "queen_mode",
+        "reference_h256",
+        "status",
+        "condition"
+      ],
+      "WRITE": false,
+      "CODE_CHANGE": false,
+      "CREATE_ROUTE": false,
+      "EXPECTED_OUTPUT": "Fresh integrity-verified Queen clock observation",
+      "PROOF_REQUIRED": true,
+      "AFTER": "DEFAULT_LOCKED",
+      "MUTABLE_VALUES": []
+    }
+  ]
+}

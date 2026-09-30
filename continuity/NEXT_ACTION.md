@@ -1,25 +1,34 @@
-# NEXT ACTION — DEFINE THE FIRST SAFE LIVE INPUT, NOT LIVE ROUTING
+# NEXT ACTION — VERIFY PREPARED CARD REGISTRY
 
-Because routing authorization is absent, do not open live world transport yet.
+## Candidate branch
 
-Next safest step:
-design a read-only Brutus ingestion boundary for Queen observations first.
+`astra/queen-observation-ingress-v01-20260930`
 
-Requirements:
-- consume only authoritative Queen read interfaces;
-- no QueenCore creation;
-- no local tick;
-- no mutation HTTP methods;
-- identity continuity enforcement;
-- FRESH / STALE semantics;
-- integrity_match required before downstream use;
-- bounded retry/backoff;
-- no automatic World Router invocation.
+Draft PR:
+`#2`
 
-In parallel, leave ANT live routing closed until an explicit authorization contract exists.
+## Immediate gate
 
-Before implementation:
-audit whether Antmux's existing X72ObservationAdapter can be reused directly or wrapped without duplication.
+Run full Brutus CI after Card Registry hardening.
 
-Rule:
-reuse proven source before inventing a second observer.
+Must prove:
+- BRUTUS-CARD-0001 still passes;
+- BRUTUS-CARD-QUEEN-CLOCK-0001 still passes;
+- unknown CARD_ID is rejected;
+- known ID with changed TARGET is rejected;
+- known ID with changed READ is rejected;
+- runtime cannot expand mutable VALUES;
+- adapter errors still reset DEFAULT_LOCKED;
+- Queen read path remains read-only;
+- LIVE_ROUTING remains DENIED.
+
+## After CI
+
+Keep PR #2 draft for review/integration decision.
+
+Do not merge automatically merely because CI is green.
+
+Next architectural expansion after integration:
+- add new cards only by explicit registry entry + tests;
+- keep Verso Core unchanged for ordinary navigation;
+- let ANCHOR-0001 become the prototype workspace around the locked center.
