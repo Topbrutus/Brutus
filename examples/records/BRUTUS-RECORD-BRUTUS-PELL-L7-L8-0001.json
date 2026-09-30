@@ -1,0 +1,41 @@
+{
+  "SCHEMA": "BRUTUS-ANCHOR-RECORD-v0.1",
+  "RECORD_ID": "BRUTUS-RECORD-BRUTUS-PELL-L7-L8-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001",
+  "RECORD_TYPE": "NOTE",
+  "CARD_ID": null,
+  "SOURCE_REF": "USER_REPORT:BRUTUS-PELL-L7-L8:2026-09-30",
+  "OBSERVED_AT_UTC": null,
+  "DATA": {
+    "claim_status": "EXTERNAL_DERIVED_RELATIONS_NOT_REVERIFIED_BY_BRUTUS",
+    "gates": [47, 71, 83],
+    "reported_machine_status": "PASS_RESISTS",
+    "reported_events_per_gate": 23670,
+    "reported_return": "1296/1296",
+    "bounded_scan": {
+      "k_start": "10000000000",
+      "k_end": "10000100000",
+      "new_prime_candidates": 4853,
+      "exact_witnesses": 0,
+      "interpretation": "bounded negative search result only; not proof of non-existence"
+    },
+    "L7": {
+      "status": "DERIVED_RELATION",
+      "summary": "A completed scan frontier can be recorded as a lower bound for the next possible witness under the scanned protocol."
+    },
+    "L8": {
+      "status": "DERIVED_RELATION",
+      "q_domain": "odd prime",
+      "Q_q": "P_(q^2) / P_q",
+      "summary": "Reported claim: any prime factor of Q_q provides a direct exact-rank q^2 witness under the stated Lucas-sequence framework.",
+      "novelty_boundary": "Do not claim as a new theorem here; source report says it rests on standard divisibility/rank properties."
+    }
+  },
+  "PROOF_REF": null,
+  "NOTES": [
+    "Stored for later counter-test and source audit.",
+    "No incomplete ZELSTEREOS attack is promoted to PASS by this record."
+  ]
+}

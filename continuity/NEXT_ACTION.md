@@ -1,40 +1,31 @@
-# NEXT ACTION — VERIFY AND INTEGRATE PHASE 4
+# NEXT ACTION — VERIFY AND INTEGRATE EXPERIMENT INTAKE
 
 ## Branch
 
-`astra/anchor-ledger-v01-20260930`
-
-Draft PR:
-`#6`
+`astra/experiment-intake-bench-v01-20260930`
 
 ## Immediate gate
 
-Run full Brutus CI after ledger status card.
+Run full Brutus CI.
 
 Must prove:
-- ledger append/hash-chain tests remain green;
-- prepared ledger status card is accepted;
-- it returns count/head/validity;
-- it returns DEFAULT_LOCKED;
-- append READ mutation is rejected;
-- mutable VALUES are rejected;
-- adapter contains no append call;
-- no network/process/World Router is introduced.
+- passive intake prototype registers with no new card;
+- incoming ZELSTEREOS report appends as non-proof RESULT;
+- incoming Brutus-Pell L7/L8 report appends as non-proof NOTE;
+- ledger chain stays valid;
+- proof references remain null for unverified intake;
+- source/evidence labels survive unchanged.
 
 ## After CI success
 
-If main has not drifted incompatibly:
-- mark PR #6 ready;
-- merge with expected head SHA;
-- verify post-merge main CI.
+Integrate the intake bench if main remains compatible.
 
-## Next architecture after integration
+Then future incoming experiments can be represented by:
+1. a prototype manifest when a new experimental workspace is needed;
+2. one or more qualified ledger records;
+3. later proof references only after independent verification.
 
-Stop adding capabilities to Verso by default.
-
-The next expansion should happen as a **new prototype manifest at ASTRA STATION**, using existing cards and ledger traces first.
-
-Only create a new card when an experiment proves a missing read capability.
+No automatic new Verso capability.
 
 Preserve:
 `LIVE_ROUTING = DENIED`

@@ -45,6 +45,14 @@ La frontière Brutus n'ouvre aucun transport réseau Queen elle-même. Elle acce
 
 Aucun appel World Router n'est automatique depuis cette frontière.
 
+### ANCHOR-0001 / ASTRA STATION
+
+ASTRA STATION est le premier point fixe de prototypage autour de Verso.
+
+Il porte des manifests de prototypes data-only et un ledger append-only de traces chaînées par SHA-256. Le ledger n'exécute pas les expériences : il conserve des observations, résultats, notes et références de preuve avec leur niveau d'évidence.
+
+Les résultats externes entrent d'abord comme traces qualifiées. Ils ne deviennent pas automatiquement des preuves, des lois, des routes ou de nouvelles capacités Verso.
+
 ### Fresque
 
 Aucune ligne décorative. Une ligne doit être reconstructible depuis une règle, un calcul, une relation et des coordonnées.
@@ -73,9 +81,13 @@ Pour chaque interface :
 6. enregistrer la preuve;
 7. seulement ensuite étendre.
 
-Premier trou audité : Horloge X72 <-> World Router.
+Premiers raccordements audités et intégrés :
+- Horloge X72 / Queen read-only ;
+- Verso prepared cards / DEFAULT_LOCKED ;
+- ANCHOR-0001 / ASTRA STATION ;
+- ledger append-only de traces.
 
-Front suivant : QueenObservationIngress read-only -> carte Verso d'observation, sans routage live.
+Front actuel : faire entrer les nouvelles expériences comme prototypes et traces qualifiées à ASTRA STATION avant d'ajouter de nouvelles capacités à Verso.
 
 ## Ce que Brutus n'est pas
 

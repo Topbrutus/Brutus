@@ -1,0 +1,28 @@
+{
+  "SCHEMA": "BRUTUS-PROTOTYPE-MANIFEST-v0.1",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "TITLE": "Experiment Intake Bench",
+  "PURPOSE": "Receive externally produced experiment results as qualified append-only traces at ASTRA STATION without auto-executing them, promoting them to proof, or expanding Verso.",
+  "STATUS": "ACTIVE",
+  "CARD_IDS": [],
+  "PARAMETERS": {
+    "mode": "PASSIVE_INTAKE",
+    "auto_execute": false,
+    "auto_promote_to_proof": false,
+    "live_ant_routing": "DENIED",
+    "world_router": "NOT_INVOKED"
+  },
+  "EXPECTED_OUTPUTS": [
+    "qualified trace record",
+    "explicit source boundary",
+    "explicit proof boundary",
+    "append-only ledger entry"
+  ],
+  "PROOF_REFS": [],
+  "NOTES": [
+    "Incoming claims remain at their supplied evidence level until independently re-tested or linked to a proof.",
+    "This bench does not require a new Verso card."
+  ]
+}
