@@ -1,60 +1,34 @@
-# NEXT ACTION — HARDEN VERSO WITH PREPARED CARD REGISTRY
+# NEXT ACTION — VERIFY PREPARED CARD REGISTRY
 
-## Proven before this step
+## Candidate branch
 
-Public Queen read proof:
-`proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
+`astra/queen-observation-ingress-v01-20260930`
 
-Run:
-`36750712934 = SUCCESS`
+Draft PR:
+`#2`
 
-The temporary proof workflow must not remain as a permanent runtime dependency.
+## Immediate gate
 
-## Guard gap to close
+Run full Brutus CI after Card Registry hardening.
 
-Current Guard behavior:
-- validates card fields;
-- validates read-only flags;
-- validates mutable VALUES allow-list.
+Must prove:
+- BRUTUS-CARD-0001 still passes;
+- BRUTUS-CARD-QUEEN-CLOCK-0001 still passes;
+- unknown CARD_ID is rejected;
+- known ID with changed TARGET is rejected;
+- known ID with changed READ is rejected;
+- runtime cannot expand mutable VALUES;
+- adapter errors still reset DEFAULT_LOCKED;
+- Queen read path remains read-only;
+- LIVE_ROUTING remains DENIED.
 
-Missing invariant:
-- a valid-looking but unknown CARD_ID can still pass shape validation.
+## After CI
 
-Required rule:
+Keep PR #2 draft for review/integration decision.
 
-```text
-KNOWN PREPARED CARD -> MAY ENTER GUARD
-UNKNOWN CARD_ID     -> STOP
-KNOWN ID + ALTERED STATIC CONTRACT -> STOP
-```
+Do not merge automatically merely because CI is green.
 
-## Card Registry v0.1
-
-Register at minimum:
-
-1. `BRUTUS-CARD-0001`
-   - ASTRA_STATION -> BRUTUS_REGISTRY
-   - mutable: `query.organ_id`
-
-2. `BRUTUS-CARD-QUEEN-CLOCK-0001`
-   - ASTRA_STATION -> QUEEN_CLOCK
-   - mutable: none
-
-Registry policy must bind:
-- VERSION;
-- ANCHOR;
-- SOURCE;
-- TARGET;
-- READ;
-- MEASURE;
-- RETURN_DATA;
-- EXPECTED_OUTPUT;
-- allowed mutable VALUES.
-
-The entity/card cannot expand its own policy.
-
-## Preserve
-
-`LIVE_ROUTING = DENIED`
-
-No World Router invocation is part of Card Registry hardening.
+Next architectural expansion after integration:
+- add new cards only by explicit registry entry + tests;
+- keep Verso Core unchanged for ordinary navigation;
+- let ANCHOR-0001 become the prototype workspace around the locked center.

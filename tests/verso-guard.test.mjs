@@ -30,8 +30,8 @@ function validCard() {
   };
 }
 
-test("valid card executes and always returns to DEFAULT_LOCKED", async () => {
-  const runtime = createVersoRuntime({ mutableValues: ["query.organ_id"] });
+test("known prepared card executes and always returns to DEFAULT_LOCKED", async () => {
+  const runtime = createVersoRuntime();
 
   const outcome = await runtime.execute(validCard(), async ({ values }) => {
     return { organ: values["query.organ_id"], verified: true };
@@ -49,35 +49,78 @@ test("valid card executes and always returns to DEFAULT_LOCKED", async () => {
   assert.equal(runtime.state, VERSO_DEFAULT_STATE);
 });
 
+test("unknown CARD_ID is rejected even when the card shape is otherwise valid", () => {
+  const card = validCard();
+  card.CARD_ID = "BRUTUS-CARD-NOT-REGISTERED";
+
+  assert.throws(
+    () => guardCard(card),
+    /unknown CARD_ID BRUTUS-CARD-NOT-REGISTERED/
+  );
+});
+
+test("known CARD_ID cannot alter its prepared static contract", () => {
+  const card = validCard();
+  card.TARGET = "QUEEN_CLOCK";
+
+  assert.throws(
+    () => guardCard(card),
+    /prepared card contract mismatch: TARGET/
+  );
+});
+
+test("known CARD_ID cannot alter its prepared READ contract", () => {
+  const card = validCard();
+  card.READ = ["registry.sources", "queen.clock"];
+
+  assert.throws(
+    () => guardCard(card),
+    /prepared card contract mismatch: READ/
+  );
+});
+
 test("unknown card fields are rejected", () => {
   const card = validCard();
   card.ARBITRARY_CODE = "console.log('no')";
 
   assert.throws(
-    () => guardCard(card, { mutableValues: ["query.organ_id"] }),
+    () => guardCard(card),
     /unknown field ARBITRARY_CODE/
   );
 });
 
-test("write, code change and route creation are forbidden in v0.1", () => {
+test("write, code change and route creation are fixed false by prepared policy", () => {
   for (const field of ["WRITE", "CODE_CHANGE", "CREATE_ROUTE"]) {
     const card = validCard();
     card[field] = true;
 
     assert.throws(
-      () => guardCard(card, { mutableValues: ["query.organ_id"] }),
-      new RegExp(field + " must be false")
+      () => guardCard(card),
+      new RegExp("prepared card contract mismatch: " + field)
     );
   }
 });
 
-test("VALUES accepts only explicitly mutable keys", () => {
+test("VALUES accepts only keys declared mutable by the prepared card", () => {
   const card = validCard();
   card.VALUES["unknown.switch"] = 1;
 
   assert.throws(
-    () => guardCard(card, { mutableValues: ["query.organ_id"] }),
+    () => guardCard(card),
     /VALUES key is not mutable/
+  );
+});
+
+test("runtime may narrow but never expand a prepared card mutable policy", () => {
+  assert.throws(
+    () => guardCard(validCard(), { mutableValues: ["query.organ_id", "query.extra"] }),
+    /runtime mutableValues cannot expand prepared card policy: query.extra/
+  );
+
+  const card = validCard();
+  card.VALUES = {};
+  assert.doesNotThrow(
+    () => guardCard(card, { mutableValues: [] })
   );
 });
 
@@ -86,13 +129,13 @@ test("cards are data-only", () => {
   card.VALUES["query.organ_id"] = () => "CLOCK";
 
   assert.throws(
-    () => guardCard(card, { mutableValues: ["query.organ_id"] }),
+    () => guardCard(card),
     /must contain data only/
   );
 });
 
 test("adapter failure still resets Verso", async () => {
-  const runtime = createVersoRuntime({ mutableValues: ["query.organ_id"] });
+  const runtime = createVersoRuntime();
 
   await assert.rejects(
     runtime.execute(validCard(), async () => {
@@ -105,7 +148,7 @@ test("adapter failure still resets Verso", async () => {
 });
 
 test("a second card cannot enter while one card is active", async () => {
-  const runtime = createVersoRuntime({ mutableValues: ["query.organ_id"] });
+  const runtime = createVersoRuntime();
 
   let release;
   const gate = new Promise((resolve) => {

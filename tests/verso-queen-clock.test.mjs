@@ -22,8 +22,8 @@ function envelope() {
   return loadJson("../fixtures/x72/observation-envelope-state.json");
 }
 
-test("Verso Queen clock card reads one verified observation and returns DEFAULT_LOCKED", async () => {
-  const runtime = createVersoRuntime({ mutableValues: [] });
+test("registered Verso Queen clock card reads one verified observation and returns DEFAULT_LOCKED", async () => {
+  const runtime = createVersoRuntime();
   const ingress = createQueenObservationIngress();
   const adapter = createVersoQueenClockAdapter({
     ingress,
@@ -52,7 +52,7 @@ test("Verso Queen clock card reads one verified observation and returns DEFAULT_
 });
 
 test("persistent STALE source fails closed and Verso still resets", async () => {
-  const runtime = createVersoRuntime({ mutableValues: [] });
+  const runtime = createVersoRuntime();
   const ingress = createQueenObservationIngress();
   const stale = envelope();
   stale.status = "STALE";
@@ -76,8 +76,8 @@ test("persistent STALE source fails closed and Verso still resets", async () => 
   assert.equal(runtime.state, VERSO_DEFAULT_STATE);
 });
 
-test("card cannot smuggle a World Router read through Queen clock adapter", async () => {
-  const runtime = createVersoRuntime({ mutableValues: [] });
+test("registered Queen card cannot smuggle a World Router read", async () => {
+  const runtime = createVersoRuntime();
   const ingress = createQueenObservationIngress();
   const adapter = createVersoQueenClockAdapter({
     ingress,
@@ -89,13 +89,13 @@ test("card cannot smuggle a World Router read through Queen clock adapter", asyn
 
   await assert.rejects(
     runtime.execute(bad, adapter),
-    /READ contains unsupported item world.route/
+    /prepared card contract mismatch: READ/
   );
   assert.equal(runtime.state, VERSO_DEFAULT_STATE);
 });
 
-test("Queen clock card v0.1 accepts no mutable VALUES", async () => {
-  const runtime = createVersoRuntime({ mutableValues: ["query.any"] });
+test("registered Queen clock card accepts no mutable VALUES", async () => {
+  const runtime = createVersoRuntime();
   const ingress = createQueenObservationIngress();
   const adapter = createVersoQueenClockAdapter({
     ingress,
@@ -107,7 +107,7 @@ test("Queen clock card v0.1 accepts no mutable VALUES", async () => {
 
   await assert.rejects(
     runtime.execute(bad, adapter),
-    /accepts no mutable VALUES/
+    /VALUES key is not mutable: query.any/
   );
   assert.equal(runtime.state, VERSO_DEFAULT_STATE);
 });
