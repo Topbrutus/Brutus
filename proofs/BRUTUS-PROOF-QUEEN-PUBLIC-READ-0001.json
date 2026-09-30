@@ -1,0 +1,57 @@
+{
+  "schema": "BRUTUS-PROOF-QUEEN-PUBLIC-READ-v0.1",
+  "recorded_at": "2026-09-30",
+  "github_actions": {
+    "repository": "Topbrutus/Brutus",
+    "run_id": 36750712934,
+    "run_conclusion": "success",
+    "proof_head": "a88a91cb09396639d469ae6825839d7915f35f7a"
+  },
+  "source": {
+    "antmux_adapter_head": "bed68dbf0b8061b92ef15a9a9c5ae96d6cfc2e6b",
+    "adapter_path": "deploy/x72-shared-queen/observation_adapter/adapter.py",
+    "queen_base_url": "https://antmux.com/laboratoire/embryon-x72",
+    "server_runtime_commit": null,
+    "server_runtime_commit_status": "NOT_EXPOSED_BY_OBSERVATION_ENDPOINT"
+  },
+  "card": {
+    "card_id": "BRUTUS-CARD-QUEEN-CLOCK-0001",
+    "anchor": "ANCHOR-0001",
+    "final_state": "DEFAULT_LOCKED"
+  },
+  "observation": {
+    "entity_id": "QUEEN-X72-0072",
+    "tick": 146857067,
+    "generation": 20396,
+    "queen_mode": "BURST",
+    "reference_h256": "54d4cee87f7e5feed1a0735a0b8431a2dc67b1bda0492c78a6c7274109c13180",
+    "status": "FRESH",
+    "condition": "OK",
+    "integrity_match": true
+  },
+  "verso_trace": [
+    "DEFAULT_LOCKED",
+    "CARD_APPLIED",
+    "QUERY_RUNNING",
+    "RESULT_READY",
+    "DEFAULT_LOCKED"
+  ],
+  "routing": {
+    "live_ant_routing": "DENIED",
+    "world_router_invoked": false
+  },
+  "claim_boundary": {
+    "proven": [
+      "public Queen state was read through the existing Antmux X72ObservationAdapter",
+      "Brutus provider parsed the ObservationEnvelope",
+      "QueenObservationIngress accepted FRESH integrity-matching state",
+      "BRUTUS-CARD-QUEEN-CLOCK-0001 completed",
+      "Verso returned to DEFAULT_LOCKED"
+    ],
+    "not_proven": [
+      "server runtime commit identity",
+      "ANT live routing authorization",
+      "World Router live transport"
+    ]
+  }
+}

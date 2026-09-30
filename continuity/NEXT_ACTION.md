@@ -1,51 +1,60 @@
-# NEXT ACTION — VERIFY REAL X72 PROVIDER CANDIDATE
+# NEXT ACTION — HARDEN VERSO WITH PREPARED CARD REGISTRY
 
-## Branch
+## Proven before this step
 
-`astra/queen-observation-ingress-v01-20260930`
+Public Queen read proof:
+`proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
 
-Draft PR:
-`#2`
+Run:
+`36750712934 = SUCCESS`
 
-## Immediate verification
+The temporary proof workflow must not remain as a permanent runtime dependency.
 
-Observe Brutus CI on the provider commit.
+## Guard gap to close
 
-Required checks:
-- full `npm test` passes;
-- provider tests pass;
-- Verso returns DEFAULT_LOCKED;
-- provider remains STATE_ONLY;
-- no World Router invocation;
-- no shell execution;
-- no embedded credentials;
-- main is not overwritten.
+Current Guard behavior:
+- validates card fields;
+- validates read-only flags;
+- validates mutable VALUES allow-list.
 
-## Runtime proof still required later
+Missing invariant:
+- a valid-looking but unknown CARD_ID can still pass shape validation.
 
-CI proves the provider contract with injected process output.
-
-It does **not** prove a physical Queen endpoint is reachable from the deployment environment.
-
-A later runtime proof must use:
+Required rule:
 
 ```text
-existing Antmux checkout
-+ existing X72ObservationAdapter
-+ authorized/readable Queen base URL
-+ BRUTUS-CARD-QUEEN-CLOCK-0001
+KNOWN PREPARED CARD -> MAY ENTER GUARD
+UNKNOWN CARD_ID     -> STOP
+KNOWN ID + ALTERED STATIC CONTRACT -> STOP
 ```
 
-and record:
-- Antmux source HEAD;
-- Queen entity_id;
-- Queen tick;
-- FRESH status;
-- integrity_match;
-- Verso trace ending DEFAULT_LOCKED.
+## Card Registry v0.1
+
+Register at minimum:
+
+1. `BRUTUS-CARD-0001`
+   - ASTRA_STATION -> BRUTUS_REGISTRY
+   - mutable: `query.organ_id`
+
+2. `BRUTUS-CARD-QUEEN-CLOCK-0001`
+   - ASTRA_STATION -> QUEEN_CLOCK
+   - mutable: none
+
+Registry policy must bind:
+- VERSION;
+- ANCHOR;
+- SOURCE;
+- TARGET;
+- READ;
+- MEASURE;
+- RETURN_DATA;
+- EXPECTED_OUTPUT;
+- allowed mutable VALUES.
+
+The entity/card cannot expand its own policy.
 
 ## Preserve
 
 `LIVE_ROUTING = DENIED`
 
-No ANT route is opened by this work.
+No World Router invocation is part of Card Registry hardening.

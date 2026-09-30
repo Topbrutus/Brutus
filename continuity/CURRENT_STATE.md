@@ -16,46 +16,9 @@ Visibility: public
 
 ## Phase
 
-PHASE 2 — REAL X72 READ-ONLY PROVIDER CANDIDATE / LIVE ROUTING FAIL-CLOSED
+PHASE 2 — PUBLIC QUEEN READ PROVEN / CARD REGISTRY HARDENING NEXT
 
-Established on main:
-- Verso DEFAULT_LOCKED card guard;
-- proof policy and pinned source registry;
-- BRUTUS-CLOCK-OBSERVATION-v0.1;
-- BRUTUS-ANT-IDENTITY-v0.1;
-- pinned Queen-timed World Router compatibility;
-- pinned ANT identity + Queen tick compatibility;
-- ant birth source proof;
-- fail-closed live routing gate;
-- Brutus CI workflow;
-- authentic public README / AI interview entry.
-
-Candidate on current branch:
-- reuse audit of Antmux X72ObservationAdapter;
-- BRUTUS-QUEEN-INGRESS-v0.1;
-- strict Queen identity continuity;
-- FRESH / STALE / UNKNOWN preservation;
-- integrity_match=true required for downstream use;
-- bounded retry/backoff;
-- BRUTUS-CARD-QUEEN-CLOCK-0001;
-- Verso Queen clock adapter;
-- X72AdapterProcessProvider;
-- Python bridge importing the existing Antmux adapter;
-- state-only provider path;
-- no shell execution;
-- no automatic World Router invocation.
-
-## Source pin
-
-Antmux adapter source audited:
-`bed68dbf0b8061b92ef15a9a9c5ae96d6cfc2e6b`
-
-Source:
-`deploy/x72-shared-queen/observation_adapter/adapter.py`
-
-The runtime bridge imports that source from an existing Antmux checkout. It does not vendor/copy the adapter.
-
-## Candidate runtime path
+Candidate chain on the branch:
 
 ```text
 Queen Server
@@ -69,30 +32,58 @@ Queen Server
   -> ANCHOR-0001
 ```
 
+## Runtime proof — PROVEN
+
+GitHub Actions run:
+`36750712934`
+
+Proof head:
+`a88a91cb09396639d469ae6825839d7915f35f7a`
+
+Antmux adapter source:
+`bed68dbf0b8061b92ef15a9a9c5ae96d6cfc2e6b`
+
+Observed public Queen:
+- entity_id = `QUEEN-X72-0072`
+- tick = `146857067`
+- generation = `20396`
+- queen_mode = `BURST`
+- status = `FRESH`
+- condition = `OK`
+- integrity_match = `true`
+- final Verso state = `DEFAULT_LOCKED`
+
+Durable proof:
+`proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
+
+Boundary:
+the public observation endpoint does not expose the server runtime commit, so that commit is not claimed.
+
 ## Routing authorization
 
 ROUTING_AUTHORIZATION = UNDECIDED
 LIVE_ROUTING = DENIED
+WORLD_ROUTER_IN_PUBLIC_READ_PROOF = NOT_INVOKED
+
+## Newly identified guard gap
+
+The current Verso Guard validates card shape and mutable keys, but a syntactically valid unknown `CARD_ID` is not yet rejected solely because it is unknown.
+
+This is inconsistent with the intended invariant:
+
+`UNKNOWN_CARD => STOP`
+
+Next hardening must add a prepared Card Registry and bind each known CARD_ID to its allowed static fields and mutable values.
 
 ## Standing invariants
 
 VERSO_DEFAULT = DEFAULT_LOCKED
+CARD_REQUIRED = YES
+UNKNOWN_CARD = STOP
 CLOCK_AUTHORITY = QUEEN_SERVER_V0_2
 WORLD_TICK_SOURCE = QUEEN tick_count
-ANT_BIRTH_WALLCLOCK_AS_WORLD_TICK = FORBIDDEN
 QUEEN_ENTITY_ID_AS_ANT_ID = FORBIDDEN
-ANT_ID_MUST_BE_EXPLICIT = YES
 LIVE_ROUTE_WITH_UNDECIDED_AUTH = DENIED
-WORLD_ROUTE_WITHOUT_PORTAL_CONTRACT = CLOSED
 SOURCE_MUTATION_BY_BRUTUS = NO
-QUEEN_INGRESS_WORLD_ROUTER_CALL = NONE
-QUEEN_CLOCK_CARD_MUTABLE_VALUES = NONE
 X72_PROVIDER_SHELL = FALSE
 X72_PROVIDER_MODE = STATE_ONLY
-
-## Proof boundary
-
-PR #2 CI before provider:
-- run `36746850947` = SUCCESS at `4501a6cc3d190054782fcf18b6301b647b676d0f`.
-
-Provider integration is candidate until its branch CI is observed successful.
