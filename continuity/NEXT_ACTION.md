@@ -1,29 +1,19 @@
-# NEXT ACTION — AUDIT REAL FOURMI IDENTITY SOURCE
+# NEXT ACTION — PROVE ANT IDENTITY -> PINNED WORLD ROUTER
 
-Target:
-find the canonical source of ANT_ID before any live continuous Horloge -> World transport.
+Goal:
+combine the audited Brutus ANT identity adapter with the audited Queen clock adapter and pass the resulting request to the real pinned Antmux world-router.mjs.
 
-Audit in Topbrutus/Antmux:
-- current ant_birth.py implementation;
-- Fourmiliere/public journal birth path;
-- ANT lifecycle fields;
-- role=SYNAPSE boundary;
-- existing tests that prove birth identity, timing and lineage.
+Required proof:
+- ANT_ID originates from BRUTUS-ANT-IDENTITY-v0.1;
+- TICK originates only from BRUTUS-CLOCK-OBSERVATION-v0.1;
+- BIRTH_WALLCLOCK_MS is not used as World Router tick;
+- valid CARBON -> CRYPTO contract opens;
+- uncontracted route stays closed;
+- Antmux source remains untouched.
 
-Questions to answer from source:
-1. Which field is the authoritative ANT_ID?
-2. At what exact lifecycle step does it become usable for routing?
-3. What proof/tick/lineage fields must travel with it?
-4. Can Brutus consume that identity read-only without modifying the Fourmiliere?
-5. How is a deployment ant distinguished from a synthetic test ant?
+After that:
+audit the production routing policy / ant receipt ingestion boundary before connecting live streams.
 
-Do not:
-- invent ANT_ID;
-- reuse Queen entity_id;
-- create a new birth mechanism while an existing one may already be canonical.
-
-After audit:
-define BRUTUS-ANT-IDENTITY-v0.1 only from verified source fields, then test it against the existing World Router.
-
-Rule:
-SOURCE LIVE > pinned source > Brutus contract > memory > hypothesis.
+No automatic policy invention.
+No Queen entity -> ANT identity conversion.
+No wall-clock -> Queen tick conversion.

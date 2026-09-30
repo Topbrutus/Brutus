@@ -1,0 +1,42 @@
+{
+  "schema": "BRUTUS-SOURCE-TEST-PROOF-v0.1",
+  "proof_id": "BRUTUS-PROOF-ANT-BIRTH-SOURCE-0001",
+  "observed_on": "2026-09-30",
+  "repository": "Topbrutus/Antmux",
+  "commit": "d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e",
+  "source_files": [
+    {
+      "path": "deploy/x72-shared-queen/app/ant_birth.py",
+      "blob": "451736f40ae2e8e5a92a98861b5885ae678629e5"
+    },
+    {
+      "path": "deploy/x72-shared-queen/app/public_journal.py",
+      "blob": "9b82a912d96c86c2bda9d5d43f7f8c75f4eaff08"
+    },
+    {
+      "path": "deploy/x72-shared-queen/tests/test_public_journal.py",
+      "blob": "3ca2ed5a925c6d93d769d4e31280974c74df8855"
+    }
+  ],
+  "harness": "temporary isolated raw-source harness",
+  "source_mutation": false,
+  "result": "PASS",
+  "exit_code": 0,
+  "markers": [
+    "PUBLIC_JOURNAL_RATE_LIMIT=PASS",
+    "PUBLIC_JOURNAL_PRIVACY=PASS",
+    "PUBLIC_JOURNAL_MODERATION=PASS",
+    "PUBLIC_JOURNAL_ADMIN_GATE=PASS",
+    "PUBLIC_JOURNAL_EMOJI_FRAMING=PASS",
+    "PUBLIC_JOURNAL_ANT_BIRTH=PASS",
+    "PUBLIC_JOURNAL_DUMPTY_BEFORE_SONG=PASS",
+    "PUBLIC_JOURNAL_SONG_BEFORE_MEETING=PASS",
+    "PUBLIC_JOURNAL_ANT_SYNAPSE=PASS"
+  ],
+  "identity_boundary": {
+    "canonical_observed_path": "ant_receipt.ant_id == post_id == ants.id",
+    "current_format": "ANT-[0-9A-F]{12}",
+    "birth_tick_ms_source": "int(time.time() * 1000)",
+    "birth_tick_ms_is_queen_tick": false
+  }
+}

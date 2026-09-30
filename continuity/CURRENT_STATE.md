@@ -8,44 +8,50 @@ Visibility: private
 
 ## Phase
 
-PHASE 1 — FIRST INTERFACE PROVEN AT PINNED SOURCE
+PHASE 2 — CLOCK + ANT IDENTITY BOUNDARIES
 
 Established:
-- source registry;
-- architecture and proof policy;
-- Verso card v0.1;
-- data-only/read-only Verso guard;
-- guaranteed DEFAULT_LOCKED reset;
-- automated tests.
+- Verso card v0.1 / DEFAULT_LOCKED guard;
+- proof policy and source registry;
+- BRUTUS-CLOCK-OBSERVATION-v0.1;
+- X72 clock -> World Router bridge;
+- pinned real-router compatibility proof;
+- BRUTUS-ANT-IDENTITY-v0.1;
+- source ant birth audit and source test proof.
 
-Horloge X72 <-> World Router:
-- Antmux HEAD audited: d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e;
-- source WORLD-ROUNDTRIP-0001 rerun: 4/4 PASS;
-- Queen read boundary identified through X72ObservationAdapter;
-- World transport boundary identified through transportEnvelope;
-- Queen entity_id is explicitly forbidden as Fourmi antId;
-- BRUTUS-CLOCK-OBSERVATION-v0.1 implemented;
-- bridge tests at Brutus 17ccd9d: 13/13 PASS;
-- pinned Brutus -> real Antmux transportEnvelope harness: PASS;
-- negative control without portal contract: CLOSED / NO_PORTAL_CONTRACT.
+## Proven source facts
 
-Machine proof:
-proofs/BRUTUS-PROOF-X72-WORLD-PINNED-0001.json
+Antmux HEAD audited:
+d9b1ebd4f0184caa9f537ed64b2bf5ff0e4eba5e
+
+Public-journal birth path:
+- ant_id == submission/post id == ants.id;
+- current generated format ANT-[0-9A-F]{12};
+- role SYNAPSE;
+- BECOME_SYNAPSE lifecycle step DONE;
+- state SINGING_TO_MEET;
+- birth_tick_ms comes from time.time(), therefore is wall-clock milliseconds, not Queen tick.
+
+Source public-journal test:
+9 PASS markers / exit code 0.
 
 ## Standing invariants
 
 VERSO_DEFAULT = DEFAULT_LOCKED
 CLOCK_AUTHORITY = QUEEN_SERVER_V0_2
-LOCAL_TICK_CREATION = NO
+WORLD_TICK_SOURCE = QUEEN tick_count
+ANT_BIRTH_WALLCLOCK_AS_WORLD_TICK = FORBIDDEN
 QUEEN_ENTITY_ID_AS_ANT_ID = FORBIDDEN
-WORLD_TRANSPORT_REQUIRES_FRESH_CLOCK = YES
-WORLD_TRANSPORT_REQUIRES_QUEEN_INTEGRITY = YES
+ANT_ID_MUST_BE_EXPLICIT = YES
+ROUTING_AUTHORIZATION_FROM_BIRTH_RECEIPT = UNDECIDED
 WORLD_ROUTE_WITHOUT_CONTRACT = CLOSED
-ARBITRARY_CODE_IN_CARD = NO
 SOURCE_MUTATION_BY_BRUTUS = NO
 
-## Primary unknown
+## Unknowns preserved
 
-The first real production ANT_ID source has not been selected.
-
-Brutus must not synthesize it silently.
+- production policy deciding which born ants may enter world routing;
+- read-only ingestion boundary for existing ant receipts;
+- live Queen network consumer in Brutus;
+- final crystal contract;
+- Chaudiere d'esprit / accumulator / dephaser;
+- complete EmojiLogic opcode bank.
