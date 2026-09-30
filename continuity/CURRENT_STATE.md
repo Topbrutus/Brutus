@@ -3,72 +3,67 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Branch: main
+Main baseline before real result intake:
+`aad7f241808551dd7db3a0c2d397e9dcb3ef9b7c`
+
+Working branch:
+`results/zelstereos-369-396-counter-test-20260930`
+
 Visibility: public
-
-Main HEAD after Phase 8 hardening:
-`c75a8b14186c4f804b8e151e7c5798d43fc935cf`
-
-Post-merge Brutus CI:
-`36766397574 = SUCCESS`
 
 ## Phase
 
-PHASE 8 — EPISTEMIC PIPELINE INTEGRATED + TRUST BOUNDARIES HARDENED
+PHASE 8 — FIRST REAL COUNTER-TEST RESULT INTAKE CANDIDATE
 
-## Integrated chain
+## Real incoming result
+
+Plan:
+`BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
+
+Execution:
+`BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001-1790797398415`
+
+Execution window:
+`2026-09-30T19:43:18.415Z -> 2026-09-30T19:43:37.911Z`
+
+Antmux source commit:
+`942aba3afef9fb49a8467d0b642a4a1a81126bda`
+
+That commit was independently confirmed to exist in Topbrutus/Antmux before this intake.
+
+Protocol:
+- ZELSTEREOS_AI 2.4;
+- ANTMUX-ZELSTEREOS-ENTITY38-RADIX-AUDIO-TEST-v3;
+- ANTMUX-ZELSTEREOS-ENTITY38-EVOLUTION-CASCADE-v1;
+- ANTMUX-ZELSTEREOS-RADIX-ZX-BRAID-v1.
+
+Verdict:
+`PASS`
+
+Checks:
+- CT-01 PASS: determinant_396=0, determinant_369=-23004;
+- CT-02 PASS: 852/639=4/3, 528/396=4/3;
+- CT-03 PASS: 1296 branches each, same protocol;
+- CT-04 PASS: 0 equal / 1296 different corresponding branches.
+
+## Durable candidate artifacts
+
+Raw counter-test result:
+`examples/results/BRUTUS-COUNTER-RESULT-ZELSTEREOS-369-396-0001.json`
+
+Qualified ledger RESULT:
+`examples/records/BRUTUS-RECORD-COUNTER-ZELSTEREOS-369-396-0001.json`
+
+## Evidence boundary
 
 ```text
-INTAKE
-  -> QUALIFIED TRACE
-  -> COUNTER-TEST PLAN
-  -> EXTERNAL EXECUTION
-  -> QUALIFIED RESULT
-  -> LEDGER RESULT
-  -> REVIEWED PROOF ARTIFACT
-  -> PROOF PROMOTION GATE
-  -> SEPARATE PROOF_REF
+EVIDENCE_LEVEL = COUNTER_TEST_RESULT
+VERDICT = PASS
+PROOF_REF = null
+AUTO_PROOF_PROMOTION = false
 ```
 
-## Trust-boundary hardening
-
-### Qualified RESULT provenance
-
-Proof Promotion Gate now rejects a bare or forged ledger RESULT unless it structurally matches Counter-Test Result Gate output:
-- Counter-Test Bench prototype;
-- evidence_level = COUNTER_TEST_RESULT;
-- auto_proof_promotion = false;
-- result_id / plan_id / protocol_version / summary present;
-- non-empty check_results;
-- SOURCE_REF bound to the plan.
-
-### Proof artifact confinement
-
-Proof promotion now:
-- rejects a symlinked `proofs/` root;
-- rejects proof artifact symlinks;
-- resolves real paths;
-- requires the real artifact path to remain inside the real `proofs/` root;
-- requires exact SHA-256 match.
-
-### Credential boundary
-
-ASTRA STATION manifests and ledger records reject credential-shaped keys including:
-- api_token;
-- access_token;
-- refresh_token;
-- bearer_token;
-- client_secret;
-- private_key;
-- authorization;
-- cookie.
-
-## Verso boundary
-
-- DEFAULT_LOCKED;
-- prepared cards only;
-- UNKNOWN_CARD => STOP;
-- no new Verso capability was added by hardening.
+PASS is not promoted to proof.
 
 ## Routing boundary
 
