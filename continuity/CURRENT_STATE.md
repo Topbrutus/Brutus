@@ -3,62 +3,73 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main baseline:
-`2f49980a4a8d7d55aed07967efbd10ab024312b2`
-
-Working branch:
-`hardening/phase8-trust-boundaries-20260930`
-
+Branch: main
 Visibility: public
+
+Main HEAD after Phase 8 hardening:
+`c75a8b14186c4f804b8e151e7c5798d43fc935cf`
+
+Post-merge Brutus CI:
+`36766397574 = SUCCESS`
 
 ## Phase
 
-PHASE 8 HARDENING — TRUST BOUNDARIES CANDIDATE
+PHASE 8 — EPISTEMIC PIPELINE INTEGRATED + TRUST BOUNDARIES HARDENED
 
-Integrated Phase 8 remains unchanged functionally:
-- intake;
-- counter-test plans;
-- qualified results;
-- reviewed proof promotion;
-- Verso DEFAULT_LOCKED;
-- LIVE_ROUTING = DENIED.
+## Integrated chain
 
-## Hardening targets
+```text
+INTAKE
+  -> QUALIFIED TRACE
+  -> COUNTER-TEST PLAN
+  -> EXTERNAL EXECUTION
+  -> QUALIFIED RESULT
+  -> LEDGER RESULT
+  -> REVIEWED PROOF ARTIFACT
+  -> PROOF PROMOTION GATE
+  -> SEPARATE PROOF_REF
+```
 
-### Proof source provenance
+## Trust-boundary hardening
 
-Proof Promotion Gate now requires a source RESULT that structurally matches Counter-Test Result Gate output:
+### Qualified RESULT provenance
+
+Proof Promotion Gate now rejects a bare or forged ledger RESULT unless it structurally matches Counter-Test Result Gate output:
 - Counter-Test Bench prototype;
 - evidence_level = COUNTER_TEST_RESULT;
 - auto_proof_promotion = false;
-- result_id / plan_id / protocol_version / summary;
+- result_id / plan_id / protocol_version / summary present;
 - non-empty check_results;
-- SOURCE_REF bound to COUNTER_TEST:<plan_id>:...
+- SOURCE_REF bound to the plan.
 
-A bare ledger RESULT with only verdict=PASS/FAIL is rejected.
+### Proof artifact confinement
 
-### Proof path confinement
-
-Promotion now:
-- rejects a symlinked proofs/ root;
+Proof promotion now:
+- rejects a symlinked `proofs/` root;
 - rejects proof artifact symlinks;
 - resolves real paths;
-- requires the real artifact path to remain inside the real proofs/ root;
-- still requires exact SHA-256 match.
+- requires the real artifact path to remain inside the real `proofs/` root;
+- requires exact SHA-256 match.
 
 ### Credential boundary
 
-ASTRA STATION prototype manifests and ledger records now reject token-shaped variants including:
+ASTRA STATION manifests and ledger records reject credential-shaped keys including:
 - api_token;
 - access_token;
 - refresh_token;
 - bearer_token;
-- client_secret.
+- client_secret;
+- private_key;
+- authorization;
+- cookie.
 
-## Capability boundary
+## Verso boundary
 
-No new capability is added.
+- DEFAULT_LOCKED;
+- prepared cards only;
+- UNKNOWN_CARD => STOP;
+- no new Verso capability was added by hardening.
 
-No new Verso card is added.
+## Routing boundary
 
 `LIVE_ROUTING = DENIED`
