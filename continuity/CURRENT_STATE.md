@@ -3,54 +3,88 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main baseline:
-`1b370770c51e1fd6b626e02cb8f289f4385e0411`
-
-Working branch:
-`astra/proof-promotion-gate-v01-20260930`
-
+Branch: main
 Visibility: public
+
+Main HEAD at Phase 8 integration:
+`2a2765492a9bbe07a32c9a3a8b587ff6538af44a`
+
+Post-merge Brutus CI:
+`36765211570 = SUCCESS`
 
 ## Phase
 
-PHASE 8 — PROOF PROMOTION GATE CANDIDATE
+PHASE 8 — EPISTEMIC PIPELINE INTEGRATED
 
-## Integrated baseline
+## Integrated chain
 
-Phase 7 is integrated and post-merge CI is green:
-- qualified experiment intake;
-- immutable counter-test plans;
-- Counter-Test Result Gate;
-- PASS/FAIL/INCONCLUSIVE/ERROR coherence;
-- RESULT cannot self-promote to proof;
-- LIVE_ROUTING = DENIED.
+### 1. Intake
 
-## New candidate
+External experiment material enters at:
 
-Contract:
-`contracts/proof-promotion.v0.schema.json`
+`BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
 
-Runtime:
+It is stored as a qualified ledger trace with explicit evidence boundary.
+
+Incoming material is not silently promoted to proof.
+
+### 2. Counter-Test Bench
+
+Prototype:
+
+`BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001`
+
+Plans are immutable, data-only and bound to existing source records.
+
+Initial plans:
+- `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
+- `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+
+The queue cannot execute, update, delete or route.
+
+### 3. Counter-Test Result Gate
+
+Externally executed counter-tests return through:
+
+`src/counter-test-result-gate.mjs`
+
+Rules:
+- known PLAN_ID required;
+- every planned CHECK_ID must be reported exactly once;
+- PASS / FAIL / INCONCLUSIVE / ERROR must match check statuses;
+- PROOF_REF remains null;
+- automatic proof promotion is forbidden.
+
+Qualified outputs become separate ledger RESULT records.
+
+### 4. Proof Promotion Gate
+
+Reviewed proof linkage uses:
+
 `src/proof-promotion-gate.mjs`
 
-## Promotion invariants
+Promotion requires:
+- existing RESULT record;
+- PASS or FAIL verdict;
+- existing local artifact under `proofs/`;
+- exact SHA-256 match;
+- explicit `REVIEW_STATUS = APPROVED`;
+- `AUTO_PROMOTION = false`.
 
-```text
-EXISTING_RESULT_REQUIRED = YES
-RESULT_VERDICT = PASS_OR_FAIL
-PROOF_ARTIFACT_REQUIRED = YES
-PROOF_REF_MUST_STAY_UNDER_PROOFS = YES
-EXPECTED_SHA256_REQUIRED = YES
-ACTUAL_SHA256_MUST_MATCH = YES
-REVIEW_STATUS = APPROVED
-AUTO_PROMOTION = FALSE
-OUTPUT = SEPARATE_PROOF_REF_RECORD
-LEDGER_APPEND_INSIDE_GATE = NO
-NETWORK = NONE
-PROCESS_EXECUTION = NONE
-WORLD_ROUTER = NONE
-```
+The output is a separate PROOF_REF record.
+
+The gate verifies artifact/linkage traceability. It does not determine scientific or mathematical truth by itself.
+
+## Verso / Station boundary
+
+- Verso remains DEFAULT_LOCKED;
+- prepared cards only;
+- UNKNOWN_CARD => STOP;
+- ANCHOR-0001 / ASTRA STATION remains the fixed return point;
+- no new Verso card was needed for Phases 5-8.
 
 ## Routing boundary
 
 `LIVE_ROUTING = DENIED`
+
+No Phase 8 component authorizes or invokes live ANT routing.
