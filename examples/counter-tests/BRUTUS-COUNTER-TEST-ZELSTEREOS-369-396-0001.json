@@ -1,0 +1,55 @@
+{
+  "SCHEMA": "BRUTUS-COUNTER-TEST-PLAN-v0.1",
+  "PLAN_ID": "BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PROTOTYPE_ID": "BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001",
+  "SOURCE_RECORD_IDS": [
+    "BRUTUS-RECORD-ZELSTEREOS-369-396-0001"
+  ],
+  "TITLE": "Independent reproduction of the 369 / 396 differentiation",
+  "QUESTION": "Do independent arithmetic and a fresh ZELSTEREOS run reproduce the reported exact rank-1 relation for 396 and the reported full branch differentiation between 369 and 396?",
+  "PRIORITY": "P0",
+  "STATUS": "READY",
+  "CHECKS": [
+    {
+      "CHECK_ID": "CT-01",
+      "KIND": "EXACT_ARITHMETIC",
+      "DESCRIPTION": "Recompute 852*396 - 639*528 and 852*369 - 639*528 using an independent exact-integer path."
+    },
+    {
+      "CHECK_ID": "CT-02",
+      "KIND": "EXACT_ARITHMETIC",
+      "DESCRIPTION": "Recompute 852/639 and 528/396 as reduced rational numbers and compare them exactly."
+    },
+    {
+      "CHECK_ID": "CT-03",
+      "KIND": "MACHINE_REPRODUCTION",
+      "DESCRIPTION": "Run 369 and 396 separately through a fresh ZELSTEREOS session and preserve the 1296 final branches for each input."
+    },
+    {
+      "CHECK_ID": "CT-04",
+      "KIND": "INVARIANT",
+      "DESCRIPTION": "Compare corresponding final branches and the twelve GSP-ZENODO calculation families without normalizing or swapping 369 and 396."
+    }
+  ],
+  "CONFIRMATION_CRITERIA": [
+    "Exact determinant for 396 is 0.",
+    "Exact determinant for 369 is -23004.",
+    "852/639 and 528/396 both reduce to 4/3.",
+    "Fresh machine reproduction again distinguishes all 1296 corresponding final branches."
+  ],
+  "CONTRADICTION_CRITERIA": [
+    "Independent exact arithmetic gives a different determinant for either input.",
+    "The two exact rational ratios are not both 4/3.",
+    "A fresh machine run produces one or more corresponding final branches that are exactly equal.",
+    "The fresh run cannot preserve the reported distinction without changing the experiment protocol."
+  ],
+  "OUTPUT_RECORD_TYPE": "RESULT",
+  "AUTO_EXECUTE": false,
+  "PROOF_PROMOTION": "MANUAL_AFTER_VERIFICATION",
+  "NOTES": [
+    "A machine mismatch is a result to investigate, not something to hide or normalize away.",
+    "This plan tests the reported result; it does not assume a physical interpretation for the numbers."
+  ]
+}

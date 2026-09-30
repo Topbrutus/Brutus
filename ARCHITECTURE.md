@@ -53,6 +53,21 @@ Il porte des manifests de prototypes data-only et un ledger append-only de trace
 
 Les résultats externes entrent d'abord comme traces qualifiées. Ils ne deviennent pas automatiquement des preuves, des lois, des routes ou de nouvelles capacités Verso.
 
+### Counter-Test Bench
+
+Les traces qualifiées peuvent être transformées en plans de contre-test immuables à ASTRA STATION.
+
+Un plan fixe la question, les contrôles à refaire, les critères de confirmation et surtout les critères de contradiction. Le bench n'exécute rien et ne promeut aucun résultat en preuve automatiquement.
+
+Chemin :
+
+    TRACE QUALIFIEE
+      -> PLAN DE CONTRE-TEST
+      -> EXECUTION SEPAREE
+      -> RESULTAT
+      -> REVUE
+      -> PROOF_REF SI MERITE
+
 ### Fresque
 
 Aucune ligne décorative. Une ligne doit être reconstructible depuis une règle, un calcul, une relation et des coordonnées.
