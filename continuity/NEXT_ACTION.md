@@ -1,31 +1,57 @@
-# NEXT ACTION — VERIFY AND INTEGRATE EXPERIMENT INTAKE
+# NEXT ACTION — INTAKE FIRST, EXPAND ONLY ON EVIDENCE
 
-## Branch
+## Normal path for the next experiment
 
-`astra/experiment-intake-bench-v01-20260930`
+When a new external result arrives:
 
-## Immediate gate
+1. identify the existing ASTRA STATION prototype that owns it;
+2. if needed, add a new data-only prototype manifest;
+3. append a qualified ledger record with explicit SOURCE_REF and evidence label;
+4. do not assign PROOF_REF unless a real proof artifact exists;
+5. counter-test or independently rerun the claim when useful;
+6. append a proof reference only after verification;
+7. create a new Verso card only if the experiment demonstrates a missing **read** capability.
 
-Run full Brutus CI.
+## Existing intake workspace
 
-Must prove:
-- passive intake prototype registers with no new card;
-- incoming ZELSTEREOS report appends as non-proof RESULT;
-- incoming Brutus-Pell L7/L8 report appends as non-proof NOTE;
-- ledger chain stays valid;
-- proof references remain null for unverified intake;
-- source/evidence labels survive unchanged.
+Use:
 
-## After CI success
+`BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
 
-Integrate the intake bench if main remains compatible.
+for incoming experimental material that does not yet deserve a dedicated prototype.
 
-Then future incoming experiments can be represented by:
-1. a prototype manifest when a new experimental workspace is needed;
-2. one or more qualified ledger records;
-3. later proof references only after independent verification.
+## Evidence labels
 
-No automatic new Verso capability.
+Keep distinctions explicit:
+
+```text
+SOURCE
+MESURE
+CALCUL
+CANDIDAT
+HYPOTHÈSE
+INTERPRÉTATION
+PROOF_REF
+```
+
+Incoming reports are not silently upgraded.
+
+## Verso rule
+
+Do not modify Verso Core to advance an experiment.
+
+Use an existing prepared card if one fits.
+
+If no prepared card fits:
+`NO CARD -> STOP -> DESIGN REVIEW`
+
+not:
+`NO CARD -> EDIT ENGINE`
+
+## Routing boundary
 
 Preserve:
+
 `LIVE_ROUTING = DENIED`
+
+until a separate explicit authorization contract is specified and proven.

@@ -3,57 +3,87 @@
 ## Repository
 
 Repository: Topbrutus/Brutus
-Main HEAD before intake branch:
-`fe8fdb2cd17bab9b2168288d41a0b90878ca0cf5`
-
-Working branch:
-`astra/experiment-intake-bench-v01-20260930`
-
+Branch: main
 Visibility: public
+
+Main HEAD at Phase 5 integration:
+`250a41da9b72f1e9d856663d16e78ecf54decbd4`
+
+Post-merge Brutus CI:
+`36753723566 = SUCCESS`
 
 ## Phase
 
-PHASE 5 — EXPERIMENT INTAKE AT ASTRA STATION
+PHASE 5 — EXPERIMENT INTAKE INTEGRATED
 
-## Integrated on main
+## Integrated architecture
 
-- Verso DEFAULT_LOCKED;
-- prepared Card Registry / UNKNOWN_CARD => STOP;
-- Queen read-only public path and proof;
-- ANCHOR-0001 / ASTRA STATION;
-- read-only station status card;
-- append-only SHA-256 trace ledger;
-- read-only ledger status card;
-- LIVE_ROUTING = DENIED.
+### Verso
+- DEFAULT_LOCKED by default;
+- prepared Card Registry;
+- UNKNOWN_CARD => STOP;
+- known card with altered static contract => STOP;
+- runtime may narrow mutable values but cannot expand them.
 
-Phase 4 post-merge CI:
-`36753282491 = SUCCESS`
+### Queen read path
+- existing Antmux X72ObservationAdapter is reused;
+- QueenObservationIngress validates FRESH / STALE / UNKNOWN;
+- integrity_match=true required for usable clock data;
+- public read path was proven end-to-end;
+- durable proof:
+  `proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`.
 
-## New candidate
+### ANCHOR-0001 / ASTRA STATION
+- fixed return point;
+- prototype manifests are data-only;
+- no network/process execution in station runtime;
+- no Verso Core mutation;
+- no World Router invocation.
 
+Prepared station read card:
+`BRUTUS-CARD-ASTRA-STATION-STATUS-0001`
+
+### Append-only trace ledger
+- SHA-256 chained entries;
+- no update/delete API;
+- known prototype required;
+- known CARD_ID required when present;
+- credential-shaped fields rejected;
+- no execution/network/World Router.
+
+Prepared ledger read card:
+`BRUTUS-CARD-ASTRA-LEDGER-STATUS-0001`
+
+### Experiment Intake Bench
 Prototype:
 `BRUTUS-PROTOTYPE-EXPERIMENT-INTAKE-0001`
 
 Purpose:
-receive external experiment reports as qualified traces without auto-execution or proof promotion.
+receive external experiment reports as qualified traces without auto-execution, proof promotion or Verso expansion.
 
-First intake records:
+Initial intake records:
 - `BRUTUS-RECORD-ZELSTEREOS-369-396-0001`
 - `BRUTUS-RECORD-BRUTUS-PELL-L7-L8-0001`
 
-Evidence boundaries:
-- ZELSTEREOS record = USER_REPORTED_NOT_REVERIFIED_BY_BRUTUS;
-- L7/L8 record = EXTERNAL_DERIVED_RELATIONS_NOT_REVERIFIED_BY_BRUTUS.
+Evidence boundary:
+- ZELSTEREOS record = `USER_REPORTED_NOT_REVERIFIED_BY_BRUTUS`;
+- L7/L8 record = `EXTERNAL_DERIVED_RELATIONS_NOT_REVERIFIED_BY_BRUTUS`.
 
-Neither record is a Brutus proof.
+Neither is promoted to a Brutus proof by intake alone.
 
-## Architectural rule
+## Core working rule
 
-New experimental information should first use:
-`PROTOTYPE -> QUALIFIED TRACE -> COUNTER-TEST -> PROOF LINK`
-
-Do not create a new Verso card merely because a new experiment exists.
+```text
+NEW EXPERIMENT
+  -> PROTOTYPE / EXISTING WORKSPACE
+  -> QUALIFIED TRACE
+  -> COUNTER-TEST
+  -> PROOF LINK IF EARNED
+  -> NEW CARD ONLY IF A REAL READ CAPABILITY IS MISSING
+```
 
 ## Routing boundary
 
-LIVE_ROUTING = DENIED
+`LIVE_ROUTING = DENIED`
+
+No current Phase 5 component authorizes live ANT routing.
