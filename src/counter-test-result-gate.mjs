@@ -28,6 +28,11 @@ const FORBIDDEN_CREDENTIAL_KEYS = new Set([
   "token",
   "secret",
   "apikey",
+  "apitoken",
+  "accesstoken",
+  "refreshtoken",
+  "bearertoken",
+  "clientsecret",
   "privatekey",
   "authorization",
   "cookie"

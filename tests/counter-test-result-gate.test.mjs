@@ -223,12 +223,14 @@ test("result gate rejects executable or credential-shaped payloads", () => {
     /must contain data only/
   );
 
-  const secret = passingZResult();
-  secret.CHECK_RESULTS[0].OBSERVED.api_token = "no";
-  assert.throws(
-    () => gate.qualify(secret),
-    /forbidden credential field api_token/
-  );
+  for (const key of ["api_token", "access_token", "bearer_token", "client_secret"]) {
+    const secret = passingZResult();
+    secret.CHECK_RESULTS[0].OBSERVED[key] = "no";
+    assert.throws(
+      () => gate.qualify(secret),
+      new RegExp("forbidden credential field " + key)
+    );
+  }
 });
 
 test("result gate contains no append, network, process execution or World Router call", () => {
