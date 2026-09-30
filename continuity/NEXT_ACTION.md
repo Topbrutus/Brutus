@@ -1,40 +1,35 @@
-# NEXT ACTION — VERIFY COUNTER-TEST BENCH, THEN RETURN RESULTS AS LEDGER RECORDS
+# NEXT ACTION — VERIFY RESULT GATE, THEN WAIT FOR REAL COUNTER-TEST OUTPUT
 
 ## Branch
 
-`astra/counter-test-bench-v01-20260930`
+`astra/counter-test-result-gate-v01-20260930`
 
 ## Immediate gate
 
 Run full Brutus CI.
 
 Must prove:
-- Counter-Test Bench prototype registers without a Verso card;
-- the two initial plans bind to existing source records;
-- missing source records are rejected;
-- AUTO_EXECUTE=true is rejected;
+- PASS requires every check PASS;
+- FAIL requires an explicit FAIL;
+- INCONCLUSIVE cannot hide FAIL/ERROR;
+- every planned check must be reported exactly once;
+- unknown plans are rejected;
+- PROOF_REF cannot enter through this gate;
 - automatic proof promotion is rejected;
-- data-only and credential guards hold;
-- plans are immutable;
-- no update/delete/execute API exists;
+- data-only / credential guards hold;
+- gate does not append itself;
 - no network/process/World Router is introduced.
 
 ## After integration
 
-Execution remains outside the queue.
+The infrastructure is ready for actual result return.
 
-When a counter-test is actually run, append a new `RESULT` record to ASTRA STATION with:
-- source plan ID;
-- exact protocol/version;
-- observed outputs;
-- PASS / FAIL / INCONCLUSIVE as a test result only;
-- PROOF_REF = null unless a real proof artifact is produced.
-
-## Important
-
-Do not modify Verso merely to run a counter-test.
-
-Do not turn PASS into theorem.
+When a real counter-test finishes:
+1. construct one result object from the exact plan;
+2. qualify it through Counter-Test Result Gate;
+3. append the qualified RESULT to ASTRA STATION ledger;
+4. keep PROOF_REF null;
+5. review/reproduce before any proof step.
 
 Preserve:
 `LIVE_ROUTING = DENIED`

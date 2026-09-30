@@ -4,62 +4,52 @@
 
 Repository: Topbrutus/Brutus
 Main baseline:
-`0054ed5dc82a5e4d7032c3d95c5f28a1f5d2d841`
+`07355776bfa3303ad2ef54feef3ae81aa949bf44`
 
 Working branch:
-`astra/counter-test-bench-v01-20260930`
+`astra/counter-test-result-gate-v01-20260930`
 
 Visibility: public
 
 ## Phase
 
-PHASE 6 — COUNTER-TEST BENCH CANDIDATE
+PHASE 7 — COUNTER-TEST RESULT GATE CANDIDATE
 
 ## Integrated baseline
 
-Phase 5 is integrated:
-- Verso DEFAULT_LOCKED;
-- prepared cards only;
-- Queen read path;
-- ANCHOR-0001 / ASTRA STATION;
-- append-only ledger;
-- Experiment Intake Bench;
+Phase 6 is integrated and its post-merge CI is green:
+- Counter-Test Bench;
+- immutable plans;
+- 369/396 counter-test plan;
+- L8 counter-test plan;
+- no execution;
+- no automatic proof promotion;
 - LIVE_ROUTING = DENIED.
 
 ## New candidate
 
-Prototype:
-`BRUTUS-PROTOTYPE-COUNTER-TEST-BENCH-0001`
-
 Contract:
-`contracts/counter-test-plan.v0.schema.json`
+`contracts/counter-test-result.v0.schema.json`
 
-Runtime:
-`src/counter-test-queue.mjs`
+Runtime gate:
+`src/counter-test-result-gate.mjs`
 
-Initial plans:
-- `BRUTUS-COUNTER-TEST-ZELSTEREOS-369-396-0001`
-- `BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001`
+Purpose:
+qualify externally executed counter-test outputs into appendable `RESULT` records.
 
-## Counter-test invariants
+## Result invariants
 
 ```text
-MODE = PLAN_ONLY
-AUTO_EXECUTE = FALSE
+KNOWN_PLAN_REQUIRED = YES
+EVERY_CHECK_REQUIRED = YES
+VERDICT_MUST_MATCH_CHECK_STATUSES = YES
+PROOF_REF = NULL
 AUTO_PROOF_PROMOTION = FALSE
-SOURCE_RECORD_REQUIRED = YES
-PLAN_UPDATE = ABSENT
-PLAN_DELETE = ABSENT
+LEDGER_APPEND_INSIDE_GATE = NO
 NETWORK = NONE
 PROCESS_EXECUTION = NONE
 WORLD_ROUTER = NONE
 ```
-
-Plans are immutable data.
-
-They state both:
-- confirmation criteria;
-- contradiction criteria.
 
 ## Routing boundary
 

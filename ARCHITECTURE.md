@@ -68,6 +68,14 @@ Chemin :
       -> REVUE
       -> PROOF_REF SI MERITE
 
+### Counter-Test Result Gate
+
+Les résultats d'un plan exécuté ailleurs reviennent par un gate de qualification.
+
+Le gate exige le résultat de chaque check, impose la cohérence du verdict global et produit un enregistrement RESULT. Il n'append pas lui-même et force PROOF_REF=null.
+
+Ainsi, PASS reste un résultat expérimental jusqu'à une étape de preuve séparée.
+
 ### Fresque
 
 Aucune ligne décorative. Une ligne doit être reconstructible depuis une règle, un calcul, une relation et des coordonnées.
