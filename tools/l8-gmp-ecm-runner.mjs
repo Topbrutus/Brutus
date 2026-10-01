@@ -43,9 +43,7 @@ export function verifyPrimeFactorRank({ q, Q, factor }) {
   const n = BigInt(Q);
   const r = BigInt(factor);
 
-  if (r <= 1n || r >= n || n % r !== 0n) {
-    throw new Error("factor does not divide Q_q non-trivially");
-  }
+  if (r <= 1n || r > n || n % r !== 0n) {\n    throw new Error("factor does not divide Q_q");\n  }
 
   const qNumber = Number(q);
   const q2Number = qNumber * qNumber;
