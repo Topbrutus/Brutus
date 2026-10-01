@@ -1,0 +1,215 @@
+{
+  "SCHEMA": "BRUTUS-COUNTER-TEST-RESULT-v0.1",
+  "RESULT_ID": "BRUTUS-COUNTER-RESULT-BRUTUS-PELL-L8-EXACT-WITNESS-0004",
+  "RECORD_ID": "BRUTUS-RECORD-COUNTER-BRUTUS-PELL-L8-EXACT-WITNESS-0004",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "PLAN_ID": "BRUTUS-COUNTER-TEST-BRUTUS-PELL-L8-0001",
+  "EXECUTION_REF": "L8-CT03-GMP-ECM-Q47-50C-B1-3E6-EXACT-WITNESS-20261001",
+  "EXECUTED_AT_UTC": null,
+  "PROTOCOL_VERSION": "Pell recurrence | GMP-ECM 7.0.6 | 50 curves | B1=3e6 | independent Python 3.12.10 / SymPy 1.14.0 primality + modular-rank verification",
+  "VERDICT": "PASS",
+  "CHECK_RESULTS": [
+    {
+      "CHECK_ID": "CT-01",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "L8_STATUS": "VALID_AS_STATED",
+        "assumptions": [
+          "q is an odd prime",
+          "r is a prime divisor of Q_q = P_(q^2)/P_q",
+          "z_P(r) is the least positive n with r dividing P_n"
+        ],
+        "exceptions_inside_domain": [],
+        "out_of_domain_counterexamples": [
+          {
+            "q": 2,
+            "prime_factor": 2,
+            "exact_rank": 2,
+            "expected_q2": 4
+          },
+          {
+            "q": 9,
+            "prime_factor": 53,
+            "exact_rank": 27,
+            "expected_q2": 81
+          }
+        ],
+        "corrected_L8": "If q is an odd prime and r is a prime divisor of Q_q=P_(q^2)/P_q, then z_P(r)=q^2.",
+        "primitive_divisor_hypothesis_required": false,
+        "p_adic_valuation_required_for_prime_rank": false
+      },
+      "NOTES": [
+        "Audit derivation: Q_q is congruent to (-1)^((q-1)/2) q modulo P_q; q does not divide P_q; hence gcd(P_q,Q_q)=1.",
+        "If prime r divides Q_q then r divides P_(q^2) but not P_q, so z_P(r) divides q^2 but not q; since q is prime and z_P(r)>1, z_P(r)=q^2.",
+        "Standard Pell rank facts were cross-checked against Faye–Luca (2017): strong divisibility, order of appearance, and z(p)|p-(2/p) for odd primes."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-02",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "generated_utc": "2026-09-30T21:19:31.888836+00:00",
+        "q_47": {
+          "P_q": "345869461223138161",
+          "Q_digits": 828,
+          "Q_sha256": "59ce8bd15e4bbfbec0403b55231ee2919425739d929a32787aa3135f9891d634",
+          "gcd_Pq_Qq": "1",
+          "P_q_mod_q": "1",
+          "legendre_2_over_q": "1",
+          "Q_congruence_check": 0,
+          "trial_division_prime_bound": 1000000,
+          "factors_found_below_bound": [],
+          "factorization_status": "PARTIAL",
+          "Q_q": "363941600349323230059684626100248272069845491153661689442465457090873179933176566676234745586985050789714249938549181941958051268295226084345297082692199288133532203537856050903877974150594433665282271036250143598396949563062550267222371618684130438416298915804758560449259172376723525733449333656779320028721536862985266942231925396595304927127245491132132195729281615103830665598160307027117226869767071674001341701356645422140206889304590014911097428013514829049052757105434363678596887563263478537131271735408461368880834614368693335325948653840048896912096274018465212824644817934089753418303810806891279064547735994571328551064511902878647218770084805106815292120972683466045116587720719298269596857005731745622704201199341527991328630272679815866864540211873810859786691826853875164707476988023326984248816018051088768881",
+          "ecm_factors_found": [
+            "424675575059690484579658261789171649"
+          ],
+          "remaining_cofactor_digits": 792,
+          "remaining_cofactor_sha256": "978b7253d1665b4c59168fed591b9844db1faf9020b675776ef6a274ba36f570",
+          "product_reconstruction_verified": true
+        },
+        "q_71": {
+          "P_q": "531531081917181734003902441",
+          "Q_digits": 1903,
+          "Q_sha256": "248a33acaf65365de90b7b3286f14abe2ce6b32d15e2cc0ebc89e002bdf492aa",
+          "gcd_Pq_Qq": "1",
+          "P_q_mod_q": "1",
+          "legendre_2_over_q": "1",
+          "Q_congruence_check": 0,
+          "trial_division_prime_bound": 1000000,
+          "factors_found_below_bound": [],
+          "factorization_status": "PARTIAL",
+          "Q_q": "2484025953918244786272555972770254099764853631083723172451094400809832311155201412408480326769209680460168081496092247672616221071724975255072233561961571608901383334908178618079841243465536515212579839117179290852364587518941271445058952270364012605129600188763694364615922997860736662343957761834047009236506909935098875637444734177729001033964124114497427393478835361419172368780287556501120141011970850944388363563681697014081032122555988881228225181919334546871961416489382963438277181066150412027483873720179925341766192290656626485426741602048750180895109719985690344888064088679901533752232352230026848512066783078790039434331718816955067212857027370065818076873363488628225036917830459137203171153594919381059092327808924499625849368857429464777831343737233292113875737379158677697400823226443049912741846236397702440428302517032225630182152101690812963608813346316641259826333359866071829427031351047183572736544668529200452242216504437801732820887106401135208473172879445554229356777967892477654081775035578743338884946024111192564052764929572888440613868699651586138187875094814435282780878184582802716364400397272915620279911299670926901871807611318178737784186763493170863392020799592869879983935878323964874206227363209322215217525546292057824718697681756691105792855625044402781805066467044637498214262342660252603523072826310681047838444294054278562918919434733772613918485091945986186949672428962069317983260457000752299350448171497054913287699480516337500762811507262347597225964565040271422494518558193502674930875529185335631491520123219536884970119959635448191731617555154155768220388309171892149883945467253651696562910025698678325312230430189928751124654969291420289362626433116274028490550429762607982853137056418685417903694488244513993892913050060460979582082790844082290748266868728841745472453857083280443651651482455528893406748648875658711843199504201468373192795638640361"
+        },
+        "q_83": {
+          "P_q": "20837081459758583726374271711381",
+          "Q_digits": 2606,
+          "Q_sha256": "9e0b6d972d73fa23d995276924ea77df9fc9954e06535ee71ffbd540b7661a1d",
+          "gcd_Pq_Qq": "1",
+          "P_q_mod_q": "82",
+          "legendre_2_over_q": "-1",
+          "Q_congruence_check": 0,
+          "trial_division_prime_bound": 1000000,
+          "factors_found_below_bound": [],
+          "factorization_status": "PARTIAL",
+          "Q_q": "14835917495564717175544423375031972412056428818506931264539870923811663355580662706153491018547547727540371521892335710277278288200982890897792907159659118897928681379436529417669624422445762382912617985252289996123560855207869891179846078364100458500429835379491866751276833103124304175207766639991901445483897781836267083097962467436713684441455964053947654288693004920783929717624622636543346968249702472830212977500344532356308307894762867645135772366243164422395566776319078428963443831451457463442758240001177568385899061572045509240500298922435014271439395581875900929768989973322672188721060563210639900308876909161200226588460041692173775794210188706939464536848683028275787172549575407178534607966282546894393485784477309460400834820115054115118706648031061937613350467512514195930190878019128955346648980349107560755975099175741948411207735504347781710409486418274886354921327114875001762736837722176564920716424998600027848291981865114434485968663168455987264192490238389581132227798928581293755644350202542433927113619418349475361206334244367290445981317974183406558734939913648800560794535318041636436465650603296936920979709371727756222340602437486002426010845573701339592990769755338522658205001894786397633105420427326087402363276304934853565066181630858600667430255202290408562783714422893604167057789786581348604803192695182257592680448195030514255521635348790262451338456867097385214447550369364659200432983812723218913061770871667582300568572506988950752845492969967129879298401553822435030619841312780621058300894777660632264851449951279844012304675007862810758997739097123860339147721390189371834841199384317920283973979062500852578722587417122999308268920013617466330199415959468276258916801575057087040063427203987588994447311349855821160092928211001801110670684778042749518488009416666375365183392241185942052533896871701135328479472682294786885645154210300742091680839843675868777522103365943417191251669647905799425151001996350961332787219892789063417095753576386987992447832090259736064030788851789796788486956456767991716698745040916100158669613874874009353035311032106599186644055872689047222751691728387940889695555520553257660636012856272353004890937869769734355448420511376079228465404864713235986717918807956158919694497022560427083760719159529514029938737742991015141582527674609611511226623129432101610848892062945608660884471071977017463934113169385052184549105169830655326530145588939597003317378623417470532427190840853994402571757785852857491899350408228929048478630168673788134488372063348233259697095878535529582680481031043586662224487096962093921253883010911061"
+        },
+        "brutus_independent_recheck": [
+          "P_q exact values",
+          "Q_q exact values",
+          "Q digit counts",
+          "Q SHA-256 values",
+          "gcd(P_q,Q_q)=1",
+          "reported Q congruence checks"
+        ]
+      },
+      "NOTES": [
+        "The exact Q_47 now has one explicit 36-digit prime factor found by native GMP-ECM; the remaining cofactor has 792 digits.",
+        "The Q_47 factorization remains PARTIAL because the 792-digit cofactor has not been completely factored.",
+        "Q_71 and Q_83 remain partial with no explicit factors recorded here.",
+        "The exact target Q_47 fingerprint remains unchanged."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-03",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "factor_method": [
+          "Pollard p-1 B=10000 and 50000, bases 2,3,5,7,11",
+          "Pollard p-1 B=200000, bases 2,3,5",
+          "SymPy ECM 40 curves total, B1=2000, B2=20000, seeds 4701 and 4704",
+          "SymPy ECM one-factor pass: 25 curves, B1=50000, B2=500000, seed=47001",
+          "SymPy ECM one-factor pass: 25 curves, B1=100000, B2=1000000, seed=47002",
+          "Native GMP-ECM 7.0.6: -one -c 100 1e6 -> no factor",
+          "Native GMP-ECM 7.0.6: -one -c 50 3e6 -> factor found"
+        ],
+        "q_targeted": 47,
+        "Q_digits": 828,
+        "Q_sha256": "59ce8bd15e4bbfbec0403b55231ee2919425739d929a32787aa3135f9891d634",
+        "successful_native_gmp_ecm_campaign": {
+          "status": "FACTOR_FOUND",
+          "engine": "GMP-ECM 7.0.6",
+          "curves_requested": 50,
+          "B1": "3e6",
+          "B2": null,
+          "stop_on_first_factor": true,
+          "runtime_seconds": 3258.22,
+          "prime_factor": "424675575059690484579658261789171649"
+        },
+        "prime_factor": "424675575059690484579658261789171649",
+        "factor_digits": 36,
+        "factor_primality_verified": true,
+        "factor_primality_method": "Python 3.12.10 / SymPy 1.14.0 isprime",
+        "Q_q_mod_factor": "0",
+        "P_1_mod_factor": "1",
+        "P_q_mod_factor": "345869461223138161",
+        "P_q2_mod_factor": "0",
+        "exact_rank": 2209,
+        "expected_rank": 2209,
+        "witness": true,
+        "witnesses_checked": 1,
+        "exact_rank_witnesses": 1,
+        "rejected_factors": 0,
+        "independent_verification": {
+          "python_version": "3.12.10",
+          "sympy_version": "1.14.0",
+          "sympy_isprime": true,
+          "Q_q_mod_factor": "0",
+          "P_1_mod_factor": "1",
+          "P_47_mod_factor": "345869461223138161",
+          "P_2209_mod_factor": "0",
+          "rank_divisors_checked": [
+            1,
+            47,
+            2209
+          ]
+        },
+        "reason": "An explicit prime factor of the integrated Q_47 was found and independently verified to have exact Pell entry rank 2209 = 47^2."
+      },
+      "NOTES": [
+        "The runner found the divisor; primality was checked separately with SymPy isprime.",
+        "Independent modular Pell verification gives P_1 != 0, P_47 != 0 and P_2209 = 0 modulo r.",
+        "Because the positive divisors of 47^2 are exactly 1, 47 and 2209, the measured entry rank is exactly 2209.",
+        "This satisfies the plan criterion requiring at least one independently verified prime factor for a target q with exact Pell rank q^2."
+      ]
+    },
+    {
+      "CHECK_ID": "CT-04",
+      "STATUS": "PASS",
+      "OBSERVED": {
+        "k_start": "10000000000",
+        "k_end": "10000100000",
+        "q_47": {
+          "prime_candidates": 1673,
+          "exact_witnesses": 0
+        },
+        "q_71": {
+          "prime_candidates": 1590,
+          "exact_witnesses": 0
+        },
+        "q_83": {
+          "prime_candidates": 1590,
+          "exact_witnesses": 0
+        },
+        "total_prime_candidates": 4853,
+        "total_exact_witnesses": 0,
+        "interpretation": "NO_WITNESS_IN_SCANNED_INTERVAL"
+      },
+      "NOTES": [
+        "The supplied independent scan exactly reproduces the previously reported total of 4,853 prime candidates and 0 exact witnesses.",
+        "This is a bounded negative search result and is not evidence that no witness exists outside the scanned interval."
+      ]
+    }
+  ],
+  "SUMMARY": "All four planned L8 counter-test checks PASS. Native GMP-ECM found the 36-digit factor 424675575059690484579658261789171649 of the exact 828-digit Q_47. Independent verification confirmed the factor is prime, Q_47 mod r = 0, P_47 mod r != 0, P_2209 mod r = 0, and exact Pell entry rank z_P(r)=2209=47^2. Q_47 factorization remains partial because the 792-digit cofactor is unresolved. PASS is a counter-test result, not a proof artifact.",
+  "EVIDENCE_LEVEL": "COUNTER_TEST_RESULT",
+  "PROOF_REF": null,
+  "AUTO_PROOF_PROMOTION": false,
+  "NOTES": [
+    "This result extends and supersedes the experimental status of result 0003 without deleting it.",
+    "The successful 50-curve B1=3e6 campaign produced the first explicit Q_47 exact-rank witness recorded in Brutus.",
+    "No automatic theorem/proof promotion is performed; PROOF_REF remains null.",
+    "The plan's manual-after-verification proof-promotion boundary remains in force."
+  ]
+}

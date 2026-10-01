@@ -1,24 +1,34 @@
-# NEXT ACTION — ESCALATE CT-03 WITHOUT REPEATING THE SAME CAMPAIGN
+# NEXT ACTION — FREEZE L8 PASS AND CHOOSE THE NEXT RESEARCH STEP
 
-Completed and do not repeat by default:
-- CT-01 derivation;
-- exact Q values;
-- trial division below 1,000,000;
-- bounded scan 4,853 / 0;
-- native GMP-ECM Q_47 campaign: 100 curves, B1=1e6, -one.
+The L8 counter-test plan now has:
 
-Only unresolved check:
-`CT-03 = INCONCLUSIVE`
+CT-01 = PASS
+CT-02 = PASS
+CT-03 = PASS
+CT-04 = PASS
+OVERALL_VERDICT = PASS
 
-Preferred next sequence:
-1. Check whether an explicit factor of the exact Q_47 is already publicly known; verify any returned factor locally against the recorded Q_47.
-2. If no usable known factor exists, choose a new bounded native GMP-ECM budget with parameters different from 100 curves / B1=1e6.
-3. Stop immediately at the first candidate factor r.
-4. Verify r primality, Q_47 mod r = 0, P_47 mod r != 0, P_2209 mod r = 0, and exact z_P(r)=2209.
+The exact q=47 witness is recorded:
 
-Do not infer failure of L8 from a bounded no-factor campaign.
+r = 424675575059690484579658261789171649
+z_P(r) = 2209 = 47^2
 
-Until an explicit factor is obtained:
-OVERALL_VERDICT = INCONCLUSIVE
+Do not repeat the completed Q_47 campaigns by default.
+
+## Allowed next directions
+
+1. MANUAL PROOF REVIEW
+   Review the existing CT-01 derivation together with the exact q=47 witness and decide whether a separate proof artifact should be prepared.
+   Do not auto-promote; PROOF_REF remains null until an explicit proof-review action is approved.
+
+2. OPTIONAL FACTORIZATION EXTENSION
+   Continue factoring the remaining 792-digit Q_47 cofactor, or attack Q_71 / Q_83, only as a new bounded experiment.
+   These are no longer required to make CT-03 PASS.
+
+3. PUBLICATION / TRACE
+   Prepare a publication-grade trace that separates the general L8 derivation from the q=47 computational witness.
+
+Preserve:
 PROOF_REF = null
+AUTO_PROOF_PROMOTION = false
 LIVE_ROUTING = DENIED
