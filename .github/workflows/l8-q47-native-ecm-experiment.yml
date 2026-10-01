@@ -26,7 +26,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gmp-ecm
-          ecm -version
+          command -v ecm
+          dpkg-query -W gmp-ecm libecm1
 
       - name: Run bounded Q47 campaign
         shell: bash
