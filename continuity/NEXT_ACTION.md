@@ -1,36 +1,24 @@
-# NEXT ACTION — RUN NATIVE GMP-ECM ON Q_47
+# NEXT ACTION — ESCALATE CT-03 WITHOUT REPEATING THE SAME CAMPAIGN
 
-CT-01, CT-02 and CT-04 are complete.
+Completed and do not repeat by default:
+- CT-01 derivation;
+- exact Q values;
+- trial division below 1,000,000;
+- bounded scan 4,853 / 0;
+- native GMP-ECM Q_47 campaign: 100 curves, B1=1e6, -one.
 
-The only unresolved check is:
-
+Only unresolved check:
 `CT-03 = INCONCLUSIVE`
 
-Use the dedicated runner:
+Preferred next sequence:
+1. Check whether an explicit factor of the exact Q_47 is already publicly known; verify any returned factor locally against the recorded Q_47.
+2. If no usable known factor exists, choose a new bounded native GMP-ECM budget with parameters different from 100 curves / B1=1e6.
+3. Stop immediately at the first candidate factor r.
+4. Verify r primality, Q_47 mod r = 0, P_47 mod r != 0, P_2209 mod r = 0, and exact z_P(r)=2209.
 
-```bash
-node tools/l8-gmp-ecm-runner.mjs --curves 100 --b1 1e6
-```
+Do not infer failure of L8 from a bounded no-factor campaign.
 
-The runner reads the integrated Q_47, invokes native GMP-ECM with loop mode
-and `-one`, and stops at the first factor.
-
-If a factor r is found, it immediately verifies:
-- Q_47 mod r = 0;
-- P_47 mod r != 0;
-- P_2209 mod r = 0;
-- exact rank = 2209.
-
-Do not redo:
-- CT-01 derivation;
-- huge Q values;
-- trial division below 1,000,000;
-- the 4,853-candidate scan.
-
-Until a real factor is found:
-
-`OVERALL_VERDICT = INCONCLUSIVE`
-
-`PROOF_REF = null`
-
-`LIVE_ROUTING = DENIED`
+Until an explicit factor is obtained:
+OVERALL_VERDICT = INCONCLUSIVE
+PROOF_REF = null
+LIVE_ROUTING = DENIED
