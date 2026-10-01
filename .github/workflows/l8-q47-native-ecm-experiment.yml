@@ -1,0 +1,42 @@
+name: L8 Q47 native GMP-ECM experiment
+
+on:
+  push:
+    branches:
+      - experiment/l8-q47-native-ecm-20261001
+
+permissions:
+  contents: read
+
+jobs:
+  factor-q47:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install native GMP-ECM
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gmp-ecm
+          ecm -version
+
+      - name: Run bounded Q47 campaign
+        shell: bash
+        run: |
+          set +e
+          node tools/l8-gmp-ecm-runner.mjs --curves 100 --b1 1e6 > l8-q47-ecm-output.json 2>&1
+          code=$?
+          cat l8-q47-ecm-output.json
+          echo "RUNNER_EXIT_CODE=$code"
+          if [ "$code" -eq 0 ] || [ "$code" -eq 2 ]; then
+            exit 0
+          fi
+          exit "$code"
