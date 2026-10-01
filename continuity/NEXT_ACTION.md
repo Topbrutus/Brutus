@@ -1,21 +1,36 @@
-# NEXT ACTION — FACTOR Q_47 ONLY IF COMPUTE IS JUSTIFIED
+# NEXT ACTION — RUN NATIVE GMP-ECM ON Q_47
 
-CT-01 is complete. Do not rerun the L8 derivation without a specific objection.
+CT-01, CT-02 and CT-04 are complete.
 
-The only unresolved check is CT-03.
+The only unresolved check is:
 
-If compute is available, target Q_47 with a native factorization tool such as GMP-ECM.
-Stop when a prime factor r is found, then verify:
-- primality of r;
+`CT-03 = INCONCLUSIVE`
+
+Use the dedicated runner:
+
+```bash
+node tools/l8-gmp-ecm-runner.mjs --curves 100 --b1 1e6
+```
+
+The runner reads the integrated Q_47, invokes native GMP-ECM with loop mode
+and `-one`, and stops at the first factor.
+
+If a factor r is found, it immediately verifies:
 - Q_47 mod r = 0;
 - P_47 mod r != 0;
 - P_2209 mod r = 0;
-- exact z_P(r)=2209.
+- exact rank = 2209.
 
-Do not redo the huge Q values, trial division below 1,000,000, the 4,853-candidate scan, or CT-01.
+Do not redo:
+- CT-01 derivation;
+- huge Q values;
+- trial division below 1,000,000;
+- the 4,853-candidate scan.
 
-Until a factor is found:
-OVERALL_VERDICT = INCONCLUSIVE
-PROOF_REF = null
+Until a real factor is found:
 
-LIVE_ROUTING = DENIED
+`OVERALL_VERDICT = INCONCLUSIVE`
+
+`PROOF_REF = null`
+
+`LIVE_ROUTING = DENIED`
