@@ -1,38 +1,51 @@
 # CURRENT STATE — BRUTUS — 2026-10-01
 
 Repository: Topbrutus/Brutus
-Integration lineage base: bef288f6921a6e058f9115582e1f22fc8cba334f (PR #20, native GMP-ECM runner)
+Integration lineage base: f6c3f0e588aecd2dd393d1914b354ff39f4c71f5 (PR #21)
 
-## L8 status after native GMP-ECM campaign
+## L8 counter-test status
 
-Overall verdict: INCONCLUSIVE
+Overall verdict: PASS
 
 - CT-01 = PASS — L8 valid as stated for q odd prime and r prime divisor of Q_q.
-- CT-02 = PASS — exact Q_47 / Q_71 / Q_83 data preserved; factorization remains partial.
-- CT-03 = INCONCLUSIVE — no explicit factor yet.
+- CT-02 = PASS — exact Q data preserved; Q_47 now has one explicit factor and remains partially factored.
+- CT-03 = PASS — explicit prime factor of Q_47 independently verified with exact Pell rank 2209 = 47^2.
 - CT-04 = PASS — bounded scan remains 4,853 candidates / 0 exact witnesses.
 
-## New CT-03 evidence
+## Exact Q47 witness
 
-Native engine: GMP-ECM 7.0.6
-Target: Q_47
-Q digits: 828
-Q SHA-256: 59ce8bd15e4bbfbec0403b55231ee2919425739d929a32787aa3135f9891d634
-Command shape: ecm -one -c 100 1e6
-Curves: 100
-B1: 1e6
-B2: default / not explicitly supplied
-Runtime: ~2694.97 s
-Result: NO_FACTOR_IN_BOUNDED_CAMPAIGN
+q: 47
+r: 424675575059690484579658261789171649
+factor digits: 36
+Q_47 digits: 828
+Q_47 SHA-256: 59ce8bd15e4bbfbec0403b55231ee2919425739d929a32787aa3135f9891d634
 
-Earlier bounded attempts are preserved in the result history, including Pollard p-1 and SymPy ECM.
+Successful native campaign:
+- GMP-ECM 7.0.6
+- ecm -one -c 50 3e6
+- runtime ~3258.22 s
+- FACTOR_FOUND
+
+Independent verification:
+- Python 3.12.10
+- SymPy 1.14.0
+- isprime(r) = true
+- Q_47 mod r = 0
+- P_1 mod r = 1
+- P_47 mod r = 345869461223138161 != 0
+- P_2209 mod r = 0
+- exact z_P(r) = 2209 = 47^2
+
+Remaining Q_47 cofactor:
+- digits: 792
+- SHA-256: 978b7253d1665b4c59168fed591b9844db1faf9020b675776ef6a274ba36f570
+- factorization status: PARTIAL
 
 ## Evidence boundary
 
-NO_FACTOR_IN_BOUNDED_CAMPAIGN is not a non-factorization proof.
-No exact-rank witness was measured because no prime factor was obtained.
+All planned counter-test checks now PASS.
+PASS remains a COUNTER_TEST_RESULT, not a proof artifact.
 
-OVERALL_VERDICT = INCONCLUSIVE
 PROOF_REF = null
 AUTO_PROOF_PROMOTION = false
 LIVE_ROUTING = DENIED
