@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/fourmi-math-material.v0.schema.json",
+  "title": "Brutus Fourmi Math Material v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA","VERSION","MATERIAL_ID","MATERIAL_CLASS","MATERIAL_INTENT",
+    "CREATED_AT_TICK","CLOCK_AUTHORITY","TRACE_ID","TRANSPORT_STATE","CARRIER",
+    "AUTHORIZATION_REF","PEDIGREE","SOURCE_CRYSTALLIZATION","CONTENT","CONTENT_H256",
+    "BRUTUS_TRUTH_STATUS","PROOF_REF","PARENT_MUTATED","PARENT_DELETED",
+    "MATERIAL_CREATED","MOVEMENT_PERFORMED","IMMUTABLE","EXECUTABLE",
+    "AUTO_PROOF_PROMOTION","GATE_AUTHORITY","ROUTING_AUTHORIZATION",
+    "TRANSPORT_AUTHORIZATION","WHEEL_INGRESS_AUTHORIZATION",
+    "MACHINE_EXECUTION_AUTHORIZATION","SIGNATURE_METHOD","MATERIAL_H256"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-FOURMI-MATH-MATERIAL-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "MATERIAL_ID": { "type": "string", "pattern": "^MAT-MATH-[A-F0-9]{24}$" },
+    "MATERIAL_CLASS": { "const": "FOURMI_MATH_MATERIAL" },
+    "MATERIAL_INTENT": { "const": "TRANSPORT" },
+    "CREATED_AT_TICK": { "type": "integer", "minimum": 0 },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "TRACE_ID": { "type": "string", "pattern": "^TRACE-[A-Z0-9-]{4,64}$" },
+    "TRANSPORT_STATE": { "const": "ADMITTED_NOT_MOVED" },
+    "CARRIER": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ANT_ID","BINDING_STATUS","RUNTIME_VERIFIED"],
+      "properties": {
+        "ANT_ID": { "type": "string", "pattern": "^ANT-[0-9A-F]{12}$" },
+        "BINDING_STATUS": { "const": "CONTROL_PLANE_DECLARED" },
+        "RUNTIME_VERIFIED": { "const": false }
+      }
+    },
+    "AUTHORIZATION_REF": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["REQUEST_ID","REQUEST_H256","POLICY","APPROVER"],
+      "properties": {
+        "REQUEST_ID": { "type": "string", "pattern": "^MMA-[A-Z0-9-]{4,80}$" },
+        "REQUEST_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "POLICY": { "const": "BRUTUS-MATH-MATERIAL-ADMISSION-v0.1" },
+        "APPROVER": { "const": "BRUTUS_CONTROL_PLANE" }
+      }
+    },
+    "PEDIGREE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PARENT_CRYSTAL_ID","PARENT_CRYSTAL_H256","PACKET_ID","PACKET_H256",
+        "SOURCE_SNAPSHOT_H256","SOURCE_SYSTEM","SOURCE_RUN_ID","ITEM_ID",
+        "ITEM_KIND","SOURCE_ITEM_H256","CONTENT_H256","EXPRESSION_H256"
+      ],
+      "properties": {
+        "PARENT_CRYSTAL_ID": { "type": "string", "pattern": "^MATH-CRYSTAL-[A-F0-9]{24}$" },
+        "PARENT_CRYSTAL_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "PACKET_ID": { "type": "string", "pattern": "^MIP-[A-Z0-9-]{4,96}$" },
+        "PACKET_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "SOURCE_SNAPSHOT_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "SOURCE_SYSTEM": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "SOURCE_RUN_ID": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "ITEM_ID": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "ITEM_KIND": { "enum": ["FORMULA_OBSERVATION","FORMULA_CAPSULE","RELATION_OBSERVATION"] },
+        "SOURCE_ITEM_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "CONTENT_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+        "EXPRESSION_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+      }
+    },
+    "SOURCE_CRYSTALLIZATION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["BOUND_TO_QUEEN","QUEEN_TICK","CLOCK_AUTHORITY"],
+      "properties": {
+        "BOUND_TO_QUEEN": { "type": "boolean" },
+        "QUEEN_TICK": { "type": ["integer","null"], "minimum": 0 },
+        "CLOCK_AUTHORITY": { "enum": ["QUEEN_SERVER_V0_2",null] }
+      }
+    },
+    "CONTENT": { "type": "object" },
+    "CONTENT_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "BRUTUS_TRUTH_STATUS": { "const": "UNVERIFIED_BY_BRUTUS" },
+    "PROOF_REF": { "type": "null" },
+    "PARENT_MUTATED": { "const": false },
+    "PARENT_DELETED": { "const": false },
+    "MATERIAL_CREATED": { "const": true },
+    "MOVEMENT_PERFORMED": { "const": false },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "AUTO_PROOF_PROMOTION": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "TRANSPORT_AUTHORIZATION": { "const": true },
+    "WHEEL_INGRESS_AUTHORIZATION": { "const": false },
+    "MACHINE_EXECUTION_AUTHORIZATION": { "const": false },
+    "SIGNATURE_METHOD": { "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1" },
+    "MATERIAL_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+  },
+  "x-security": "Immutable math material admitted for Fourmi transport eligibility only. No movement, wheel ingress, routing, machine execution, parent mutation/deletion or proof promotion."
+}
