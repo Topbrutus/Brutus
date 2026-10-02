@@ -1,7 +1,7 @@
 import { sha256HexUtf8 } from "./sha256-utf8.mjs";
 import { createMathInputPacket } from "./math-input-bus.mjs";
 
-const ADAPTER = "BROToculateur_INPUT_ADAPTER";
+const ADAPTER = "BROTOCULATEUR_INPUT_ADAPTER";
 const ADAPTER_VERSION = "0.1";
 
 function reject(reason) {
