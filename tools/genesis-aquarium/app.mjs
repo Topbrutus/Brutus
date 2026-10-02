@@ -31,10 +31,10 @@ function setStatus(label, detail) {
 }
 
 function normalizedToCanvas(x, y) {
-  const pad = Math.max(18, Math.min(canvas.width, canvas.height) * 0.05);
+  const pad = Math.max(18, Math.min(lastCssWidth, lastCssHeight) * 0.05);
   return {
-    x: pad + x * Math.max(1, canvas.width - pad * 2),
-    y: pad + y * Math.max(1, canvas.height - pad * 2)
+    x: pad + x * Math.max(1, lastCssWidth - pad * 2),
+    y: pad + y * Math.max(1, lastCssHeight - pad * 2)
   };
 }
 
@@ -330,6 +330,14 @@ function emitState() {
 }
 
 function loadLayout(layout) {
+  if (frameHandle !== null) {
+    cancelAnimationFrame(frameHandle);
+    frameHandle = null;
+  }
+  animations.clear();
+  visualPositions.clear();
+  visualPhases.clear();
+
   const state = aquarium.loadLayout(layout);
   render();
   emitState();
