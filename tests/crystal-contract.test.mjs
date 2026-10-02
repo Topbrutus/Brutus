@@ -128,3 +128,32 @@ test("reference crystal file validates against runtime invariants", () => {
   assert.equal(crystal.PAYLOAD_H256, computeCrystalPayloadH256(crystal.PAYLOAD));
   assert.equal(crystal.PROOF_REFS.length, 1);
 });
+
+test("source provenance requires at least one reference", () => {
+  const crystal = validCrystal();
+  crystal.SOURCE_REFS = [];
+  assert.throws(() => validateCrystal(crystal), /SOURCE_REFS requires at least one source/);
+});
+
+test("NONE source integrity is explicit and cannot carry a digest", () => {
+  const accepted = validCrystal();
+  accepted.SOURCE_REFS[0].DIGEST_ALGORITHM = "NONE";
+  accepted.SOURCE_REFS[0].DIGEST = null;
+  assert.doesNotThrow(() => validateCrystal(accepted));
+
+  const rejected = validCrystal();
+  rejected.SOURCE_REFS[0].DIGEST_ALGORITHM = "NONE";
+  assert.throws(() => validateCrystal(rejected), /NONE digest algorithm requires DIGEST=null/);
+});
+
+test("reconstruction method cannot drift silently", () => {
+  const crystal = validCrystal();
+  crystal.RECONSTRUCTION.METHOD = "CUSTOM";
+  assert.throws(() => validateCrystal(crystal), /unsupported RECONSTRUCTION.METHOD/);
+});
+
+test("crystal runtime contains no network, process execution or World Router invocation", () => {
+  const source = fs.readFileSync(path.join(here, "../src/crystal-contract.mjs"), "utf8");
+  assert.doesNotMatch(source, /\bfetch\s*\(/);
+  assert.doesNotMatch(source, /\b(exec|spawn|fork|routeWorld|buildWorldTransportRequest)\b/);
+});
