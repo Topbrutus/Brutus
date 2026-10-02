@@ -8,6 +8,16 @@
 
 ---
 
+## Convention de nommage — JEV
+
+Dans ce document, **JEV** désigne l'intelligence artificielle externe louée et utilisée comme premier professeur de la Fourminizer-Reine.
+
+La dictée vocale peut parfois produire `Gem` ou `Jeb`; ces variantes désignent ici le même service, mais le nom technique de référence dans Brutus est :
+
+```text
+JEV
+```
+
 ## 1. Où nous sommes rendus
 
 L'architecture générale de travail est définie autour de treize étapes :
@@ -35,10 +45,10 @@ FOURMINIZER-REINE 0001
         +
 BRUTUS CODE
         +
-GEM, PROFESSEUR INITIAL
+JEV, PROFESSEUR INITIAL
 ```
 
-La Fourminizer-Reine est la première porteuse complète du Brutus Code, la première élève de Gem et, plus tard, le proxy intérieur unique de Brutus à travers la membrane.
+La Fourminizer-Reine est la première porteuse complète du Brutus Code, la première élève de JEV et, plus tard, le proxy intérieur unique de Brutus à travers la membrane.
 
 ---
 
@@ -241,9 +251,9 @@ SIGNATURE
 
 ---
 
-## Etape 7 — Brancher Gem comme premier professeur
+## Etape 7 — Brancher JEV comme premier professeur
 
-Gem sert uniquement pendant l'amorçage.
+JEV sert uniquement pendant l'amorçage.
 
 Il ne parle pas en langage naturel dans l'univers intérieur.
 
@@ -441,7 +451,7 @@ BEAUTY != PROOF
 
 ---
 
-## Etape 14 — Préparer le retrait de Gem
+## Etape 14 — Préparer le retrait de JEV
 
 Le handoff ne peut commencer que lorsque Fourminizer sait :
 
@@ -458,7 +468,7 @@ Le handoff ne peut commencer que lorsque Fourminizer sait :
 
 ---
 
-## Etape 15 — Effectuer la transition `GEM -> BRUTUS`
+## Etape 15 — Effectuer la transition `JEV -> BRUTUS`
 
 Le transfert ne remet pas la Reine à zéro.
 
@@ -479,13 +489,13 @@ Seul le moteur de décision change :
 
 ```text
 AVANT
-FOURMINIZER-REINE + GEM
+FOURMINIZER-REINE + JEV
 
 APRES
 FOURMINIZER-REINE + BRUTUS
 ```
 
-Gem peut rester hors ligne comme référence de comparaison, sans intervention automatique.
+JEV peut rester hors ligne comme référence de comparaison, sans intervention automatique.
 
 ---
 
