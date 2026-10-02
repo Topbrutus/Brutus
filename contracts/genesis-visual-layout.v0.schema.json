@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/genesis-visual-layout.v0.schema.json",
+  "title": "Brutus Genesis Visual Layout v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "WORLD_POSITIONS",
+    "MECHANISM_ANCHORS",
+    "READ_ONLY",
+    "ROUTING_AUTHORITY"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-GENESIS-VISUAL-LAYOUT-v0.1"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "WORLD_POSITIONS": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^W:[A-Z0-9-]{1,32}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/point"
+      }
+    },
+    "MECHANISM_ANCHORS": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(M|Z):[A-Z0-9-]{1,32}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/point"
+      }
+    },
+    "READ_ONLY": {
+      "const": true
+    },
+    "ROUTING_AUTHORITY": {
+      "const": false
+    }
+  },
+  "$defs": {
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["X", "Y"],
+      "properties": {
+        "X": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "Y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "x-brutus-status": "VISUAL_ONLY_LAYOUT_CONTRACT",
+  "x-brutus-boundary": "Normalized visual coordinates only. This contract does not create logical positions, routes or routing authority."
+}
