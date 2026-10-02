@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/fourminizer-queen-crystal.v0.schema.json",
+  "title": "Brutus Fourminizer Queen Crystal v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "CRYSTAL_ID",
+    "QUEEN_ID",
+    "ANT_ID",
+    "ROLE",
+    "BIRTH_STATE",
+    "BRUTUS_CODE_SCHEMA",
+    "BRUTUS_CODE_REF",
+    "BRUTUS_CODE_BLOB_SHA",
+    "TEACHER",
+    "HANDOFF",
+    "MATH_CODE",
+    "PEDIGREE",
+    "TASK_GRAPH",
+    "RECEPTORS",
+    "TOOL_PORTS",
+    "LOCAL_MACHINE_ID",
+    "LOCAL_MACHINE_STATE",
+    "SELECTION_POLICY",
+    "ASSEMBLY_POLICY",
+    "RESOURCE_BUDGET",
+    "RECYCLE_POLICY",
+    "MEMORY_POLICY",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "AUTO_PROOF_PROMOTION",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-FOURMINIZER-QUEEN-CRYSTAL-v0.1"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "CRYSTAL_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-FOURMINIZER-QUEEN-CRYSTAL-[0-9]{4}$"
+    },
+    "QUEEN_ID": {
+      "type": "string",
+      "pattern": "^FOURMINIZER-QUEEN-[0-9]{4}$"
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "ROLE": {
+      "const": "FOURMINIZER_QUEEN"
+    },
+    "BIRTH_STATE": {
+      "const": "DORMANT"
+    },
+    "BRUTUS_CODE_SCHEMA": {
+      "const": "BRUTUS-CODE-MESSAGE-v0.1"
+    },
+    "BRUTUS_CODE_REF": {
+      "const": "contracts/brutus-code.v0.schema.json"
+    },
+    "BRUTUS_CODE_BLOB_SHA": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{40}$"
+    },
+    "TEACHER": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ENTITY", "MODE", "NATURAL_LANGUAGE"],
+      "properties": {
+        "ENTITY": {
+          "const": "@JEV"
+        },
+        "MODE": {
+          "const": "INITIAL_ONLY"
+        },
+        "NATURAL_LANGUAGE": {
+          "const": false
+        }
+      }
+    },
+    "HANDOFF": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TARGET", "STATE", "PRESERVE_MEMORY", "PRESERVE_IDENTITY"],
+      "properties": {
+        "TARGET": {
+          "const": "@BRUTUS"
+        },
+        "STATE": {
+          "const": "NOT_READY"
+        },
+        "PRESERVE_MEMORY": {
+          "const": true
+        },
+        "PRESERVE_IDENTITY": {
+          "const": true
+        }
+      }
+    },
+    "MATH_CODE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["SCHEMA", "CODE_ID", "TOKENS", "EXECUTABLE"],
+      "properties": {
+        "SCHEMA": {
+          "const": "BRUTUS-MATH-CODE-v0.1"
+        },
+        "CODE_ID": {
+          "type": "string",
+          "pattern": "^MATH:[A-Z0-9-]{4,32}$"
+        },
+        "TOKENS": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "pattern": "^N:-?(0|[1-9][0-9]{0,15})$"
+          }
+        },
+        "EXECUTABLE": {
+          "const": false
+        }
+      }
+    },
+    "PEDIGREE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ROOT_Z",
+        "EVENT_ID",
+        "LINEAGE",
+        "GENERATION",
+        "PARENT_ID",
+        "RECYCLE_COUNT"
+      ],
+      "properties": {
+        "ROOT_Z": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^Z:[A-Z0-9-]{1,32}$"
+            }
+          ]
+        },
+        "EVENT_ID": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "pattern": "^EVT-[A-Z0-9-]{4,64}$"
+            }
+          ]
+        },
+        "LINEAGE": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 13,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^L:(?:[1-9]|1[0-3])$"
+          }
+        },
+        "GENERATION": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "PARENT_ID": {
+          "type": "null"
+        },
+        "RECYCLE_COUNT": {
+          "const": 0
+        }
+      }
+    },
+    "TASK_GRAPH": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["SCHEMA", "MODE", "ACTIONS", "MUTATES_ENGINE"],
+      "properties": {
+        "SCHEMA": {
+          "const": "BRUTUS-QUEEN-TASK-GRAPH-v0.1"
+        },
+        "MODE": {
+          "const": "DECLARATIVE_ONLY"
+        },
+        "ACTIONS": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 18,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "SEE",
+              "QUERY",
+              "TAKE",
+              "DROP",
+              "MOVE",
+              "JOIN",
+              "SPLIT",
+              "TEST",
+              "RECYCLE",
+              "FOLLOW",
+              "TEACH",
+              "LEARN",
+              "REPORT",
+              "WAIT",
+              "STORE",
+              "READ",
+              "BUILD",
+              "COMPARE"
+            ]
+          }
+        },
+        "MUTATES_ENGINE": {
+          "const": false
+        }
+      }
+    },
+    "RECEPTORS": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "BRUTUS_CODE",
+          "TRACE",
+          "LOCAL_WORLD",
+          "PART",
+          "CRYSTAL",
+          "GATE_STATE"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "const": "BRUTUS_CODE"
+          }
+        },
+        {
+          "contains": {
+            "const": "TRACE"
+          }
+        },
+        {
+          "contains": {
+            "const": "LOCAL_WORLD"
+          }
+        }
+      ]
+    },
+    "TOOL_PORTS": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "LOCAL_MACHINE",
+          "RECYCLE_BASIN"
+        ]
+      },
+      "contains": {
+        "const": "LOCAL_MACHINE"
+      }
+    },
+    "LOCAL_MACHINE_ID": {
+      "type": "null"
+    },
+    "LOCAL_MACHINE_STATE": {
+      "const": "UNBOUND"
+    },
+    "SELECTION_POLICY": {
+      "const": "FAIL_CLOSED"
+    },
+    "ASSEMBLY_POLICY": {
+      "const": "CONTRACT_REQUIRED"
+    },
+    "RESOURCE_BUDGET": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "MAX_ACTIONS_PER_CYCLE",
+        "MAX_MESSAGE_ARGS",
+        "MAX_MARKERS"
+      ],
+      "properties": {
+        "MAX_ACTIONS_PER_CYCLE": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "MAX_MESSAGE_ARGS": {
+          "const": 16
+        },
+        "MAX_MARKERS": {
+          "const": 4
+        }
+      }
+    },
+    "RECYCLE_POLICY": {
+      "const": "PRESERVE_PEDIGREE"
+    },
+    "MEMORY_POLICY": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "TRACE_WRITE",
+        "EXTERNAL_CRYSTALLIZED_READ_ONLY",
+        "RAW_EXTERNAL_READ"
+      ],
+      "properties": {
+        "TRACE_WRITE": {
+          "const": true
+        },
+        "EXTERNAL_CRYSTALLIZED_READ_ONLY": {
+          "const": true
+        },
+        "RAW_EXTERNAL_READ": {
+          "const": false
+        }
+      }
+    },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "IMMUTABLE": {
+      "const": true
+    },
+    "EXECUTABLE": {
+      "const": false
+    },
+    "AUTO_PROOF_PROMOTION": {
+      "const": false
+    },
+    "GATE_AUTHORITY": {
+      "const": false
+    },
+    "ROUTING_AUTHORIZATION": {
+      "const": "UNDECIDED"
+    }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Immutable birth crystal only. Runtime activation, JEV transport, local-machine execution and gate authority remain separate."
+}
