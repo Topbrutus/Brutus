@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/real-mechanism-event.v0.schema.json",
+  "title": "Brutus Real Mechanism Event v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "EVENT_ID",
+    "EVENT_CLASS",
+    "EVENT_TYPE",
+    "TICK",
+    "CLOCK_AUTHORITY",
+    "SOURCE",
+    "SUBJECT",
+    "PAYLOAD",
+    "TRACE_ID",
+    "PROOF_REF",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-REAL-MECHANISM-EVENT-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "EVENT_ID": {
+      "type": "string",
+      "pattern": "^RME-T[0-9]{1,16}-[A-Z0-9-]{4,64}$"
+    },
+    "EVENT_CLASS": { "const": "RUNTIME_OBSERVATION" },
+    "EVENT_TYPE": {
+      "enum": [
+        "ANT_MOVE",
+        "CRYSTAL_MOVE",
+        "WHEEL_PHASE",
+        "PINEAL_PHASE",
+        "Z_MARK",
+        "DISTRIBUTOR_ROUTE",
+        "BASIN_TRANSFER"
+      ]
+    },
+    "TICK": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "SOURCE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "OBSERVATION_ID",
+        "SOURCE_SCHEMA",
+        "SOURCE_ENDPOINT",
+        "OBSERVED_AT_UTC",
+        "INTEGRITY_MATCH"
+      ],
+      "properties": {
+        "OBSERVATION_ID": {
+          "type": "string",
+          "minLength": 4
+        },
+        "SOURCE_SCHEMA": {
+          "type": "string",
+          "minLength": 3
+        },
+        "SOURCE_ENDPOINT": {
+          "type": "string",
+          "minLength": 1
+        },
+        "OBSERVED_AT_UTC": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "INTEGRITY_MATCH": {
+          "const": true
+        }
+      }
+    },
+    "SUBJECT": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TYPE", "ID"],
+      "properties": {
+        "TYPE": {
+          "enum": [
+            "ANT",
+            "CRYSTAL",
+            "WHEEL",
+            "PINEAL",
+            "Z_MARKER",
+            "DISTRIBUTOR",
+            "BASIN"
+          ]
+        },
+        "ID": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "PAYLOAD": {
+      "type": "object"
+    },
+    "TRACE_ID": {
+      "type": "string",
+      "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+    },
+    "PROOF_REF": {
+      "type": "null"
+    },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "EXECUTABLE": {
+      "const": false
+    },
+    "PROOF_CLAIM": {
+      "const": false
+    },
+    "GATE_AUTHORITY": {
+      "const": false
+    },
+    "ROUTING_AUTHORIZATION": {
+      "const": "UNDECIDED"
+    }
+  },
+  "x-brutus-status": "RUNTIME_OBSERVATION_CONTRACT",
+  "x-brutus-boundary": "Read-only normalized motion/mechanism observation for the future Genesis renderer. Cross-field event semantics are enforced by src/real-mechanism-event.mjs."
+}
