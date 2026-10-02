@@ -1,0 +1,48 @@
+{
+  "SCHEMA": "BRUTUS-CRYSTAL-v0.1",
+  "CRYSTAL_ID": "BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001",
+  "VERSION": "0.1",
+  "ANCHOR_ID": "ANCHOR-0001",
+  "EVIDENCE_LABEL": "MESURE",
+  "SOURCE_REFS": [
+    {
+      "KIND": "BRUTUS_RECORD",
+      "REF": "examples/records/BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001.json",
+      "DIGEST_ALGORITHM": "GIT_SHA1",
+      "DIGEST": "04b8a74da278f9027d0bc2528ba60325e7feccc9"
+    },
+    {
+      "KIND": "BRUTUS_PROOF",
+      "REF": "proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json",
+      "DIGEST_ALGORITHM": "GIT_SHA1",
+      "DIGEST": "2c4d29b967d250787f89110e9c36e19738b32baf"
+    }
+  ],
+  "PAYLOAD": {
+    "entity_id": "QUEEN-X72-0072",
+    "final_state": "DEFAULT_LOCKED",
+    "generation": 20396,
+    "integrity_match": true,
+    "live_ant_routing": "DENIED",
+    "queen_mode": "BURST",
+    "status": "FRESH",
+    "tick": 146857067
+  },
+  "PAYLOAD_H256": "4b41db7e44effe430887df94e543329699ef3e8302bde3d62e124230e884525c",
+  "RECONSTRUCTION": {
+    "METHOD": "BRUTUS-CANONICAL-JSON-SHA256-v0.1",
+    "PAYLOAD_FORMAT": "JSON",
+    "CANONICALIZATION": "RECURSIVE_SORTED_OBJECT_KEYS"
+  },
+  "PROOF_REFS": [
+    "proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json"
+  ],
+  "IMMUTABLE": true,
+  "EXECUTABLE": false,
+  "AUTO_PROOF_PROMOTION": false,
+  "NOTES": [
+    "Portable snapshot of an already recorded Queen public-read measurement.",
+    "The crystal does not execute the source card, invoke World Router or grant routing authority.",
+    "PROOF_REFS preserve provenance; the crystal itself does not create a new proof."
+  ]
+}
