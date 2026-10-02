@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/brutus-code.v0.schema.json",
+  "title": "Brutus Code Message v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "MESSAGE_ID",
+    "SENDER",
+    "RECIPIENT",
+    "ACTION",
+    "ARGS",
+    "MARKERS",
+    "SIGNAL",
+    "NATURAL_LANGUAGE",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY"
+  ],
+  "properties": {
+    "SCHEMA": {
+      "const": "BRUTUS-CODE-MESSAGE-v0.1"
+    },
+    "VERSION": {
+      "const": "0.1"
+    },
+    "MESSAGE_ID": {
+      "type": "string",
+      "pattern": "^BCM-[A-Z0-9-]{4,64}$"
+    },
+    "SENDER": {
+      "type": "string",
+      "pattern": "^@[A-Z][A-Z0-9-]{1,31}$"
+    },
+    "RECIPIENT": {
+      "type": "string",
+      "pattern": "^@[A-Z][A-Z0-9-]{1,31}$"
+    },
+    "ACTION": {
+      "enum": [
+        "SEE",
+        "QUERY",
+        "TAKE",
+        "DROP",
+        "MOVE",
+        "JOIN",
+        "SPLIT",
+        "TEST",
+        "RECYCLE",
+        "FOLLOW",
+        "TEACH",
+        "LEARN",
+        "REPORT",
+        "WAIT",
+        "STORE",
+        "READ",
+        "BUILD",
+        "COMPARE"
+      ]
+    },
+    "ARGS": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "pattern": "^(P|C|L|G|T|M|Z|W|A):[A-Z0-9-]{1,32}$"
+          },
+          {
+            "type": "string",
+            "pattern": "^N:-?(0|[1-9][0-9]{0,15})$"
+          },
+          {
+            "enum": [
+              "B:0",
+              "B:1",
+              "S:UNKNOWN",
+              "S:READY",
+              "S:CLOSED",
+              "S:OPEN",
+              "S:PASS",
+              "S:FAIL",
+              "S:INCONCLUSIVE",
+              "S:ACTIVE",
+              "S:IDLE",
+              "S:LOCKED"
+            ]
+          }
+        ]
+      }
+    },
+    "MARKERS": {
+      "type": "array",
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["?", "!", "+", "-", "=", "~", "#", "*"]
+      }
+    },
+    "SIGNAL": {
+      "enum": [null, "🟢", "🟡", "🔴", "🔵", "🟣", "🔁", "🔒", "🔓", "❓", "✅"]
+    },
+    "NATURAL_LANGUAGE": {
+      "const": false
+    },
+    "EXECUTABLE": {
+      "const": false
+    },
+    "PROOF_CLAIM": {
+      "const": false
+    },
+    "GATE_AUTHORITY": {
+      "const": false
+    }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Closed symbolic protocol only. No natural-language payload, executable payload, proof promotion or gate-opening authority."
+}
