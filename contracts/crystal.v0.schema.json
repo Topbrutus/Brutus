@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/crystal.v0.schema.json",
+  "title": "Brutus Crystal v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "CRYSTAL_ID",
+    "VERSION",
+    "ANCHOR_ID",
+    "EVIDENCE_LABEL",
+    "SOURCE_REFS",
+    "PAYLOAD",
+    "PAYLOAD_H256",
+    "RECONSTRUCTION",
+    "PROOF_REFS",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "AUTO_PROOF_PROMOTION",
+    "NOTES"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-CRYSTAL-v0.1" },
+    "CRYSTAL_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-CRYSTAL-[A-Z0-9-]+$"
+    },
+    "VERSION": { "const": "0.1" },
+    "ANCHOR_ID": { "const": "ANCHOR-0001" },
+    "EVIDENCE_LABEL": {
+      "enum": ["SOURCE", "MESURE", "CALCUL", "CANDIDAT", "HYPOTHESE", "INTERPRETATION"]
+    },
+    "SOURCE_REFS": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["KIND", "REF", "DIGEST_ALGORITHM", "DIGEST"],
+        "properties": {
+          "KIND": {
+            "enum": [
+              "GIT_BLOB",
+              "GIT_COMMIT",
+              "BRUTUS_RECORD",
+              "BRUTUS_PROOF",
+              "RUNTIME_TRACE",
+              "EXTERNAL_REPORT"
+            ]
+          },
+          "REF": { "type": "string", "minLength": 1 },
+          "DIGEST_ALGORITHM": { "enum": ["SHA256", "GIT_SHA1", "NONE"] },
+          "DIGEST": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "PAYLOAD": { "type": "object" },
+    "PAYLOAD_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "RECONSTRUCTION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["METHOD", "PAYLOAD_FORMAT", "CANONICALIZATION"],
+      "properties": {
+        "METHOD": { "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1" },
+        "PAYLOAD_FORMAT": { "const": "JSON" },
+        "CANONICALIZATION": { "const": "RECURSIVE_SORTED_OBJECT_KEYS" }
+      }
+    },
+    "PROOF_REFS": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "AUTO_PROOF_PROMOTION": { "const": false },
+    "NOTES": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "x-brutus-status": "CANDIDATE_CRYSTALLIZATION_CONTRACT",
+  "x-security": "Data-only immutable container. No credentials, executable values, routing authority or automatic proof promotion."
+}
