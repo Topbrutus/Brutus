@@ -1,0 +1,55 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://brutus.local/contracts/live-fourmi-transport-state.v0.schema.json",
+  "title":"Brutus Live Fourmi Transport State v0.1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":[
+    "SCHEMA","VERSION","OBSERVATION_ID","TICK","CLOCK_AUTHORITY","SOURCE",
+    "ANT_ID","POSITION","MATERIAL","TRACE_ID","PROOF_REF","SIGNATURE_METHOD",
+    "SIGNATURE_H256","EXECUTABLE","PROOF_CLAIM","GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties":{
+    "SCHEMA":{"const":"BRUTUS-LIVE-FOURMI-TRANSPORT-STATE-v0.1"},
+    "VERSION":{"const":"0.1"},
+    "OBSERVATION_ID":{
+      "type":"string",
+      "pattern":"^LTS-T[0-9]{1,16}-[A-Z0-9-]{4,64}$"
+    },
+    "TICK":{"type":"integer","minimum":0},
+    "CLOCK_AUTHORITY":{"const":"QUEEN_SERVER_V0_2"},
+    "SOURCE":{
+      "type":"object",
+      "additionalProperties":false,
+      "required":["SOURCE_SCHEMA","SOURCE_ENDPOINT","OBSERVED_AT_UTC","INTEGRITY_MATCH"],
+      "properties":{
+        "SOURCE_SCHEMA":{"type":"string","minLength":3,"maxLength":160},
+        "SOURCE_ENDPOINT":{"type":"string","minLength":1,"maxLength":256},
+        "OBSERVED_AT_UTC":{"type":"string","format":"date-time"},
+        "INTEGRITY_MATCH":{"const":true}
+      }
+    },
+    "ANT_ID":{"type":"string","pattern":"^ANT-[0-9A-F]{12}$"},
+    "POSITION":{"type":"string","pattern":"^W:[A-Z0-9-]{1,32}$"},
+    "MATERIAL":{
+      "type":"object",
+      "additionalProperties":false,
+      "required":["MATERIAL_ID","MATERIAL_H256","BINDING_STATE"],
+      "properties":{
+        "MATERIAL_ID":{"type":"string","pattern":"^MAT-MATH-[A-F0-9]{24}$"},
+        "MATERIAL_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+        "BINDING_STATE":{"const":"ATTACHED"}
+      }
+    },
+    "TRACE_ID":{"type":"string","pattern":"^TRACE-[A-Z0-9-]{4,64}$"},
+    "PROOF_REF":{"type":"null"},
+    "SIGNATURE_METHOD":{"const":"BRUTUS-CANONICAL-JSON-SHA256-v0.1"},
+    "SIGNATURE_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "EXECUTABLE":{"const":false},
+    "PROOF_CLAIM":{"const":false},
+    "GATE_AUTHORITY":{"const":false},
+    "ROUTING_AUTHORIZATION":{"const":"UNDECIDED"}
+  },
+  "x-security":"Source observation only. Requires exact ANT/material/position at one Queen tick and cannot authorize movement, proof, gates or routing."
+}
