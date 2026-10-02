@@ -1,4 +1,7 @@
-import { validateCrystal } from "./crystal-contract.mjs";
+import {
+  computeCrystalH256,
+  validateCrystal
+} from "./crystal-contract.mjs";
 import { verifyCrystalLocalSources } from "./crystal-source-integrity.mjs";
 
 const ADMISSION_SCHEMA = "BRUTUS-CRYSTAL-ADMISSION-v0.1";
@@ -23,6 +26,7 @@ export function createCrystalAdmissionGate({ repositoryRoot }) {
   return Object.freeze({
     qualify(crystalInput) {
       const crystal = validateCrystal(crystalInput);
+      const crystalH256 = computeCrystalH256(crystal);
       const integrity = verifyCrystalLocalSources(crystal, {
         repoRoot: repositoryRoot
       });
@@ -46,6 +50,7 @@ export function createCrystalAdmissionGate({ repositoryRoot }) {
         SCHEMA: ADMISSION_SCHEMA,
         VERSION: "0.1",
         CRYSTAL_ID: crystal.CRYSTAL_ID,
+        CRYSTAL_H256: crystalH256,
         PAYLOAD_H256: crystal.PAYLOAD_H256,
         EVIDENCE_LABEL: crystal.EVIDENCE_LABEL,
         SOURCE_INTEGRITY_SCHEMA: integrity.SCHEMA,
