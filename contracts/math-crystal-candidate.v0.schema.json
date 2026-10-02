@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/math-crystal-candidate.v0.schema.json",
+  "title": "Brutus Math Crystal Candidate v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "CRYSTAL_ID",
+    "MATERIAL_CLASS",
+    "STATE",
+    "BRUTUS_EVIDENCE_CLASS",
+    "BRUTUS_TRUTH_STATUS",
+    "PEDIGREE",
+    "CONTENT",
+    "CONTENT_H256",
+    "CRYSTALLIZATION",
+    "PROOF_REF",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "AUTO_PROOF_PROMOTION",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION",
+    "TRANSPORT_AUTHORIZATION",
+    "SIGNATURE_METHOD",
+    "CRYSTAL_H256"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-MATH-CRYSTAL-CANDIDATE-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "CRYSTAL_ID": {
+      "type": "string",
+      "pattern": "^MATH-CRYSTAL-[A-F0-9]{24}$"
+    },
+    "MATERIAL_CLASS": { "const": "MATH_CRYSTAL_CANDIDATE" },
+    "STATE": { "const": "CANDIDATE" },
+    "BRUTUS_EVIDENCE_CLASS": { "const": "CANDIDAT" },
+    "BRUTUS_TRUTH_STATUS": { "const": "UNVERIFIED_BY_BRUTUS" },
+    "PEDIGREE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PACKET_ID",
+        "PACKET_H256",
+        "SOURCE_SNAPSHOT_H256",
+        "SOURCE_SYSTEM",
+        "SOURCE_RUN_ID",
+        "ITEM_ID",
+        "ITEM_KIND",
+        "SOURCE_ITEM_H256"
+      ],
+      "properties": {
+        "PACKET_ID": {
+          "type": "string",
+          "pattern": "^MIP-[A-Z0-9-]{4,96}$"
+        },
+        "PACKET_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "SOURCE_SNAPSHOT_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "SOURCE_SYSTEM": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "SOURCE_RUN_ID": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "ITEM_ID": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "ITEM_KIND": {
+          "enum": [
+            "FORMULA_OBSERVATION",
+            "FORMULA_CAPSULE",
+            "RELATION_OBSERVATION"
+          ]
+        },
+        "SOURCE_ITEM_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "CONTENT": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "EXPRESSION",
+        "EXPRESSION_HASH_METHOD",
+        "EXPRESSION_H256",
+        "SOURCE_STATUS",
+        "BINDINGS",
+        "EVIDENCE",
+        "PROVENANCE"
+      ],
+      "properties": {
+        "EXPRESSION": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "EXPRESSION_HASH_METHOD": { "const": "UTF8-SHA256-v0.1" },
+        "EXPRESSION_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "SOURCE_STATUS": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "BINDINGS": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        },
+        "EVIDENCE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "SOURCE_TRACE_REF",
+            "SOURCE_PROOF_REF",
+            "SOURCE_HASH_REF",
+            "SUPPORT_COUNT",
+            "TEST_COUNT",
+            "REPLAY_STATUS"
+          ],
+          "properties": {
+            "SOURCE_TRACE_REF": {
+              "type": ["string", "null"],
+              "maxLength": 256
+            },
+            "SOURCE_PROOF_REF": {
+              "type": ["string", "null"],
+              "maxLength": 256
+            },
+            "SOURCE_HASH_REF": {
+              "type": ["string", "null"],
+              "maxLength": 256
+            },
+            "SUPPORT_COUNT": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "TEST_COUNT": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "REPLAY_STATUS": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          }
+        },
+        "PROVENANCE": {
+          "type": "object",
+          "maxProperties": 32,
+          "additionalProperties": {
+            "type": ["string", "number", "boolean", "null"]
+          }
+        }
+      }
+    },
+    "CONTENT_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "CRYSTALLIZATION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "BOUND_TO_QUEEN",
+        "QUEEN_TICK",
+        "CLOCK_AUTHORITY",
+        "SOURCE_PACKET_BOUND_TO_QUEEN"
+      ],
+      "properties": {
+        "BOUND_TO_QUEEN": { "type": "boolean" },
+        "QUEEN_TICK": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "CLOCK_AUTHORITY": {
+          "enum": ["QUEEN_SERVER_V0_2", null]
+        },
+        "SOURCE_PACKET_BOUND_TO_QUEEN": { "type": "boolean" }
+      }
+    },
+    "PROOF_REF": { "type": "null" },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "AUTO_PROOF_PROMOTION": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "TRANSPORT_AUTHORIZATION": { "const": false },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "CRYSTAL_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    }
+  },
+  "x-brutus-status": "MATH_CRYSTAL_CANDIDATE",
+  "x-security": "Immutable math candidate derived from one exact validated input-packet item. Source status/evidence are preserved without Brutus proof promotion, routing, execution or transport authority."
+}
