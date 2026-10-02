@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/fourminizer-live-event.v0.schema.json",
+  "title": "Brutus Fourminizer Live Event v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "EVENT_ID",
+    "EVENT_CLASS",
+    "EVENT_TYPE",
+    "TICK",
+    "CLOCK_AUTHORITY",
+    "SOURCE_ENDPOINT",
+    "CLOCK_ENTITY_ID",
+    "QUEEN_ID",
+    "ANT_ID",
+    "POSITION",
+    "QUEEN_MODE",
+    "GENERATION",
+    "CONDITION",
+    "TRACE_ID",
+    "MOTION",
+    "PROOF_REF",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-LIVE-EVENT-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "EVENT_ID": {
+      "type": "string",
+      "pattern": "^EVT-FMIN-Q[0-9]{4}-STARTUP-T[0-9]{1,16}$"
+    },
+    "EVENT_CLASS": { "const": "RUNTIME" },
+    "EVENT_TYPE": { "const": "STARTUP_OBSERVED" },
+    "TICK": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "SOURCE_ENDPOINT": {
+      "enum": ["/api/state", "/ws"]
+    },
+    "CLOCK_ENTITY_ID": {
+      "type": "string",
+      "minLength": 1
+    },
+    "QUEEN_ID": {
+      "type": "string",
+      "pattern": "^FOURMINIZER-QUEEN-[0-9]{4}$"
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "POSITION": {
+      "type": "string",
+      "pattern": "^W:[A-Z0-9-]{1,32}$"
+    },
+    "QUEEN_MODE": {
+      "type": "string",
+      "minLength": 1
+    },
+    "GENERATION": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "CONDITION": {
+      "type": "string",
+      "minLength": 1
+    },
+    "TRACE_ID": {
+      "type": "string",
+      "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+    },
+    "MOTION": { "type": "null" },
+    "PROOF_REF": { "type": "null" },
+    "PROOF_CLAIM": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" }
+  },
+  "x-brutus-status": "RUNTIME_EVENT_CONTRACT",
+  "x-brutus-boundary": "Read-only startup mirror event. v0.1 carries no motion until a real motion source contract exists."
+}
