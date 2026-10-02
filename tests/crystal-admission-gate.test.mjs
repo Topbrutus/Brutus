@@ -6,6 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createCrystalAdmissionGate } from "../src/crystal-admission-gate.mjs";
+import { computeCrystalH256 } from "../src/crystal-contract.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
@@ -32,16 +33,40 @@ function copySources(crystal, targetRoot) {
 }
 
 test("reference crystal becomes admissible only after exact local source verification", () => {
+  const crystal = loadCrystal();
   const gate = createCrystalAdmissionGate({ repositoryRoot: repoRoot });
-  const admission = gate.qualify(loadCrystal());
+  const admission = gate.qualify(crystal);
 
   assert.equal(admission.SCHEMA, "BRUTUS-CRYSTAL-ADMISSION-v0.1");
   assert.equal(admission.STATUS, "ADMISSIBLE");
+  assert.equal(admission.CRYSTAL_H256, computeCrystalH256(crystal));
+  assert.match(admission.CRYSTAL_H256, /^[a-f0-9]{64}$/);
   assert.equal(admission.SOURCE_INTEGRITY_VERDICT, "PASS");
   assert.equal(admission.VERIFIED_SOURCE_COUNT, 2);
   assert.equal(admission.REGISTRY_WRITE_PERFORMED, false);
   assert.equal(admission.PROOF_PROMOTION, false);
   assert.equal(Object.isFrozen(admission), true);
+});
+
+test("full crystal digest binds provenance beyond PAYLOAD_H256", () => {
+  const original = loadCrystal();
+  const changedProvenance = loadCrystal();
+  changedProvenance.SOURCE_REFS[0].DIGEST = "0".repeat(40);
+
+  assert.equal(original.PAYLOAD_H256, changedProvenance.PAYLOAD_H256);
+  assert.notEqual(
+    computeCrystalH256(original),
+    computeCrystalH256(changedProvenance)
+  );
+});
+
+test("full crystal digest is independent of object key order", () => {
+  const crystal = loadCrystal();
+  const reordered = Object.fromEntries(
+    Object.entries(crystal).reverse()
+  );
+
+  assert.equal(computeCrystalH256(crystal), computeCrystalH256(reordered));
 });
 
 test("admission rejects source-byte tampering", () => {
