@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/strand-segmentation-proposal.v0.schema.json",
+  "title": "Brutus Strand Segmentation Proposal v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "PARENT_STRAND_ID",
+    "PARENT_SIGNATURE_H256",
+    "METABOLISM_DECISION",
+    "CUT_COUNT",
+    "CUTS",
+    "SEGMENTS",
+    "ACTION",
+    "REASON",
+    "MUTATION_PERFORMED",
+    "MATERIAL_CREATED",
+    "DUST_CREATED",
+    "CRYSTAL_CREATED",
+    "DELETION_PERFORMED",
+    "PROOF_REF"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-STRAND-SEGMENTATION-PROPOSAL-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "PARENT_STRAND_ID": {
+      "type": "string",
+      "pattern": "^STRAND-[A-Z0-9-]{4,80}$"
+    },
+    "PARENT_SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "METABOLISM_DECISION": {
+      "enum": ["PRESERVE", "CONSOLIDATE", "SEGMENT_CANDIDATE", "RECYCLE_CANDIDATE"]
+    },
+    "CUT_COUNT": { "type": "integer", "minimum": 0 },
+    "CUTS": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "AFTER_INDEX",
+          "BEFORE_INDEX",
+          "AFTER_TICK",
+          "BEFORE_TICK",
+          "REASONS"
+        ],
+        "properties": {
+          "AFTER_INDEX": { "type": "integer", "minimum": 0 },
+          "BEFORE_INDEX": { "type": "integer", "minimum": 1 },
+          "AFTER_TICK": { "type": "integer", "minimum": 0 },
+          "BEFORE_TICK": { "type": "integer", "minimum": 0 },
+          "REASONS": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "FEATURE_CHANGE",
+                "LOGICAL_HZ_BAND_CHANGE",
+                "SALIENCE_BAND_CHANGE",
+                "MODALITY_SET_CHANGE"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SEGMENTS": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "SEGMENT_ID",
+          "PARENT_STRAND_ID",
+          "PARENT_SIGNATURE_H256",
+          "START_INDEX",
+          "END_INDEX",
+          "TICK_START",
+          "TICK_END",
+          "BEAD_COUNT",
+          "DISPOSITION",
+          "METRICS",
+          "SEGMENT_H256",
+          "MATERIAL_CREATED",
+          "DUST_CREATED",
+          "CRYSTAL_CREATED",
+          "DELETION_PERFORMED",
+          "PROOF_REF"
+        ],
+        "properties": {
+          "SEGMENT_ID": { "type": "string", "minLength": 1 },
+          "PARENT_STRAND_ID": {
+            "type": "string",
+            "pattern": "^STRAND-[A-Z0-9-]{4,80}$"
+          },
+          "PARENT_SIGNATURE_H256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "START_INDEX": { "type": "integer", "minimum": 0 },
+          "END_INDEX": { "type": "integer", "minimum": 0 },
+          "TICK_START": { "type": "integer", "minimum": 0 },
+          "TICK_END": { "type": "integer", "minimum": 0 },
+          "BEAD_COUNT": { "type": "integer", "minimum": 1 },
+          "DISPOSITION": {
+            "enum": [
+              "PRESERVE_FRAGMENT_CANDIDATE",
+              "CRYSTAL_FRAGMENT_CANDIDATE",
+              "DUST_CANDIDATE"
+            ]
+          },
+          "METRICS": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "DISTINCT_FEATURES",
+              "DISTINCT_1HZ_BANDS",
+              "MODALITY_COUNT",
+              "SALIENCE_PEAK",
+              "MEAN_SALIENCE"
+            ],
+            "properties": {
+              "DISTINCT_FEATURES": { "type": "integer", "minimum": 1 },
+              "DISTINCT_1HZ_BANDS": { "type": "integer", "minimum": 1 },
+              "MODALITY_COUNT": { "type": "integer", "minimum": 1, "maximum": 6 },
+              "SALIENCE_PEAK": { "type": "number", "minimum": 0, "maximum": 1 },
+              "MEAN_SALIENCE": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          },
+          "SEGMENT_H256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$"
+          },
+          "MATERIAL_CREATED": { "const": false },
+          "DUST_CREATED": { "const": false },
+          "CRYSTAL_CREATED": { "const": false },
+          "DELETION_PERFORMED": { "const": false },
+          "PROOF_REF": { "type": "null" }
+        }
+      }
+    },
+    "ACTION": {
+      "enum": [
+        "NO_CUT",
+        "PROPOSE_SEGMENTS",
+        "PROPOSE_SELECTIVE_RETENTION",
+        "PROPOSE_RECYCLE_AS_WHOLE",
+        "NO_EFFECTIVE_BOUNDARY"
+      ]
+    },
+    "REASON": { "type": "string", "minLength": 1 },
+    "MUTATION_PERFORMED": { "const": false },
+    "MATERIAL_CREATED": { "const": false },
+    "DUST_CREATED": { "const": false },
+    "CRYSTAL_CREATED": { "const": false },
+    "DELETION_PERFORMED": { "const": false },
+    "PROOF_REF": { "type": "null" }
+  },
+  "x-brutus-status": "CANDIDATE_SEGMENTATION_PROPOSAL",
+  "x-security": "Advisory only. No parent mutation, deletion, dust creation, crystal creation, execution, routing authority or proof promotion."
+}
