@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/math-input-packet.v0.schema.json",
+  "title": "Brutus Math Input Packet v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "PACKET_ID",
+    "SOURCE",
+    "SOURCE_SNAPSHOT_H256",
+    "SUMMARY",
+    "ITEMS",
+    "INGESTION",
+    "PROOF_REF",
+    "EXECUTABLE",
+    "AUTO_PROOF_PROMOTION",
+    "ROUTING_AUTHORIZATION",
+    "SIGNATURE_METHOD",
+    "PACKET_H256"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-MATH-INPUT-PACKET-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "PACKET_ID": {
+      "type": "string",
+      "pattern": "^MIP-[A-Z0-9-]{4,96}$"
+    },
+    "SOURCE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "SYSTEM",
+        "ADAPTER",
+        "ADAPTER_VERSION",
+        "SOURCE_RUN_ID",
+        "SOURCE_ENDPOINT",
+        "ACCESS_MODE",
+        "SOURCE_STATE"
+      ],
+      "properties": {
+        "SYSTEM": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "ADAPTER": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "ADAPTER_VERSION": { "const": "0.1" },
+        "SOURCE_RUN_ID": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "SOURCE_ENDPOINT": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "ACCESS_MODE": { "const": "READ_ONLY" },
+        "SOURCE_STATE": { "type": "string", "minLength": 1, "maxLength": 40 }
+      }
+    },
+    "SOURCE_SNAPSHOT_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "SUMMARY": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "CANONICAL_FORMULAS",
+        "AUTHENTICATED_FORMULAS",
+        "TESTING_FORMULAS",
+        "REJECTED_FORMULAS",
+        "CANDIDATE_FORMULAS",
+        "TRACES_TOTAL",
+        "PROOFS_TOTAL",
+        "PROOFS_VALID",
+        "PROOFS_INVALID",
+        "RECONSTRUCTED_SUPPORTS",
+        "FAILED_SUPPORTS",
+        "TRACKER_SOURCES",
+        "RECYCLE_EMITTED"
+      ],
+      "properties": {
+        "CANONICAL_FORMULAS": { "type": "integer", "minimum": 0 },
+        "AUTHENTICATED_FORMULAS": { "type": "integer", "minimum": 0 },
+        "TESTING_FORMULAS": { "type": "integer", "minimum": 0 },
+        "REJECTED_FORMULAS": { "type": "integer", "minimum": 0 },
+        "CANDIDATE_FORMULAS": { "type": "integer", "minimum": 0 },
+        "TRACES_TOTAL": { "type": "integer", "minimum": 0 },
+        "PROOFS_TOTAL": { "type": "integer", "minimum": 0 },
+        "PROOFS_VALID": { "type": "integer", "minimum": 0 },
+        "PROOFS_INVALID": { "type": "integer", "minimum": 0 },
+        "RECONSTRUCTED_SUPPORTS": { "type": "integer", "minimum": 0 },
+        "FAILED_SUPPORTS": { "type": "integer", "minimum": 0 },
+        "TRACKER_SOURCES": { "type": "integer", "minimum": 0 },
+        "RECYCLE_EMITTED": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "ITEMS": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ITEM_ID",
+          "KIND",
+          "EXPRESSION",
+          "SOURCE_STATUS",
+          "BINDINGS",
+          "EVIDENCE",
+          "PROVENANCE"
+        ],
+        "properties": {
+          "ITEM_ID": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "KIND": {
+            "enum": [
+              "FORMULA_OBSERVATION",
+              "FORMULA_CAPSULE",
+              "RELATION_OBSERVATION"
+            ]
+          },
+          "EXPRESSION": { "type": "string", "minLength": 1, "maxLength": 4096 },
+          "SOURCE_STATUS": { "type": "string", "minLength": 1, "maxLength": 80 },
+          "BINDINGS": {
+            "type": "array",
+            "maxItems": 64,
+            "items": { "type": "string", "minLength": 1, "maxLength": 512 }
+          },
+          "EVIDENCE": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "SOURCE_TRACE_REF",
+              "SOURCE_PROOF_REF",
+              "SOURCE_HASH_REF",
+              "SUPPORT_COUNT",
+              "TEST_COUNT",
+              "REPLAY_STATUS"
+            ],
+            "properties": {
+              "SOURCE_TRACE_REF": {
+                "type": ["string", "null"],
+                "maxLength": 256
+              },
+              "SOURCE_PROOF_REF": {
+                "type": ["string", "null"],
+                "maxLength": 256
+              },
+              "SOURCE_HASH_REF": {
+                "type": ["string", "null"],
+                "maxLength": 256
+              },
+              "SUPPORT_COUNT": { "type": "integer", "minimum": 0 },
+              "TEST_COUNT": { "type": "integer", "minimum": 0 },
+              "REPLAY_STATUS": { "type": "string", "minLength": 1, "maxLength": 80 }
+            }
+          },
+          "PROVENANCE": {
+            "type": "object",
+            "maxProperties": 32,
+            "additionalProperties": {
+              "type": ["string", "number", "boolean", "null"]
+            }
+          }
+        }
+      }
+    },
+    "INGESTION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["QUEEN_TICK", "CLOCK_AUTHORITY", "BOUND_TO_QUEEN"],
+      "properties": {
+        "QUEEN_TICK": { "type": ["integer", "null"], "minimum": 0 },
+        "CLOCK_AUTHORITY": {
+          "enum": ["QUEEN_SERVER_V0_2", null]
+        },
+        "BOUND_TO_QUEEN": { "type": "boolean" }
+      }
+    },
+    "PROOF_REF": { "type": "null" },
+    "EXECUTABLE": { "const": false },
+    "AUTO_PROOF_PROMOTION": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "PACKET_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    }
+  },
+  "x-brutus-status": "EXTERNAL_MATH_INPUT_CANDIDATE",
+  "x-security": "Read-only external math input envelope. Source authentication is preserved as provenance; no automatic Brutus proof promotion or routing authority."
+}
