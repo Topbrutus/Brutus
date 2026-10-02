@@ -107,6 +107,32 @@ test("path traversal is rejected before file read", () => {
   assert.equal(result.SOURCE_RESULTS[0].REASON, "PATH_OUTSIDE_REPOSITORY");
 });
 
+test(
+  "symlink escape outside repository fails even when target bytes match declared digest",
+  { skip: process.platform === "win32" },
+  () => {
+    const crystal = loadCrystal();
+    const tempRoot = makeTempRepo();
+    const outsideRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), "brutus-crystal-outside-")
+    );
+    const outsideFile = path.join(outsideRoot, "outside.json");
+    const outsideBytes = Buffer.from('{"outside":true}\n');
+
+    fs.writeFileSync(outsideFile, outsideBytes);
+    crystal.SOURCE_REFS[0].DIGEST = computeGitBlobSha1(outsideBytes);
+
+    const linkPath = path.join(tempRoot, crystal.SOURCE_REFS[0].REF);
+    fs.mkdirSync(path.dirname(linkPath), { recursive: true });
+    fs.symlinkSync(outsideFile, linkPath, "file");
+    copySource(tempRoot, crystal.SOURCE_REFS[1].REF);
+
+    const result = verifyCrystalLocalSources(crystal, { repoRoot: tempRoot });
+    assert.equal(result.VERDICT, "FAIL");
+    assert.equal(result.SOURCE_RESULTS[0].REASON, "PATH_OUTSIDE_REPOSITORY");
+  }
+);
+
 test("unsupported source kinds are explicit and never silent PASS", () => {
   const crystal = loadCrystal();
   crystal.SOURCE_REFS[0].KIND = "EXTERNAL_REPORT";
