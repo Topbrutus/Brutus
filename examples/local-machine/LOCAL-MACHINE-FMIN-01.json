@@ -1,0 +1,64 @@
+{
+  "SCHEMA": "BRUTUS-LOCAL-MACHINE-v0.1",
+  "VERSION": "0.1",
+  "MACHINE_ID": "M:FMIN-01",
+  "OWNER": {
+    "QUEEN_ID": "FOURMINIZER-QUEEN-0001",
+    "ANT_ID": "ANT-000000000001"
+  },
+  "STATE": "DORMANT",
+  "CONTRACT_PINS": {
+    "BRUTUS_CODE": {
+      "REF": "contracts/brutus-code.v0.schema.json",
+      "BLOB_SHA": "9427c97c95d2b5307f650a188a510c424118acf2"
+    },
+    "QUEEN_CRYSTAL": {
+      "REF": "contracts/fourminizer-queen-crystal.v0.schema.json",
+      "BLOB_SHA": "9c918bc2a70e376671aaf25f716bac0f0287a5a6"
+    },
+    "TRACE": {
+      "REF": "contracts/brutus-trace.v0.schema.json",
+      "BLOB_SHA": "41d6db0d6a0003c0ec0e73cb4e0e8fe361a44586"
+    },
+    "LOCAL_WORLD_MODEL": {
+      "REF": "contracts/local-world-model.v0.schema.json",
+      "BLOB_SHA": "289a89530a605d70b0ed70f248f8646d69980885"
+    }
+  },
+  "ADMITTED_PART_TYPES": [
+    "BRIN",
+    "FIBRE",
+    "TIMBRE",
+    "BLOC",
+    "CRISTAL",
+    "FRAGMENT"
+  ],
+  "ADMITTED_OPERATIONS": [
+    "ASSEMBLE",
+    "RECYCLE_HANDOFF"
+  ],
+  "INPUT_POLICY": {
+    "MAX_PARTS": 16,
+    "KNOWN_ONLY": true,
+    "PRESERVE_PEDIGREE": true
+  },
+  "WORKSPACE": {
+    "MODE": "MATRIX_OR_CUBE",
+    "DIMENSIONS_ALLOWED": [2, 3],
+    "MAX_SIDE": 7,
+    "MAX_CELLS": 343
+  },
+  "OUTPUT_POLICY": {
+    "NEW_OBJECT_REQUIRED": true,
+    "PARENT_SET_REQUIRED": true,
+    "PEDIGREE_RULE": "DERIVE_ALL_INPUT_PARENTS"
+  },
+  "TRACE_REQUIRED": true,
+  "SIGNATURE_METHOD": "BRUTUS-CANONICAL-JSON-SHA256-v0.1",
+  "SIGNATURE_H256": "fe0b8b131ebcb08c08d2c479fb8533bce080510777123151fbfd6721ebd0fb68",
+  "IMMUTABLE": true,
+  "EXECUTABLE": false,
+  "PROOF_CLAIM": false,
+  "GATE_AUTHORITY": false,
+  "ROUTING_AUTHORIZATION": "UNDECIDED"
+}

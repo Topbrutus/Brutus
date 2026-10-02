@@ -1,0 +1,54 @@
+{
+  "SCHEMA": "BRUTUS-LOCAL-MACHINE-JOB-v0.1",
+  "VERSION": "0.1",
+  "JOB_ID": "LMJ-FMIN-Q0001-0001",
+  "JOB_CLASS": "SYNTHETIC_FIXTURE",
+  "MACHINE_ID": "M:FMIN-01",
+  "ANT_ID": "ANT-000000000001",
+  "WORLD_MODEL_ID": "LWM-FMIN-Q0001-0001",
+  "TICK": 273,
+  "CLOCK_AUTHORITY": "QUEEN_SERVER_V0_2",
+  "OPERATION": "ASSEMBLE",
+  "INPUTS": [
+    {
+      "PART_ID": "P:184",
+      "PART_TYPE": "BLOC"
+    },
+    {
+      "PART_ID": "P:033",
+      "PART_TYPE": "TIMBRE"
+    }
+  ],
+  "LAYOUT": {
+    "DIMENSIONS": 2,
+    "SIDE": 2,
+    "CELLS": [
+      {
+        "PART_ID": "P:184",
+        "COORD": [0, 0]
+      },
+      {
+        "PART_ID": "P:033",
+        "COORD": [1, 0]
+      }
+    ]
+  },
+  "OUTPUT_PLAN": {
+    "OUTPUT_ID": "P:NEW001",
+    "OUTPUT_TYPE": "CRISTAL",
+    "PARENT_PARTS": [
+      "P:184",
+      "P:033"
+    ],
+    "PEDIGREE_RULE": "DERIVE_ALL_INPUT_PARENTS"
+  },
+  "RECYCLE_HANDOFF": false,
+  "TRACE_REQUIRED": true,
+  "PROOF_REF": null,
+  "SIGNATURE_METHOD": "BRUTUS-CANONICAL-JSON-SHA256-v0.1",
+  "SIGNATURE_H256": "629ca295a8bbb9c54b7bccf8dc48d79af89e72db1072af23bc231d35e678b7ae",
+  "EXECUTABLE": false,
+  "PROOF_CLAIM": false,
+  "GATE_AUTHORITY": false,
+  "ROUTING_AUTHORIZATION": "UNDECIDED"
+}

@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/local-machine-job.v0.schema.json",
+  "title": "Brutus Local Machine Job v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "JOB_ID",
+    "JOB_CLASS",
+    "MACHINE_ID",
+    "ANT_ID",
+    "WORLD_MODEL_ID",
+    "TICK",
+    "CLOCK_AUTHORITY",
+    "OPERATION",
+    "INPUTS",
+    "LAYOUT",
+    "OUTPUT_PLAN",
+    "RECYCLE_HANDOFF",
+    "TRACE_REQUIRED",
+    "PROOF_REF",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-LOCAL-MACHINE-JOB-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "JOB_ID": {
+      "type": "string",
+      "pattern": "^LMJ-[A-Z0-9-]{4,64}$"
+    },
+    "JOB_CLASS": {
+      "enum": ["SYNTHETIC_FIXTURE", "RUNTIME"]
+    },
+    "MACHINE_ID": {
+      "type": "string",
+      "pattern": "^M:[A-Z0-9-]{1,32}$"
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "WORLD_MODEL_ID": {
+      "type": "string",
+      "pattern": "^LWM-FMIN-Q[0-9]{4}-[0-9]{4}$"
+    },
+    "TICK": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "OPERATION": {
+      "enum": ["ASSEMBLE", "RECYCLE_HANDOFF"]
+    },
+    "INPUTS": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["PART_ID", "PART_TYPE"],
+        "properties": {
+          "PART_ID": {
+            "type": "string",
+            "pattern": "^P:[A-Z0-9-]{1,32}$"
+          },
+          "PART_TYPE": {
+            "enum": ["BRIN", "FIBRE", "TIMBRE", "BLOC", "CRISTAL", "FRAGMENT"]
+          }
+        }
+      }
+    },
+    "LAYOUT": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["DIMENSIONS", "SIDE", "CELLS"],
+      "properties": {
+        "DIMENSIONS": {
+          "enum": [2, 3]
+        },
+        "SIDE": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "CELLS": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["PART_ID", "COORD"],
+            "properties": {
+              "PART_ID": {
+                "type": "string",
+                "pattern": "^P:[A-Z0-9-]{1,32}$"
+              },
+              "COORD": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 3,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 6
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "OUTPUT_PLAN": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["OUTPUT_ID", "OUTPUT_TYPE", "PARENT_PARTS", "PEDIGREE_RULE"],
+      "properties": {
+        "OUTPUT_ID": {
+          "type": "string",
+          "pattern": "^P:[A-Z0-9-]{1,32}$"
+        },
+        "OUTPUT_TYPE": {
+          "enum": ["BRIN", "FIBRE", "TIMBRE", "BLOC", "CRISTAL", "FRAGMENT"]
+        },
+        "PARENT_PARTS": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^P:[A-Z0-9-]{1,32}$"
+          }
+        },
+        "PEDIGREE_RULE": { "const": "DERIVE_ALL_INPUT_PARENTS" }
+      }
+    },
+    "RECYCLE_HANDOFF": { "type": "boolean" },
+    "TRACE_REQUIRED": { "const": true },
+    "PROOF_REF": { "type": "null" },
+    "SIGNATURE_METHOD": { "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1" },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "EXECUTABLE": { "const": false },
+    "PROOF_CLAIM": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Validated machine job description only. A separate runtime may execute admitted jobs and must emit TRACE."
+}
