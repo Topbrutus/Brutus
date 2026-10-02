@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/fourmi-material.v0.schema.json",
+  "title": "Brutus Fourmi Material v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "MATERIAL_ID",
+    "MATERIAL_CLASS",
+    "MATERIAL_INTENT",
+    "ANT_ID",
+    "CREATED_AT_TICK",
+    "CLOCK_AUTHORITY",
+    "TRACE_ID",
+    "AUTHORIZATION_REF",
+    "PEDIGREE",
+    "PAYLOAD",
+    "PAYLOAD_H256",
+    "PROOF_REF",
+    "PARENT_MUTATED",
+    "PARENT_DELETED",
+    "MATERIAL_CREATED",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "AUTO_PROOF_PROMOTION",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION",
+    "SIGNATURE_METHOD",
+    "MATERIAL_H256"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-FOURMI-MATERIAL-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "MATERIAL_ID": {
+      "type": "string",
+      "pattern": "^MAT-(DUST|FRAG)-[A-F0-9]{24}$"
+    },
+    "MATERIAL_CLASS": {
+      "enum": ["CRYSTAL_FRAGMENT", "CRYSTAL_DUST"]
+    },
+    "MATERIAL_INTENT": {
+      "enum": ["PRESERVE", "RECRYSTALLIZE", "RECYCLE"]
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "CREATED_AT_TICK": { "type": "integer", "minimum": 0 },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "TRACE_ID": {
+      "type": "string",
+      "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+    },
+    "AUTHORIZATION_REF": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["REQUEST_ID", "REQUEST_H256", "PROPOSAL_H256"],
+      "properties": {
+        "REQUEST_ID": {
+          "type": "string",
+          "pattern": "^FMA-[A-Z0-9-]{4,80}$"
+        },
+        "REQUEST_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "PROPOSAL_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "PEDIGREE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PARENT_STRAND_ID",
+        "PARENT_SIGNATURE_H256",
+        "SEGMENT_ID",
+        "SEGMENT_H256",
+        "START_INDEX",
+        "END_INDEX",
+        "TICK_START",
+        "TICK_END"
+      ],
+      "properties": {
+        "PARENT_STRAND_ID": {
+          "type": "string",
+          "pattern": "^STRAND-[A-Z0-9-]{4,80}$"
+        },
+        "PARENT_SIGNATURE_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "SEGMENT_ID": {
+          "type": "string",
+          "pattern": "^STRAND-[A-Z0-9-]{4,80}-SEG-[0-9]{4}$"
+        },
+        "SEGMENT_H256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        },
+        "START_INDEX": { "type": "integer", "minimum": 0 },
+        "END_INDEX": { "type": "integer", "minimum": 0 },
+        "TICK_START": { "type": "integer", "minimum": 0 },
+        "TICK_END": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "PAYLOAD": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "BEADS",
+        "MODALITY_KINDS",
+        "LOGICAL_HZ_MIN",
+        "LOGICAL_HZ_MAX",
+        "SALIENCE_PEAK"
+      ],
+      "properties": {
+        "BEADS": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "MODALITY_KINDS": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["AUDITION", "VISION", "TOUCH", "ODOR", "TASTE", "INTERNAL"]
+          }
+        },
+        "LOGICAL_HZ_MIN": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "LOGICAL_HZ_MAX": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "SALIENCE_PEAK": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "PAYLOAD_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "PROOF_REF": { "type": "null" },
+    "PARENT_MUTATED": { "const": false },
+    "PARENT_DELETED": { "const": false },
+    "MATERIAL_CREATED": { "const": true },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "AUTO_PROOF_PROMOTION": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "MATERIAL_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    }
+  },
+  "x-brutus-status": "CANDIDATE_FOURMI_MATERIAL",
+  "x-security": "Immutable material artifact with exact parent/segment pedigree. No parent mutation, deletion, routing or proof promotion."
+}
