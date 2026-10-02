@@ -236,6 +236,88 @@ export function computeFourmiMaterialH256(material) {
   return h256(unsignedMaterial(material));
 }
 
+function validateMaterialBead(bead, index, previousTick, observedKinds) {
+  const label = `PAYLOAD.BEADS[${index}]`;
+  assertExactKeys(bead, ["BEAD_ID", "TICK", "MODALITIES", "INTERNAL"], label);
+
+  if (
+    typeof bead.BEAD_ID !== "string" ||
+    !/^B-T[0-9]{1,16}-[A-Z0-9-]{2,64}$/.test(bead.BEAD_ID)
+  ) {
+    reject(label + ".BEAD_ID invalid");
+  }
+  if (!Number.isSafeInteger(bead.TICK) || bead.TICK < 0) {
+    reject(label + ".TICK invalid");
+  }
+  if (previousTick !== null && bead.TICK <= previousTick) {
+    reject("PAYLOAD.BEADS ticks must be strictly increasing");
+  }
+  if (!Array.isArray(bead.MODALITIES) || bead.MODALITIES.length < 1 || bead.MODALITIES.length > 6) {
+    reject(label + ".MODALITIES must contain 1..6 items");
+  }
+
+  const allowedKinds = new Set(["AUDITION", "VISION", "TOUCH", "ODOR", "TASTE", "INTERNAL"]);
+  const localKinds = new Set();
+  for (let i = 0; i < bead.MODALITIES.length; i += 1) {
+    const modality = bead.MODALITIES[i];
+    const mlabel = label + `.MODALITIES[${i}]`;
+    assertExactKeys(
+      modality,
+      ["KIND", "SOURCE_REF", "SOURCE_H256", "FEATURE_H256", "SALIENCE", "CONFIDENCE"],
+      mlabel
+    );
+    if (!allowedKinds.has(modality.KIND)) reject(mlabel + ".KIND unsupported");
+    if (localKinds.has(modality.KIND)) reject(label + " has duplicate modality");
+    localKinds.add(modality.KIND);
+    observedKinds.add(modality.KIND);
+    if (typeof modality.SOURCE_REF !== "string" || modality.SOURCE_REF.length < 1) {
+      reject(mlabel + ".SOURCE_REF invalid");
+    }
+    assertSha256(modality.SOURCE_H256, mlabel + ".SOURCE_H256");
+    assertSha256(modality.FEATURE_H256, mlabel + ".FEATURE_H256");
+    for (const key of ["SALIENCE", "CONFIDENCE"]) {
+      if (
+        typeof modality[key] !== "number" ||
+        !Number.isFinite(modality[key]) ||
+        modality[key] < 0 ||
+        modality[key] > 1
+      ) {
+        reject(mlabel + "." + key + " invalid");
+      }
+    }
+  }
+
+  assertExactKeys(
+    bead.INTERNAL,
+    ["LOGICAL_HZ", "VALENCE", "LEFT_PHASE_DEG", "RIGHT_PHASE_DEG"],
+    label + ".INTERNAL"
+  );
+  if (
+    typeof bead.INTERNAL.LOGICAL_HZ !== "number" ||
+    !Number.isFinite(bead.INTERNAL.LOGICAL_HZ) ||
+    bead.INTERNAL.LOGICAL_HZ < 0 ||
+    bead.INTERNAL.LOGICAL_HZ > 20000
+  ) {
+    reject(label + ".INTERNAL.LOGICAL_HZ invalid");
+  }
+  if (
+    typeof bead.INTERNAL.VALENCE !== "number" ||
+    !Number.isFinite(bead.INTERNAL.VALENCE) ||
+    bead.INTERNAL.VALENCE < -1 ||
+    bead.INTERNAL.VALENCE > 1
+  ) {
+    reject(label + ".INTERNAL.VALENCE invalid");
+  }
+  for (const key of ["LEFT_PHASE_DEG", "RIGHT_PHASE_DEG"]) {
+    const phase = bead.INTERNAL[key];
+    if (typeof phase !== "number" || !Number.isFinite(phase) || phase < 0 || phase >= 360) {
+      reject(label + ".INTERNAL." + key + " invalid");
+    }
+  }
+
+  return bead.TICK;
+}
+
 function validateMaterialPayload(value) {
   assertExactKeys(
     value,
@@ -250,35 +332,44 @@ function validateMaterialPayload(value) {
     reject("PAYLOAD.MODALITY_KINDS must be a non-empty array");
   }
   const allowedKinds = new Set(["AUDITION", "VISION", "TOUCH", "ODOR", "TASTE", "INTERNAL"]);
-  const seenKinds = new Set();
+  const declaredKinds = new Set();
   for (const kind of value.MODALITY_KINDS) {
     if (!allowedKinds.has(kind)) reject("PAYLOAD.MODALITY_KINDS contains unsupported modality");
-    if (seenKinds.has(kind)) reject("PAYLOAD.MODALITY_KINDS cannot contain duplicates");
-    seenKinds.add(kind);
+    if (declaredKinds.has(kind)) reject("PAYLOAD.MODALITY_KINDS cannot contain duplicates");
+    declaredKinds.add(kind);
   }
-  if (
-    typeof value.LOGICAL_HZ_MIN !== "number" ||
-    !Number.isFinite(value.LOGICAL_HZ_MIN) ||
-    value.LOGICAL_HZ_MIN < 0 ||
-    value.LOGICAL_HZ_MIN > 20000
-  ) {
-    reject("PAYLOAD.LOGICAL_HZ_MIN invalid");
+
+  const observedKinds = new Set();
+  let previousTick = null;
+  for (let i = 0; i < value.BEADS.length; i += 1) {
+    previousTick = validateMaterialBead(value.BEADS[i], i, previousTick, observedKinds);
   }
-  if (
-    typeof value.LOGICAL_HZ_MAX !== "number" ||
-    !Number.isFinite(value.LOGICAL_HZ_MAX) ||
-    value.LOGICAL_HZ_MAX < value.LOGICAL_HZ_MIN ||
-    value.LOGICAL_HZ_MAX > 20000
-  ) {
-    reject("PAYLOAD.LOGICAL_HZ_MAX invalid");
+
+  const declared = [...declaredKinds].sort();
+  const observed = [...observedKinds].sort();
+  if (JSON.stringify(declared) !== JSON.stringify(observed)) {
+    reject("PAYLOAD.MODALITY_KINDS does not match bead modalities");
   }
-  if (
-    typeof value.SALIENCE_PEAK !== "number" ||
-    !Number.isFinite(value.SALIENCE_PEAK) ||
-    value.SALIENCE_PEAK < 0 ||
-    value.SALIENCE_PEAK > 1
-  ) {
-    reject("PAYLOAD.SALIENCE_PEAK invalid");
+
+  const hzValues = value.BEADS.map(bead => bead.INTERNAL.LOGICAL_HZ);
+  const expectedMinHz = Number(Math.min(...hzValues).toFixed(6));
+  const expectedMaxHz = Number(Math.max(...hzValues).toFixed(6));
+  let expectedPeak = 0;
+  for (const bead of value.BEADS) {
+    for (const modality of bead.MODALITIES) {
+      expectedPeak = Math.max(expectedPeak, modality.SALIENCE);
+    }
+  }
+  expectedPeak = Number(expectedPeak.toFixed(6));
+
+  if (value.LOGICAL_HZ_MIN !== expectedMinHz) {
+    reject("PAYLOAD.LOGICAL_HZ_MIN mismatch");
+  }
+  if (value.LOGICAL_HZ_MAX !== expectedMaxHz) {
+    reject("PAYLOAD.LOGICAL_HZ_MAX mismatch");
+  }
+  if (value.SALIENCE_PEAK !== expectedPeak) {
+    reject("PAYLOAD.SALIENCE_PEAK mismatch");
   }
 }
 
