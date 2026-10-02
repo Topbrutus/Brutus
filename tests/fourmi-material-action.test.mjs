@@ -312,7 +312,7 @@ test("material validator detects payload tampering", () => {
   material.PAYLOAD.BEADS[0].INTERNAL.LOGICAL_HZ = 777;
   assert.throws(
     () => validateFourmiMaterial(material),
-    /LOGICAL_HZ_MIN mismatch|PAYLOAD_H256 mismatch|MATERIAL_H256 mismatch/
+    /LOGICAL_HZ_MIN mismatch|LOGICAL_HZ_MAX mismatch|PAYLOAD_H256 mismatch|MATERIAL_H256 mismatch/
   );
 });
 
