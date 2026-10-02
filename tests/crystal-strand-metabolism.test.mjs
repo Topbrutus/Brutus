@@ -169,11 +169,11 @@ test("mixed strand is sent to segmentation instead of being destroyed", () => {
 test("time order is Queen-authoritative and backward beads fail closed", () => {
   const input = strand([
     bead(800, 240.1, "b"),
-    bead(801, 240.1, "c")
+    bead(801, 240.1, "c"),
+    bead(802, 240.1, "d")
   ]);
   input.BEADS[1].TICK = 799;
   input.BEADS[1].BEAD_ID = "B-T799-MEMORY";
-  input.TICK_END = 799;
   input.SIGNATURE_H256 = computeCrystalStrandSignature(input);
 
   assert.throws(
