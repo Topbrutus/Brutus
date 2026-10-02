@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/local-machine.v0.schema.json",
+  "title": "Brutus Local Machine v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "MACHINE_ID",
+    "OWNER",
+    "STATE",
+    "CONTRACT_PINS",
+    "ADMITTED_PART_TYPES",
+    "ADMITTED_OPERATIONS",
+    "INPUT_POLICY",
+    "WORKSPACE",
+    "OUTPUT_POLICY",
+    "TRACE_REQUIRED",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-LOCAL-MACHINE-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "MACHINE_ID": {
+      "type": "string",
+      "pattern": "^M:[A-Z0-9-]{1,32}$"
+    },
+    "OWNER": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["QUEEN_ID", "ANT_ID"],
+      "properties": {
+        "QUEEN_ID": {
+          "type": "string",
+          "pattern": "^FOURMINIZER-QUEEN-[0-9]{4}$"
+        },
+        "ANT_ID": {
+          "type": "string",
+          "pattern": "^ANT-[0-9A-F]{12}$"
+        }
+      }
+    },
+    "STATE": { "const": "DORMANT" },
+    "CONTRACT_PINS": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["BRUTUS_CODE", "QUEEN_CRYSTAL", "TRACE", "LOCAL_WORLD_MODEL"],
+      "properties": {
+        "BRUTUS_CODE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/brutus-code.v0.schema.json" },
+            "BLOB_SHA": { "const": "9427c97c95d2b5307f650a188a510c424118acf2" }
+          }
+        },
+        "QUEEN_CRYSTAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/fourminizer-queen-crystal.v0.schema.json" },
+            "BLOB_SHA": { "const": "9c918bc2a70e376671aaf25f716bac0f0287a5a6" }
+          }
+        },
+        "TRACE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/brutus-trace.v0.schema.json" },
+            "BLOB_SHA": { "const": "41d6db0d6a0003c0ec0e73cb4e0e8fe361a44586" }
+          }
+        },
+        "LOCAL_WORLD_MODEL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/local-world-model.v0.schema.json" },
+            "BLOB_SHA": { "const": "289a89530a605d70b0ed70f248f8646d69980885" }
+          }
+        }
+      }
+    },
+    "ADMITTED_PART_TYPES": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["BRIN", "FIBRE", "TIMBRE", "BLOC", "CRISTAL", "FRAGMENT"]
+      }
+    },
+    "ADMITTED_OPERATIONS": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["ASSEMBLE", "RECYCLE_HANDOFF"]
+      }
+    },
+    "INPUT_POLICY": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["MAX_PARTS", "KNOWN_ONLY", "PRESERVE_PEDIGREE"],
+      "properties": {
+        "MAX_PARTS": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "KNOWN_ONLY": { "const": true },
+        "PRESERVE_PEDIGREE": { "const": true }
+      }
+    },
+    "WORKSPACE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["MODE", "DIMENSIONS_ALLOWED", "MAX_SIDE", "MAX_CELLS"],
+      "properties": {
+        "MODE": { "const": "MATRIX_OR_CUBE" },
+        "DIMENSIONS_ALLOWED": {
+          "const": [2, 3]
+        },
+        "MAX_SIDE": { "const": 7 },
+        "MAX_CELLS": { "const": 343 }
+      }
+    },
+    "OUTPUT_POLICY": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["NEW_OBJECT_REQUIRED", "PARENT_SET_REQUIRED", "PEDIGREE_RULE"],
+      "properties": {
+        "NEW_OBJECT_REQUIRED": { "const": true },
+        "PARENT_SET_REQUIRED": { "const": true },
+        "PEDIGREE_RULE": { "const": "DERIVE_ALL_INPUT_PARENTS" }
+      }
+    },
+    "TRACE_REQUIRED": { "const": true },
+    "SIGNATURE_METHOD": { "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1" },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "PROOF_CLAIM": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Immutable local fabrication interface only. Decision-making and execution remain in a separate runtime."
+}
