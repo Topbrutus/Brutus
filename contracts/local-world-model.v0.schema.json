@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/local-world-model.v0.schema.json",
+  "title": "Brutus Local World Model v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "MODEL_ID",
+    "SNAPSHOT_CLASS",
+    "SELF",
+    "POSITION",
+    "OBSERVED_AT_TICK",
+    "CLOCK_AUTHORITY",
+    "CONTRACT_PINS",
+    "KNOWN_OBJECTS",
+    "KNOWN_TRACES",
+    "KNOWN_PATHS",
+    "UNKNOWN_ZONES",
+    "AVAILABLE_PARTS",
+    "GATE_STATES",
+    "LOCAL_MACHINE",
+    "OBJECTIVES",
+    "UNCERTAINTY",
+    "PARENT_MODEL",
+    "PROOF_REF",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION",
+    "OMNISCIENT",
+    "RAW_EXTERNAL_READ"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-LOCAL-WORLD-MODEL-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "MODEL_ID": {
+      "type": "string",
+      "pattern": "^LWM-FMIN-Q[0-9]{4}-[0-9]{4}$"
+    },
+    "SNAPSHOT_CLASS": {
+      "enum": ["SYNTHETIC_FIXTURE", "RUNTIME"]
+    },
+    "SELF": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["QUEEN_ID", "ANT_ID", "ROLE"],
+      "properties": {
+        "QUEEN_ID": {
+          "type": "string",
+          "pattern": "^FOURMINIZER-QUEEN-[0-9]{4}$"
+        },
+        "ANT_ID": {
+          "type": "string",
+          "pattern": "^ANT-[0-9A-F]{12}$"
+        },
+        "ROLE": { "const": "FOURMINIZER_QUEEN" }
+      }
+    },
+    "POSITION": {
+      "type": "string",
+      "pattern": "^W:[A-Z0-9-]{1,32}$"
+    },
+    "OBSERVED_AT_TICK": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "CONTRACT_PINS": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["BRUTUS_CODE", "QUEEN_CRYSTAL", "TRACE"],
+      "properties": {
+        "BRUTUS_CODE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/brutus-code.v0.schema.json" },
+            "BLOB_SHA": { "const": "9427c97c95d2b5307f650a188a510c424118acf2" }
+          }
+        },
+        "QUEEN_CRYSTAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/fourminizer-queen-crystal.v0.schema.json" },
+            "BLOB_SHA": { "const": "9c918bc2a70e376671aaf25f716bac0f0287a5a6" }
+          }
+        },
+        "TRACE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["REF", "BLOB_SHA"],
+          "properties": {
+            "REF": { "const": "contracts/brutus-trace.v0.schema.json" },
+            "BLOB_SHA": { "const": "41d6db0d6a0003c0ec0e73cb4e0e8fe361a44586" }
+          }
+        }
+      }
+    },
+    "KNOWN_OBJECTS": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(P|C|L|G|T|M|Z|W|A):[A-Z0-9-]{1,32}$"
+      }
+    },
+    "KNOWN_TRACES": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+      }
+    },
+    "KNOWN_PATHS": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["FROM", "TO", "STATE"],
+        "properties": {
+          "FROM": {
+            "type": "string",
+            "pattern": "^W:[A-Z0-9-]{1,32}$"
+          },
+          "TO": {
+            "type": "string",
+            "pattern": "^W:[A-Z0-9-]{1,32}$"
+          },
+          "STATE": {
+            "enum": ["OBSERVED_OPEN", "OBSERVED_BLOCKED"]
+          }
+        }
+      }
+    },
+    "UNKNOWN_ZONES": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^W:[A-Z0-9-]{1,32}$"
+      }
+    },
+    "AVAILABLE_PARTS": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^P:[A-Z0-9-]{1,32}$"
+      }
+    },
+    "GATE_STATES": {
+      "type": "array",
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["GATE_ID", "STATE"],
+        "properties": {
+          "GATE_ID": {
+            "type": "string",
+            "pattern": "^G:L(?:8|9|10|11|12|13)$"
+          },
+          "STATE": {
+            "enum": ["CLOSED", "UNKNOWN"]
+          }
+        }
+      }
+    },
+    "LOCAL_MACHINE": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ID", "STATE"],
+      "properties": {
+        "ID": { "type": "null" },
+        "STATE": { "const": "UNBOUND" }
+      }
+    },
+    "OBJECTIVES": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "OBSERVE",
+          "READ_TRACE",
+          "IDENTIFY_PART",
+          "WAIT",
+          "RETURN_BASIN"
+        ]
+      }
+    },
+    "UNCERTAINTY": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["LEVEL", "BASIS", "UNKNOWN_ZONE_COUNT"],
+      "properties": {
+        "LEVEL": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "BASIS": { "const": "LOCAL_OBSERVATION_ONLY" },
+        "UNKNOWN_ZONE_COUNT": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "PARENT_MODEL": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "pattern": "^LWM-FMIN-Q[0-9]{4}-[0-9]{4}$"
+        }
+      ]
+    },
+    "PROOF_REF": { "type": "null" },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "PROOF_CLAIM": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "OMNISCIENT": { "const": false },
+    "RAW_EXTERNAL_READ": { "const": false }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Local bounded snapshot only. Unobserved remains UNKNOWN; no omniscience, routing authority, proof claim, raw external read or executable behavior."
+}

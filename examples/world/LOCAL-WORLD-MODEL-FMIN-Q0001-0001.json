@@ -1,0 +1,97 @@
+{
+  "SCHEMA": "BRUTUS-LOCAL-WORLD-MODEL-v0.1",
+  "VERSION": "0.1",
+  "MODEL_ID": "LWM-FMIN-Q0001-0001",
+  "SNAPSHOT_CLASS": "SYNTHETIC_FIXTURE",
+  "SELF": {
+    "QUEEN_ID": "FOURMINIZER-QUEEN-0001",
+    "ANT_ID": "ANT-000000000001",
+    "ROLE": "FOURMINIZER_QUEEN"
+  },
+  "POSITION": "W:START",
+  "OBSERVED_AT_TICK": 273,
+  "CLOCK_AUTHORITY": "QUEEN_SERVER_V0_2",
+  "CONTRACT_PINS": {
+    "BRUTUS_CODE": {
+      "REF": "contracts/brutus-code.v0.schema.json",
+      "BLOB_SHA": "9427c97c95d2b5307f650a188a510c424118acf2"
+    },
+    "QUEEN_CRYSTAL": {
+      "REF": "contracts/fourminizer-queen-crystal.v0.schema.json",
+      "BLOB_SHA": "9c918bc2a70e376671aaf25f716bac0f0287a5a6"
+    },
+    "TRACE": {
+      "REF": "contracts/brutus-trace.v0.schema.json",
+      "BLOB_SHA": "41d6db0d6a0003c0ec0e73cb4e0e8fe361a44586"
+    }
+  },
+  "KNOWN_OBJECTS": [
+    "W:START",
+    "P:184",
+    "L:7"
+  ],
+  "KNOWN_TRACES": [
+    "TRACE-FMIN-Q0001-0001"
+  ],
+  "KNOWN_PATHS": [],
+  "UNKNOWN_ZONES": [
+    "W:NORTH",
+    "W:SOUTH",
+    "W:EAST",
+    "W:WEST"
+  ],
+  "AVAILABLE_PARTS": [
+    "P:184"
+  ],
+  "GATE_STATES": [
+    {
+      "GATE_ID": "G:L8",
+      "STATE": "UNKNOWN"
+    },
+    {
+      "GATE_ID": "G:L9",
+      "STATE": "UNKNOWN"
+    },
+    {
+      "GATE_ID": "G:L10",
+      "STATE": "UNKNOWN"
+    },
+    {
+      "GATE_ID": "G:L11",
+      "STATE": "UNKNOWN"
+    },
+    {
+      "GATE_ID": "G:L12",
+      "STATE": "UNKNOWN"
+    },
+    {
+      "GATE_ID": "G:L13",
+      "STATE": "UNKNOWN"
+    }
+  ],
+  "LOCAL_MACHINE": {
+    "ID": null,
+    "STATE": "UNBOUND"
+  },
+  "OBJECTIVES": [
+    "OBSERVE",
+    "READ_TRACE",
+    "WAIT"
+  ],
+  "UNCERTAINTY": {
+    "LEVEL": 100,
+    "BASIS": "LOCAL_OBSERVATION_ONLY",
+    "UNKNOWN_ZONE_COUNT": 4
+  },
+  "PARENT_MODEL": null,
+  "PROOF_REF": null,
+  "SIGNATURE_METHOD": "BRUTUS-CANONICAL-JSON-SHA256-v0.1",
+  "SIGNATURE_H256": "ec8d7e85e19be453d2d7135158da11d3d28d38396163462454d599eac7148de6",
+  "IMMUTABLE": true,
+  "EXECUTABLE": false,
+  "PROOF_CLAIM": false,
+  "GATE_AUTHORITY": false,
+  "ROUTING_AUTHORIZATION": "UNDECIDED",
+  "OMNISCIENT": false,
+  "RAW_EXTERNAL_READ": false
+}
