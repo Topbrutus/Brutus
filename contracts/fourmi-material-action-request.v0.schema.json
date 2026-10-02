@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/fourmi-material-action-request.v0.schema.json",
+  "title": "Brutus Fourmi Material Action Request v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "REQUEST_ID",
+    "ANT_ID",
+    "TICK",
+    "CLOCK_AUTHORITY",
+    "PARENT_STRAND_ID",
+    "PARENT_SIGNATURE_H256",
+    "PROPOSAL_H256",
+    "SEGMENT_ID",
+    "AUTHORIZATION",
+    "TRACE_ID",
+    "PROOF_REF",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "EXECUTABLE",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-FOURMI-MATERIAL-ACTION-REQUEST-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "REQUEST_ID": {
+      "type": "string",
+      "pattern": "^FMA-[A-Z0-9-]{4,80}$"
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "TICK": { "type": "integer", "minimum": 0 },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "PARENT_STRAND_ID": {
+      "type": "string",
+      "pattern": "^STRAND-[A-Z0-9-]{4,80}$"
+    },
+    "PARENT_SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "PROPOSAL_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "SEGMENT_ID": {
+      "type": "string",
+      "pattern": "^STRAND-[A-Z0-9-]{4,80}-SEG-[0-9]{4}$"
+    },
+    "AUTHORIZATION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["POLICY", "DECISION", "APPROVER"],
+      "properties": {
+        "POLICY": { "const": "BRUTUS-FOURMI-MATERIAL-ACTION-v0.1" },
+        "DECISION": { "const": "APPROVED" },
+        "APPROVER": { "const": "BRUTUS_CONTROL_PLANE" }
+      }
+    },
+    "TRACE_ID": {
+      "type": "string",
+      "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+    },
+    "PROOF_REF": { "type": "null" },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "EXECUTABLE": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" }
+  },
+  "x-brutus-status": "CANDIDATE_FOURMI_MATERIAL_ACTION_REQUEST",
+  "x-security": "Explicit bounded materialization request. No gate, routing or proof authority."
+}
