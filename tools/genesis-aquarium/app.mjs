@@ -262,10 +262,11 @@ function animateFrame(now) {
         y: animation.fromY + (animation.toY - animation.fromY) * eased
       });
     } else if (animation.kind === "PHASE") {
-      visualPhases.set(
-        animation.id,
-        animation.fromDeg + (animation.toDeg - animation.fromDeg) * eased
-      );
+      const deltaDeg =
+        ((animation.toDeg - animation.fromDeg + 540) % 360) - 180;
+      const phase =
+        ((animation.fromDeg + deltaDeg * eased) % 360 + 360) % 360;
+      visualPhases.set(animation.id, phase);
     }
 
     if (t >= 1) {
@@ -308,7 +309,8 @@ function scheduleTransitions(result) {
       animations.set("PHASE:" + transition.SUBJECT_ID, {
         kind: "PHASE",
         id: transition.SUBJECT_ID,
-        fromDeg: transition.FROM_DEG,
+        fromDeg:
+          visualPhases.get(transition.SUBJECT_ID) ?? transition.FROM_DEG,
         toDeg: transition.TO_DEG,
         startedAt: now,
         durationMs: VISUAL_DURATION_MS
@@ -378,6 +380,8 @@ window.BrutusGenesisAquarium = Object.freeze({
   consumeDelta,
   snapshot: () => aquarium.snapshot()
 });
+
+window.dispatchEvent(new CustomEvent("brutus:genesis-ready"));
 
 resizeCanvas();
 render();
