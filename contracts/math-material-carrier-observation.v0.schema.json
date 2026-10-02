@@ -1,0 +1,44 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://brutus.local/contracts/math-material-carrier-observation.v0.schema.json",
+  "title":"Brutus Math Material Carrier Observation v0.1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":[
+    "SCHEMA","VERSION","OBSERVATION_ID","TICK","CLOCK_AUTHORITY",
+    "MATERIAL_ID","MATERIAL_H256","ANT_ID","BINDING_STATE","SOURCE",
+    "TRACE_ID","PROOF_REF","SIGNATURE_METHOD","SIGNATURE_H256",
+    "EXECUTABLE","PROOF_CLAIM","GATE_AUTHORITY","ROUTING_AUTHORIZATION"
+  ],
+  "properties":{
+    "SCHEMA":{"const":"BRUTUS-MATH-MATERIAL-CARRIER-OBSERVATION-v0.1"},
+    "VERSION":{"const":"0.1"},
+    "OBSERVATION_ID":{"type":"string","pattern":"^MMCO-T[0-9]{1,16}-[A-Z0-9-]{4,64}$"},
+    "TICK":{"type":"integer","minimum":0},
+    "CLOCK_AUTHORITY":{"const":"QUEEN_SERVER_V0_2"},
+    "MATERIAL_ID":{"type":"string","pattern":"^MAT-MATH-[A-F0-9]{24}$"},
+    "MATERIAL_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "ANT_ID":{"type":"string","pattern":"^ANT-[0-9A-F]{12}$"},
+    "BINDING_STATE":{"const":"ATTACHED"},
+    "SOURCE":{
+      "type":"object",
+      "additionalProperties":false,
+      "required":["SOURCE_SCHEMA","SOURCE_ENDPOINT","OBSERVED_AT_UTC","INTEGRITY_MATCH"],
+      "properties":{
+        "SOURCE_SCHEMA":{"type":"string","minLength":3,"maxLength":160},
+        "SOURCE_ENDPOINT":{"type":"string","minLength":1,"maxLength":256},
+        "OBSERVED_AT_UTC":{"type":"string","format":"date-time"},
+        "INTEGRITY_MATCH":{"const":true}
+      }
+    },
+    "TRACE_ID":{"type":"string","pattern":"^TRACE-[A-Z0-9-]{4,64}$"},
+    "PROOF_REF":{"type":"null"},
+    "SIGNATURE_METHOD":{"const":"BRUTUS-CANONICAL-JSON-SHA256-v0.1"},
+    "SIGNATURE_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "EXECUTABLE":{"const":false},
+    "PROOF_CLAIM":{"const":false},
+    "GATE_AUTHORITY":{"const":false},
+    "ROUTING_AUTHORIZATION":{"const":"UNDECIDED"}
+  },
+  "x-security":"Carrier attachment observation only. No movement, proof, routing, gate or execution authority."
+}
