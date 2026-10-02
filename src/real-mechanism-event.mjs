@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { sha256HexUtf8 } from "./sha256-utf8.mjs";
 
 const SCHEMA = "BRUTUS-REAL-MECHANISM-EVENT-v0.1";
 const VERSION = "0.1";
@@ -108,9 +108,7 @@ function signaturePayload(input) {
 }
 
 function h256(value) {
-  return createHash("sha256")
-    .update(JSON.stringify(canonicalize(value)))
-    .digest("hex");
+  return sha256HexUtf8(JSON.stringify(canonicalize(value)));
 }
 
 function validateSource(source) {

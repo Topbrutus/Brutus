@@ -1,4 +1,4 @@
-import { validateFourminizerLiveEvent } from "./fourminizer-startup-runtime.mjs";
+import { validateFourminizerLiveEvent } from "./fourminizer-live-event.mjs";
 import { validateRealMechanismEvent } from "./real-mechanism-event.mjs";
 
 const STREAM_SCHEMA = "BRUTUS-READ-ONLY-LIVE-EVENT-STREAM-v0.1";
