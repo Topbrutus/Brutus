@@ -118,24 +118,20 @@ function formulaSampleItem(b) {
       ? b.sample_bindings.slice(0, 64).map(value => boundedString(String(value), "sample_binding", 512))
       : [],
     EVIDENCE: {
-      SOURCE_TRACE_REF: isPlainObject(b.last_trace) && b.last_trace.TRACE != null
-        ? String(b.last_trace.TRACE)
-        : null,
-      SOURCE_PROOF_REF: isPlainObject(b.last_proof) && b.last_proof.proof_id != null
-        ? String(b.last_proof.proof_id)
-        : null,
+      SOURCE_TRACE_REF: null,
+      SOURCE_PROOF_REF: null,
       SOURCE_HASH_REF: b.sample_hash == null ? null : String(b.sample_hash),
-      SUPPORT_COUNT: count(b.reconstructed_supports, "reconstructed_supports"),
-      TEST_COUNT: count(b.proofs_valid, "proofs_valid"),
-      REPLAY_STATUS: isPlainObject(b.last_proof) && typeof b.last_proof.reason === "string"
-        ? b.last_proof.reason
-        : "SOURCE_STATUS_ONLY"
+      SUPPORT_COUNT: 0,
+      TEST_COUNT: 0,
+      REPLAY_STATUS: "NOT_ITEM_SCOPED"
     },
     PROVENANCE: {
-      source_component: "BRUTOPRESSEUR/BRUTOPREUVEUR",
+      source_component: "BRUTOPRESSEUR",
       source_formula_hash_ref: b.sample_hash == null ? null : String(b.sample_hash),
       authenticated_formula_count: b.authenticated_formulas,
-      canonical_formula_count: b.canonical_formulas
+      canonical_formula_count: b.canonical_formulas,
+      global_reconstructed_supports: b.reconstructed_supports,
+      global_proofs_valid: b.proofs_valid
     }
   };
 }
@@ -227,7 +223,7 @@ export function adaptBrotoculateurStatus(status, { queenTick = null } = {}) {
   return createMathInputPacket({
     packetId: `MIP-BROTOCULATEUR-${packetSeed}`,
     source: {
-      SYSTEM: "BROToculateur",
+      SYSTEM: "BROTOCULATEUR",
       ADAPTER,
       ADAPTER_VERSION,
       SOURCE_RUN_ID: status.run_id,
