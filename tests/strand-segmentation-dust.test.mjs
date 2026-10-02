@@ -104,7 +104,7 @@ test("mixed strand gets deterministic cut proposals at observed material boundar
   assert.equal(result.METABOLISM_DECISION, "SEGMENT_CANDIDATE");
   assert.equal(result.ACTION, "PROPOSE_SEGMENTS");
   assert.equal(result.CUT_COUNT, 1);
-  assert.deepEqual(result.CUTS[0].REASONS.sort(), [
+  assert.deepEqual([...result.CUTS[0].REASONS].sort(), [
     "FEATURE_CHANGE",
     "LOGICAL_HZ_BAND_CHANGE",
     "SALIENCE_BAND_CHANGE"
