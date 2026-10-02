@@ -1,11 +1,16 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   BRUTUS_CRYSTAL_RECONSTRUCTION_METHOD,
   computeCrystalPayloadH256,
   validateCrystal
 } from "../src/crystal-contract.mjs";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
 
 function validCrystal() {
   const payload = {
@@ -111,4 +116,15 @@ test("crystal rejects unknown fields instead of silently accepting drift", () =>
   const crystal = validCrystal();
   crystal.ROUTE = "WORLD";
   assert.throws(() => validateCrystal(crystal), /unknown crystal field ROUTE/);
+});
+
+test("reference crystal file validates against runtime invariants", () => {
+  const file = path.join(
+    here,
+    "../examples/crystals/BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001.json"
+  );
+  const crystal = validateCrystal(JSON.parse(fs.readFileSync(file, "utf8")));
+  assert.equal(crystal.CRYSTAL_ID, "BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001");
+  assert.equal(crystal.PAYLOAD_H256, computeCrystalPayloadH256(crystal.PAYLOAD));
+  assert.equal(crystal.PROOF_REFS.length, 1);
 });
