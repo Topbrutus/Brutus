@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/math-material-admission-request.v0.schema.json",
+  "title": "Brutus Math Material Admission Request v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA","VERSION","REQUEST_ID","ANT_ID","TICK","CLOCK_AUTHORITY",
+    "PARENT_CRYSTAL_ID","PARENT_CRYSTAL_H256","PURPOSE","AUTHORIZATION",
+    "TRACE_ID","PROOF_REF","SIGNATURE_METHOD","SIGNATURE_H256","EXECUTABLE",
+    "GATE_AUTHORITY","ROUTING_AUTHORIZATION","WHEEL_INGRESS_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-MATH-MATERIAL-ADMISSION-REQUEST-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "REQUEST_ID": { "type": "string", "pattern": "^MMA-[A-Z0-9-]{4,80}$" },
+    "ANT_ID": { "type": "string", "pattern": "^ANT-[0-9A-F]{12}$" },
+    "TICK": { "type": "integer", "minimum": 0 },
+    "CLOCK_AUTHORITY": { "const": "QUEEN_SERVER_V0_2" },
+    "PARENT_CRYSTAL_ID": { "type": "string", "pattern": "^MATH-CRYSTAL-[A-F0-9]{24}$" },
+    "PARENT_CRYSTAL_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "PURPOSE": { "const": "FOURMI_TRANSPORT_ADMISSION" },
+    "AUTHORIZATION": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["POLICY","DECISION","APPROVER"],
+      "properties": {
+        "POLICY": { "const": "BRUTUS-MATH-MATERIAL-ADMISSION-v0.1" },
+        "DECISION": { "const": "APPROVED" },
+        "APPROVER": { "const": "BRUTUS_CONTROL_PLANE" }
+      }
+    },
+    "TRACE_ID": { "type": "string", "pattern": "^TRACE-[A-Z0-9-]{4,64}$" },
+    "PROOF_REF": { "type": "null" },
+    "SIGNATURE_METHOD": { "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1" },
+    "SIGNATURE_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "EXECUTABLE": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" },
+    "WHEEL_INGRESS_AUTHORIZATION": { "const": false }
+  },
+  "x-security": "Explicit bounded admission request. Authorizes transport eligibility only; no movement, wheel ingress, routing, execution or proof authority."
+}
