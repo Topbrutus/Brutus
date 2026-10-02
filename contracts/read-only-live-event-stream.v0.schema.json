@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/read-only-live-event-stream.v0.schema.json",
+  "title": "Brutus Read-Only Live Event Stream v0.1",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "SCHEMA",
+        "VERSION",
+        "CAPACITY",
+        "SIZE",
+        "FIRST_OFFSET",
+        "LAST_OFFSET",
+        "LAST_TICK",
+        "DROPPED_COUNT",
+        "EVENTS",
+        "READ_ONLY",
+        "CREATES_EVENTS",
+        "LOGICAL_CLOCK_AUTHORITY"
+      ],
+      "properties": {
+        "SCHEMA": {
+          "const": "BRUTUS-READ-ONLY-LIVE-EVENT-STREAM-v0.1"
+        },
+        "VERSION": {
+          "const": "0.1"
+        },
+        "CAPACITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "SIZE": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "FIRST_OFFSET": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "LAST_OFFSET": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "LAST_TICK": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "DROPPED_COUNT": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "EVENTS": {
+          "type": "array",
+          "maxItems": 4096,
+          "items": {
+            "$ref": "#/$defs/streamEntry"
+          }
+        },
+        "READ_ONLY": {
+          "const": true
+        },
+        "CREATES_EVENTS": {
+          "const": false
+        },
+        "LOGICAL_CLOCK_AUTHORITY": {
+          "const": "QUEEN_SERVER_V0_2"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "SCHEMA",
+        "VERSION",
+        "CURSOR_IN",
+        "CURSOR_OUT",
+        "EVENTS",
+        "GAP",
+        "RESYNC_REQUIRED"
+      ],
+      "properties": {
+        "SCHEMA": {
+          "const": "BRUTUS-READ-ONLY-LIVE-EVENT-DELTA-v0.1"
+        },
+        "VERSION": {
+          "const": "0.1"
+        },
+        "CURSOR_IN": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "CURSOR_OUT": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "EVENTS": {
+          "type": "array",
+          "maxItems": 4096,
+          "items": {
+            "$ref": "#/$defs/streamEntry"
+          }
+        },
+        "GAP": {
+          "const": false
+        },
+        "RESYNC_REQUIRED": {
+          "const": false
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "streamEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["OFFSET", "EVENT"],
+      "properties": {
+        "OFFSET": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "EVENT": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "x-brutus-status": "READ_ONLY_TRANSPORT_CONTRACT",
+  "x-brutus-boundary": "Transport ordering only. OFFSET is not a logical tick and must never replace Queen clock authority."
+}
