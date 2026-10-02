@@ -264,6 +264,12 @@ test("entity continuity mismatch fails closed and requires resync", () => {
 
   assert.equal(aquarium.resyncRequired, true);
 
+  const rolledBack = aquarium.snapshot();
+  const ant = rolledBack.ENTITIES.find(item => item.ID === "ANT-000000000001");
+  assert.equal(rolledBack.LAST_OFFSET, 1);
+  assert.equal(rolledBack.LAST_TICK, 20);
+  assert.equal(ant.WORLD_REF, "W:GENESIS-B");
+
   assert.throws(
     () => aquarium.applyDelta(delta(1, [])),
     /RESYNC_REQUIRED/
