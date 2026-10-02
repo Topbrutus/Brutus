@@ -53,6 +53,35 @@
       line-height: 1.5;
     }
 
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+      padding: 8px 0;
+    }
+
+    .controls button {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 1px solid #666;
+      background: #0b0b0b;
+      color: #f5f5f5;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .controls button:disabled {
+      color: #666;
+      border-color: #333;
+      cursor: default;
+    }
+
+    .controls span {
+      color: #aaa;
+      font-size: 12px;
+    }
+
     .stage {
       border: 1px solid #333;
       background: #050505;
@@ -86,6 +115,12 @@
         <span data-detail>Aucune coordonnée visuelle n’est inventée. Charge un layout Genesis explicite.</span>
       </header>
 
+      <div class="controls">
+        <button type="button" data-connect-runtime>CONNECTER RUNTIME RÉEL</button>
+        <button type="button" data-disconnect-runtime disabled>DÉCONNECTER</button>
+        <span data-live-status>PRÊT · aucune connexion ouverte</span>
+      </div>
+
       <div class="stage">
         <canvas
           width="1280"
@@ -96,14 +131,14 @@
 
       <p class="boundary">
         Vue lecture seule. Ce shell ne crée ni Fourmi, ni cristal, ni tick, ni route.
-        Il accepte seulement un layout visuel explicite via
-        <code>BrutusGenesisAquarium.loadLayout(layout)</code>
-        et des deltas validés via
-        <code>BrutusGenesisAquarium.consumeDelta(delta)</code>.
+        Le bouton de connexion ouvre uniquement le WebSocket public réel
+        <code>wss://antmux.com/laboratoire/embryon-x72/ws</code>.
+        Les deux roues n'apparaissent qu'après réception d'un vrai changement de phase X72.
       </p>
     </section>
   </main>
 
   <script type="module" src="./app.mjs"></script>
+  <script type="module" src="./live-antmux.mjs"></script>
 </body>
 </html>
