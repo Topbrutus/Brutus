@@ -428,7 +428,6 @@ export function createGenesis2DAquarium({ layout = null } = {}) {
       );
     }
 
-    const transitions = [];
     let expectedOffset = lastOffset + 1;
     let workingTick = lastTick;
 
@@ -449,8 +448,6 @@ export function createGenesis2DAquarium({ layout = null } = {}) {
         reject("event tick moved backward inside delta; resync_required=true");
       }
 
-      applyEvent(entry.EVENT, transitions);
-
       expectedOffset += 1;
       workingTick = entry.EVENT.TICK;
     }
@@ -465,6 +462,29 @@ export function createGenesis2DAquarium({ layout = null } = {}) {
         " got " + delta.CURSOR_OUT +
         " resync_required=true"
       );
+    }
+
+    const entitiesBefore = new Map(
+      [...entities.entries()].map(([id, value]) => [id, clone(value)])
+    );
+    const mechanismsBefore = new Map(
+      [...mechanisms.entries()].map(([id, value]) => [id, clone(value)])
+    );
+    const transitions = [];
+
+    try {
+      for (const entry of delta.EVENTS) {
+        applyEvent(entry.EVENT, transitions);
+      }
+    } catch (error) {
+      entities.clear();
+      mechanisms.clear();
+
+      for (const [id, value] of entitiesBefore) entities.set(id, value);
+      for (const [id, value] of mechanismsBefore) mechanisms.set(id, value);
+
+      resyncRequired = true;
+      throw error;
     }
 
     lastOffset = delta.CURSOR_OUT;
