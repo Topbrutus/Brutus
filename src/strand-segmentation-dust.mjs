@@ -184,7 +184,7 @@ export function proposeStrandSegmentation(input) {
   const strand = validateCrystalStrand(input);
   const metabolism = analyzeCrystalStrand(strand);
 
-  if (metabolism.DECISION === "PRESERVE" || metabolism.DECISION === "CONSOLIDATE") {
+  if (metabolism.DECISION === "CONSOLIDATE") {
     return deepFreeze({
       SCHEMA: RESULT_SCHEMA,
       VERSION,
@@ -195,7 +195,7 @@ export function proposeStrandSegmentation(input) {
       CUTS: [],
       SEGMENTS: [],
       ACTION: "NO_CUT",
-      REASON: "METABOLISM_REQUIRES_RETENTION",
+      REASON: "METABOLISM_REQUIRES_CONSOLIDATION",
       MUTATION_PERFORMED: false,
       MATERIAL_CREATED: false,
       DUST_CREATED: false,
@@ -263,6 +263,55 @@ export function proposeStrandSegmentation(input) {
   const segments = ranges.map(([start, end], index) =>
     buildSegment(strand, start, end, index + 1)
   );
+
+  if (metabolism.DECISION === "PRESERVE") {
+    const hasPreserveFragment = segments.some(
+      segment => segment.DISPOSITION === "PRESERVE_FRAGMENT_CANDIDATE"
+    );
+    const hasDustFragment = segments.some(
+      segment => segment.DISPOSITION === "DUST_CANDIDATE"
+    );
+
+    if (!(cuts.length > 0 && hasPreserveFragment && hasDustFragment)) {
+      return deepFreeze({
+        SCHEMA: RESULT_SCHEMA,
+        VERSION,
+        PARENT_STRAND_ID: strand.STRAND_ID,
+        PARENT_SIGNATURE_H256: strand.SIGNATURE_H256,
+        METABOLISM_DECISION: metabolism.DECISION,
+        CUT_COUNT: 0,
+        CUTS: [],
+        SEGMENTS: [],
+        ACTION: "NO_CUT",
+        REASON: "PRESERVE_WITHOUT_SAFE_SELECTIVE_BOUNDARY",
+        MUTATION_PERFORMED: false,
+        MATERIAL_CREATED: false,
+        DUST_CREATED: false,
+        CRYSTAL_CREATED: false,
+        DELETION_PERFORMED: false,
+        PROOF_REF: null
+      });
+    }
+
+    return deepFreeze({
+      SCHEMA: RESULT_SCHEMA,
+      VERSION,
+      PARENT_STRAND_ID: strand.STRAND_ID,
+      PARENT_SIGNATURE_H256: strand.SIGNATURE_H256,
+      METABOLISM_DECISION: metabolism.DECISION,
+      CUT_COUNT: cuts.length,
+      CUTS: cuts,
+      SEGMENTS: segments,
+      ACTION: "PROPOSE_SELECTIVE_RETENTION",
+      REASON: "PRESERVE_DISTINCTIVE_FRAGMENT_AND_RECYCLE_FLAT_FRAGMENT_CANDIDATES",
+      MUTATION_PERFORMED: false,
+      MATERIAL_CREATED: false,
+      DUST_CREATED: false,
+      CRYSTAL_CREATED: false,
+      DELETION_PERFORMED: false,
+      PROOF_REF: null
+    });
+  }
 
   return deepFreeze({
     SCHEMA: RESULT_SCHEMA,
