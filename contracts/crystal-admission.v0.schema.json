@@ -8,6 +8,7 @@
     "SCHEMA",
     "VERSION",
     "CRYSTAL_ID",
+    "CRYSTAL_H256",
     "PAYLOAD_H256",
     "EVIDENCE_LABEL",
     "SOURCE_INTEGRITY_SCHEMA",
@@ -27,6 +28,10 @@
     "CRYSTAL_ID": {
       "type": "string",
       "pattern": "^BRUTUS-CRYSTAL-[A-Z0-9-]+$"
+    },
+    "CRYSTAL_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
     },
     "PAYLOAD_H256": {
       "type": "string",
@@ -49,5 +54,5 @@
     "PROOF_PROMOTION": { "const": false }
   },
   "x-brutus-status": "CRYSTAL_ADMISSION_GATE_RESULT",
-  "x-security": "Qualification only. No registry write, source mutation, network, process execution, routing authority or proof promotion."
+  "x-security": "Qualification only. Full crystal object is bound by CRYSTAL_H256. No registry write, source mutation, network, process execution, routing authority or proof promotion."
 }
