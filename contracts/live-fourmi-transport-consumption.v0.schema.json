@@ -1,0 +1,55 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://brutus.local/contracts/live-fourmi-transport-consumption.v0.schema.json",
+  "title":"Brutus Live Fourmi Transport Consumption v0.1",
+  "type":"object",
+  "additionalProperties":false,
+  "required":[
+    "SCHEMA","VERSION","CONSUMPTION_ID","AUTHORIZATION_ID",
+    "AUTHORIZATION_H256","ANT_ID","MATERIAL_ID","COMMAND_ID",
+    "ANT_MOVE_EVENT_ID","ANT_MOVE_H256","MATERIAL_MOVE_ID",
+    "MATERIAL_MOVE_H256","CONSUMED_AT_TICK","CLOCK_AUTHORITY",
+    "SINGLE_USE","CONSUMED","PROOF_REF","EXECUTABLE","GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION","SIGNATURE_METHOD","SIGNATURE_H256"
+  ],
+  "properties":{
+    "SCHEMA":{"const":"BRUTUS-LIVE-FOURMI-TRANSPORT-CONSUMPTION-v0.1"},
+    "VERSION":{"const":"0.1"},
+    "CONSUMPTION_ID":{
+      "type":"string",
+      "pattern":"^LTAC-T[0-9]{1,16}-[A-F0-9]{20}$"
+    },
+    "AUTHORIZATION_ID":{
+      "type":"string",
+      "pattern":"^LTA-T[0-9]{1,16}-[A-F0-9]{20}$"
+    },
+    "AUTHORIZATION_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "ANT_ID":{"type":"string","pattern":"^ANT-[0-9A-F]{12}$"},
+    "MATERIAL_ID":{"type":"string","pattern":"^MAT-MATH-[A-F0-9]{24}$"},
+    "COMMAND_ID":{
+      "type":"string",
+      "pattern":"^LTC-T[0-9]{1,16}-[A-F0-9]{20}$"
+    },
+    "ANT_MOVE_EVENT_ID":{
+      "type":"string",
+      "pattern":"^RME-T[0-9]{1,16}-[A-Z0-9-]{4,64}$"
+    },
+    "ANT_MOVE_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "MATERIAL_MOVE_ID":{
+      "type":"string",
+      "pattern":"^MMOVE-T[0-9]{1,16}-[A-F0-9]{20}$"
+    },
+    "MATERIAL_MOVE_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"},
+    "CONSUMED_AT_TICK":{"type":"integer","minimum":0},
+    "CLOCK_AUTHORITY":{"const":"QUEEN_SERVER_V0_2"},
+    "SINGLE_USE":{"const":true},
+    "CONSUMED":{"const":true},
+    "PROOF_REF":{"type":"null"},
+    "EXECUTABLE":{"const":false},
+    "GATE_AUTHORITY":{"const":false},
+    "ROUTING_AUTHORIZATION":{"const":"CONSUMED"},
+    "SIGNATURE_METHOD":{"const":"BRUTUS-CANONICAL-JSON-SHA256-v0.1"},
+    "SIGNATURE_H256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"}
+  },
+  "x-security":"Immutable single-use authorization consumption receipt created only after validated ANT_MOVE and MATERIAL_MOVE. It does not itself create proof or execution authority."
+}
