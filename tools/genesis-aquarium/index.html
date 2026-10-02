@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brutus Genesis Aquarium</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      background: #050505;
+      color: #f5f5f5;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: #050505;
+      color: #f5f5f5;
+    }
+
+    main {
+      width: min(100%, 1500px);
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .frame {
+      display: grid;
+      gap: 12px;
+    }
+
+    .status {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px 18px;
+      min-height: 44px;
+    }
+
+    .status strong {
+      font-size: 14px;
+      letter-spacing: .08em;
+    }
+
+    .status span {
+      color: #aaa;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .stage {
+      border: 1px solid #333;
+      background: #050505;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: clamp(320px, 70vw, 820px);
+      background: #050505;
+    }
+
+    .boundary {
+      color: #777;
+      font-size: 11px;
+      line-height: 1.55;
+      max-width: 1000px;
+    }
+
+    code {
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="frame" data-genesis-root aria-label="Aquarium Genesis Brutus">
+      <header class="status" aria-live="polite">
+        <strong data-status>WAITING FOR LAYOUT</strong>
+        <span data-detail>Aucune coordonnée visuelle n’est inventée. Charge un layout Genesis explicite.</span>
+      </header>
+
+      <div class="stage">
+        <canvas
+          width="1280"
+          height="720"
+          aria-label="Vue 2D lecture seule du monde Genesis"
+        ></canvas>
+      </div>
+
+      <p class="boundary">
+        Vue lecture seule. Ce shell ne crée ni Fourmi, ni cristal, ni tick, ni route.
+        Il accepte seulement un layout visuel explicite via
+        <code>BrutusGenesisAquarium.loadLayout(layout)</code>
+        et des deltas validés via
+        <code>BrutusGenesisAquarium.consumeDelta(delta)</code>.
+      </p>
+    </section>
+  </main>
+
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
