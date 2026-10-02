@@ -127,8 +127,8 @@ function validateSummary(summary) {
   if (summary.PROOFS_VALID + summary.PROOFS_INVALID > summary.PROOFS_TOTAL) {
     reject("proof outcome counts exceed PROOFS_TOTAL");
   }
-  if (summary.FAILED_SUPPORTS > summary.RECONSTRUCTED_SUPPORTS + summary.FAILED_SUPPORTS) {
-    reject("invalid support counts");
+  if (summary.RECONSTRUCTED_SUPPORTS + summary.FAILED_SUPPORTS > summary.TRACES_TOTAL) {
+    reject("support outcome counts exceed TRACES_TOTAL");
   }
 }
 
