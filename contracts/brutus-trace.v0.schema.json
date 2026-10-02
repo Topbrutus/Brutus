@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/brutus-trace.v0.schema.json",
+  "title": "Brutus Trace v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "TRACE_ID",
+    "TRACE_CLASS",
+    "ANT_ID",
+    "ACTOR_CLASS",
+    "POSITION",
+    "TICK",
+    "CLOCK_AUTHORITY",
+    "ACTION",
+    "INPUT_OBJECTS",
+    "OUTPUT_OBJECTS",
+    "RESULT",
+    "SUCCESS_LEVEL",
+    "CONFIDENCE",
+    "PARENT_TRACE",
+    "MESSAGE_ID",
+    "PROOF_REF",
+    "SIGNATURE_METHOD",
+    "SIGNATURE_H256",
+    "IMMUTABLE",
+    "EXECUTABLE",
+    "PROOF_CLAIM",
+    "GATE_AUTHORITY",
+    "ROUTING_AUTHORIZATION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-TRACE-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "TRACE_ID": {
+      "type": "string",
+      "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+    },
+    "TRACE_CLASS": {
+      "enum": ["SYNTHETIC_FIXTURE", "RUNTIME"]
+    },
+    "ANT_ID": {
+      "type": "string",
+      "pattern": "^ANT-[0-9A-F]{12}$"
+    },
+    "ACTOR_CLASS": {
+      "enum": ["FOURMINIZER_QUEEN", "ANT"]
+    },
+    "POSITION": {
+      "type": "string",
+      "pattern": "^W:[A-Z0-9-]{1,32}$"
+    },
+    "TICK": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "CLOCK_AUTHORITY": {
+      "const": "QUEEN_SERVER_V0_2"
+    },
+    "ACTION": {
+      "enum": [
+        "SEE",
+        "QUERY",
+        "TAKE",
+        "DROP",
+        "MOVE",
+        "JOIN",
+        "SPLIT",
+        "TEST",
+        "RECYCLE",
+        "FOLLOW",
+        "TEACH",
+        "LEARN",
+        "REPORT",
+        "WAIT",
+        "STORE",
+        "READ",
+        "BUILD",
+        "COMPARE"
+      ]
+    },
+    "INPUT_OBJECTS": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(P|C|L|G|T|M|Z|W|A):[A-Z0-9-]{1,32}$"
+      }
+    },
+    "OUTPUT_OBJECTS": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(P|C|L|G|T|M|Z|W|A):[A-Z0-9-]{1,32}$"
+      }
+    },
+    "RESULT": {
+      "enum": ["UNKNOWN", "SUCCESS", "FAILURE", "PARTIAL", "INCONCLUSIVE"]
+    },
+    "SUCCESS_LEVEL": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "CONFIDENCE": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "PARENT_TRACE": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "pattern": "^TRACE-[A-Z0-9-]{4,64}$"
+        }
+      ]
+    },
+    "MESSAGE_ID": {
+      "anyOf": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "pattern": "^BCM-[A-Z0-9-]{4,64}$"
+        }
+      ]
+    },
+    "PROOF_REF": {
+      "type": "null"
+    },
+    "SIGNATURE_METHOD": {
+      "const": "BRUTUS-CANONICAL-JSON-SHA256-v0.1"
+    },
+    "SIGNATURE_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "IMMUTABLE": { "const": true },
+    "EXECUTABLE": { "const": false },
+    "PROOF_CLAIM": { "const": false },
+    "GATE_AUTHORITY": { "const": false },
+    "ROUTING_AUTHORIZATION": { "const": "UNDECIDED" }
+  },
+  "x-brutus-status": "CANDIDATE",
+  "x-brutus-boundary": "Immutable action footprint only. TRACE != PROOF; trace cannot route, execute, promote proof or open a gate."
+}
