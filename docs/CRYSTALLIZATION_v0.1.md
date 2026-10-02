@@ -57,7 +57,7 @@ Each source reference declares:
 - DIGEST_ALGORITHM;
 - DIGEST.
 
-Supported digest modes in v0.1:
+Supported digest modes in the crystal contract:
 
 - `SHA256` — 64 hexadecimal characters;
 - `GIT_SHA1` — 40 hexadecimal characters;
@@ -65,9 +65,69 @@ Supported digest modes in v0.1:
 
 `NONE` means integrity was not supplied for that source; it must not be interpreted as verified integrity.
 
+## Local source-byte integrity verifier
+
+The optional local verifier is implemented separately from the crystal validator:
+
+`src/crystal-source-integrity.mjs`
+
+This separation is intentional. A crystal can remain a portable data object while source-byte verification is performed only when the caller explicitly supplies a local repository root.
+
+For v0.1 the verifier resolves only these local source kinds:
+
+- `BRUTUS_RECORD`;
+- `BRUTUS_PROOF`.
+
+And it independently verifies only:
+
+`DIGEST_ALGORITHM = GIT_SHA1`
+
+The Git blob digest is recomputed from exact file bytes using:
+
+```text
+SHA1("blob " + byte_length + NUL + bytes)
+```
+
+The verifier does not call Git or execute a process.
+
+### Verdict semantics
+
+`PASS`
+: every source handled by this verifier was resolved locally and its recomputed digest matched.
+
+`FAIL`
+: at least one handled source failed integrity or local containment. Examples include digest mismatch, missing source, non-file source, unreadable source, path traversal or symlink escape outside the supplied repository root.
+
+`INCONCLUSIVE`
+: no handled source failed, but at least one source could not be verified by this local v0.1 verifier because its kind or digest algorithm is outside the supported scope.
+
+An unsupported source can never produce a silent PASS.
+
+### Repository boundary
+
+The verifier performs both:
+- lexical containment checking before file access;
+- real-path containment checking after symlink resolution.
+
+This prevents `../` traversal and symlink escape from being treated as valid local provenance.
+
+The result is data-only and records:
+
+```text
+MUTATION_PERFORMED = false
+NETWORK_USED = false
+PROCESS_EXECUTION_USED = false
+WORLD_ROUTER_INVOKED = false
+PROOF_PROMOTION = false
+```
+
+Machine-readable result contract:
+
+`contracts/crystal-source-integrity-result.v0.schema.json`
+
 ## Security boundary
 
-The validator rejects:
+The crystal validator rejects:
 
 - executable values/functions;
 - non-finite numbers;
@@ -80,16 +140,22 @@ The validator rejects:
 
 The crystal runtime exposes validation and payload hashing only. It has no network access, process execution, World Router invocation, update/delete operation or source mutation.
 
+The source-integrity verifier adds local file reads only. It does not add network access, process execution, routing authority, source mutation or proof promotion.
+
 ## First reference crystal
 
 `examples/crystals/BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001.json`
 
 It snapshots a small subset of the already recorded Queen public-read measurement and pins the existing Brutus record/proof blob SHAs.
 
-This is intentionally conservative: the first crystal demonstrates preservation, not a new capability.
+The local source-integrity verifier recomputes those two Git blob SHAs from exact bytes.
+
+This is intentionally conservative: the first crystal demonstrates preservation and verifiable local provenance, not a new execution capability.
 
 ## What v0.1 does not solve
 
+- network-backed source verification;
+- verification of external reports;
 - live-ant routing authorization;
 - universal semantic reconstruction of an external experiment;
 - lifecycle or revocation of distributed crystals;

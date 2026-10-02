@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/crystal-source-integrity-result.v0.schema.json",
+  "title": "Brutus Crystal Source Integrity Result v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "CRYSTAL_ID",
+    "REPOSITORY_SCOPE",
+    "VERDICT",
+    "SOURCE_RESULTS",
+    "COUNTS",
+    "MUTATION_PERFORMED",
+    "NETWORK_USED",
+    "PROCESS_EXECUTION_USED",
+    "WORLD_ROUTER_INVOKED",
+    "PROOF_PROMOTION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-CRYSTAL-SOURCE-INTEGRITY-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "CRYSTAL_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-CRYSTAL-[A-Z0-9-]+$"
+    },
+    "REPOSITORY_SCOPE": { "const": "CALLER_SUPPLIED_LOCAL_ROOT" },
+    "VERDICT": { "enum": ["PASS", "FAIL", "INCONCLUSIVE"] },
+    "SOURCE_RESULTS": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "INDEX",
+          "KIND",
+          "REF",
+          "DIGEST_ALGORITHM",
+          "DECLARED_DIGEST",
+          "COMPUTED_DIGEST",
+          "STATUS",
+          "REASON"
+        ],
+        "properties": {
+          "INDEX": { "type": "integer", "minimum": 0 },
+          "KIND": { "type": "string", "minLength": 1 },
+          "REF": { "type": "string", "minLength": 1 },
+          "DIGEST_ALGORITHM": { "type": "string", "minLength": 1 },
+          "DECLARED_DIGEST": { "type": ["string", "null"] },
+          "COMPUTED_DIGEST": {
+            "type": ["string", "null"],
+            "pattern": "^[a-fA-F0-9]{40}$"
+          },
+          "STATUS": { "enum": ["PASS", "FAIL", "NOT_VERIFIED"] },
+          "REASON": {
+            "enum": [
+              "DIGEST_MATCH",
+              "DIGEST_MISMATCH",
+              "SOURCE_MISSING",
+              "SOURCE_UNRESOLVABLE",
+              "SOURCE_UNREADABLE",
+              "SOURCE_NOT_FILE",
+              "PATH_OUTSIDE_REPOSITORY",
+              "UNSUPPORTED_SOURCE_KIND",
+              "UNSUPPORTED_DIGEST_ALGORITHM"
+            ]
+          }
+        }
+      }
+    },
+    "COUNTS": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["TOTAL", "PASS", "FAIL", "NOT_VERIFIED"],
+      "properties": {
+        "TOTAL": { "type": "integer", "minimum": 1 },
+        "PASS": { "type": "integer", "minimum": 0 },
+        "FAIL": { "type": "integer", "minimum": 0 },
+        "NOT_VERIFIED": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "MUTATION_PERFORMED": { "const": false },
+    "NETWORK_USED": { "const": false },
+    "PROCESS_EXECUTION_USED": { "const": false },
+    "WORLD_ROUTER_INVOKED": { "const": false },
+    "PROOF_PROMOTION": { "const": false }
+  },
+  "x-brutus-status": "CRYSTAL_LOCAL_SOURCE_INTEGRITY_RESULT",
+  "x-security": "Local bytes only. No network, process execution, routing authority, source mutation or proof promotion."
+}
