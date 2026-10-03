@@ -1,129 +1,230 @@
-# CURRENT STATE — BRUTUS — 2026-10-02
+# ASTRA CONTINUITY — 2026-10-02
 
 Repository: Topbrutus/Brutus
 
-Verified main HEAD:
-`78fa58c3f85ab8a2fd8f37f34216dc3aab0806e3`
+Working directory:
+`D:\Brutus-Aquarium-Live`
 
-Integrated through:
-- PR #22 — exact L8 q=47 rank witness
-- PR #23 — candidate crystallization contract v0.1
+Branch:
+`main`
 
-Post-merge Brutus CI:
-- run #62 — SUCCESS
+Verified main HEAD before this continuity update:
+`a6e05bf20fed1bd866d61359b99afdac6cc3cad6`
 
-## Workstream ownership
+Verified `origin/main`:
+`a6e05bf20fed1bd866d61359b99afdac6cc3cad6`
 
-This Astra instance owns Brutus architecture, contracts, provenance, continuity, integration and invariant tests.
+Working tree was clean before writing this checkpoint.
 
-Separate Astra workstreams handle:
-- the remaining L8 door research;
-- GameZEL / ZELSTEREOS.
+## Integrated through PR #48
 
-Do not duplicate those active research tracks inside this Brutus workstream unless their results are later imported through an explicit provenance boundary.
+The current main line now includes:
 
-## L8 counter-test status already integrated
+- PR #43 — Add Math Input Bus and Brotoculateur adapter v0.1
+  - PR head: `ce9db1896b5c7a301d808c8f7d683a2a8fc3a780`
+  - merge commit: `019cfc6868ae58d4812325d92bef81809930a0c2`
+- PR #44 — Add Math Crystal Candidate v0.1
+  - PR head: `36df424bf549e62eaad7074c4b22be20784fcfbb`
+  - merge commit: `30def121bc32a345040dd2b660ca33c92f947b04`
+- PR #45 — Add Fourmi math material admission v0.1
+  - PR head: `de9beeb35cac3ddb4122b8cd3b7ba1f905c493c3`
+  - merge commit: `5a3f1d0ced00fedc8ec1ca9064860c8e8869c758`
+- PR #46 — Add fail-closed Fourmi math material move binding v0.1
+  - PR head: `f8dafb8001c969d621e246a42e72fd321e45b74e`
+  - merge commit: `818181df9f02f3de1bfcd8c3db70bfdc66a1fb39`
+- PR #47 — Add live Fourmi transport authorization v0.1
+  - PR head: `ab6a7281879f47223df96722b3e57572e6125ae8`
+  - merge commit: `28c088f2d2bc3a6fb36b8e066ed7990ff8e92cfc`
+- PR #48 — Add one-step live transport runtime v0.1
+  - PR head: `cf00b3fa90d1f71733267e3957b22cf00fcc8457`
+  - merge commit / current main: `a6e05bf20fed1bd866d61359b99afdac6cc3cad6`
 
-Overall verdict: PASS
+## Math Input Bus / Brotoculateur boundary
 
-- CT-01 = PASS — L8 valid as stated for q odd prime and r prime divisor of Q_q.
-- CT-02 = PASS — exact Q data preserved; Q_47 has one explicit factor and remains partially factored.
-- CT-03 = PASS — explicit prime factor of Q_47 independently verified with exact Pell rank 2209 = 47^2.
-- CT-04 = PASS — bounded scan remains 4,853 candidates / 0 exact witnesses.
+PR #43 established the first external math input bus.
 
-Exact q=47 witness:
-
-`r = 424675575059690484579658261789171649`
-
-`z_P(r) = 2209 = 47^2`
-
-Q_47 remaining cofactor:
-- 792 digits
-- SHA-256: `978b7253d1665b4c59168fed591b9844db1faf9020b675776ef6a274ba36f570`
-- factorization status: PARTIAL
-
-The completed q=47 campaign must not be repeated by default.
-
-## Crystallization v0.1 integrated
-
-PR #23 added the first candidate crystallization contract.
-
-Integrated files:
-- `contracts/crystal.v0.schema.json`
-- `src/crystal-contract.mjs`
-- `tests/crystal-contract.test.mjs`
-- `examples/crystals/BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001.json`
-- `docs/CRYSTALLIZATION_v0.1.md`
-
-Core crystal invariants:
+Live source path:
 
 ```text
-PORTABLE = JSON data only
-TRACEABLE = typed SOURCE_REFS
-RECONSTRUCTIBLE = canonical payload + PAYLOAD_H256
-IMMUTABLE = true
+Brotoculateur
+  -> GET http://127.0.0.1:8778/api/status
+  -> BROTOCULATEUR_INPUT_ADAPTER
+  -> BRUTUS-MATH-INPUT-PACKET-v0.1
+  -> Brutus
+```
+
+Core invariants:
+
+```text
+SOURCE_PASS != BRUTUS_PROOF
+SOURCE_AUTHENTICATED != UNIVERSAL_THEOREM
+INPUT_PACKET != EXECUTION_AUTHORITY
+PROOF_REF = null
 EXECUTABLE = false
 AUTO_PROOF_PROMOTION = false
+ROUTING_AUTHORIZATION = UNDECIDED
+ACCESS_MODE = READ_ONLY
 ```
 
-Canonical reconstruction method:
+No Queen tick is invented for a local source snapshot.
 
-`BRUTUS-CANONICAL-JSON-SHA256-v0.1`
-
-The validator rejects:
-- executable values;
-- non-finite numbers;
-- credential-shaped keys;
-- malformed source digests;
-- payload/hash mismatch;
-- unknown top-level fields;
-- executable crystals;
-- automatic proof promotion.
-
-The crystal runtime contains no network, process execution or World Router invocation path.
-
-Reference crystal:
-
-`BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001`
-
-It preserves a small already-proven Queen public-read measurement and points to existing Brutus record/proof blob SHAs. It does not create a new proof or routing authority.
-
-Verification before merge:
-- focused crystallization tests: 13/13 PASS
-- PR CI runs #59, #60 and #61: SUCCESS
-- final PR head: `ff5db03d4e8346c9b0990111957c5376393f5081`
-
-Verification after merge:
-- main CI run #62: SUCCESS
-
-## Evidence boundary
+Default ingestion remains:
 
 ```text
-CANDIDATE != PROOF
-CRYSTAL != PROOF
-PROOF_REF != PROOF_CREATION
-MERGED != RUNTIME_PROOF
-BEAUTY != PROOF
+BOUND_TO_QUEEN = false
+QUEEN_TICK = null
+CLOCK_AUTHORITY = null
 ```
 
-Current safety state:
+The common packet is already generic enough for future INPUT #2, #3, #4 without changing the Brutus core contract.
 
-```text
-PROOF_REF promotion = MANUAL / REVIEWED ONLY
-AUTO_PROOF_PROMOTION = false
-LIVE_ANT_ROUTING = DENIED
-WORLD_ROUTE_WITHOUT_CONTRACT = CLOSED
-VERSO_DEFAULT = DEFAULT_LOCKED
-```
+## Current Math Input Bus limitation
 
-## Open crystallization limitation
+The current Brotoculateur `/api/status` source exposes aggregate formula/proof counts, one sample canonical formula and the latest ZEL capsule.
 
-The v0.1 crystal validator verifies the syntax and shape of typed source digests, but it does not yet independently recompute a local source file's Git blob SHA and compare it to a crystal SOURCE_REF.
+It does not expose every canonical formula as a complete item-scoped record through that endpoint.
 
 Therefore:
 
 ```text
-SOURCE_REF DIGEST DECLARED != SOURCE BYTES REVERIFIED
+34 CANONICAL FORMULAS REPORTED
+!=
+34 ITEM-SCOPED FORMULAS INGESTED INTO BRUTUS
 ```
 
-That gap is the next Brutus-specific hardening target.
+The natural extension is a bounded read-only full formula export carrying, per item:
+
+```text
+canonical expression
+formula hash
+source status
+support count / refs
+counter-test count / refs
+replay status
+bindings
+provenance
+```
+
+The Brutus common packet should not need a core redesign for that extension.
+
+## One-step live Fourmi transport runtime
+
+PR #48 added a fail-closed one-step transport runtime.
+
+Core safety rule:
+
+```text
+UNKNOWN ACTION OUTCOME != SAFE TO RETRY
+```
+
+The runtime becomes permanently spent before calling the external authorized move adapter.
+
+An adapter `ACCEPTED` result does not prove movement.
+
+A movement is only admitted after observing:
+
+- a strictly later Queen tick;
+- the same source;
+- the same ANT/material;
+- attachment still present;
+- exact observed position equal to the authorized destination.
+
+After success the grant is consumed:
+
+```text
+SINGLE_USE = true
+CONSUMED = true
+ROUTING_AUTHORIZATION = CONSUMED
+```
+
+Evidence boundary remains:
+
+```text
+MOVED != MATH_PROOF
+MATERIAL_MOVE != LEFT_WHEEL_INGRESS
+PROOF_REF = null
+WHEEL_INGRESS_AUTHORIZATION = false
+```
+
+No production movement is claimed at this checkpoint.
+
+The real source/actuator adapter is not yet connected, and the observed X72 source still does not provide the complete ANT position + attachment + move-action contract required for production transport.
+
+## Live Brotoculateur observation at checkpoint
+
+Observed at:
+`2026-10-02T20:13:21-04:00`
+
+Run:
+`run-20261002T194025-561792Z-continuity`
+
+State:
+`RUNNING`
+
+Live counters:
+
+- processed packets: 305,990
+- round: 78
+- canonical formulas: 34
+- authenticated formula scopes: 26
+- authenticated relation expressions: 27
+- testing formulas: 4
+- candidate formulas: 0
+- rejected formulas: 3
+- proof replays: 644,217
+- invalid proofs: 0
+
+ZEL bridge:
+
+- registered formulas: 1
+- status: `EXACT_WITNESS_REPLAY`
+- latest formula id: `F1`
+- relation: `z_P(21^k)=4*21^(k-1)`
+- provenance hash: `8999c203856cc171821fd59adc0a42db40a667d5acd7b39b37278accf9ea8045`
+
+At this checkpoint no new ZEL formula beyond F1 had crossed the bridge.
+
+The four ZEL->ZEL degenerate relations were in TESTING, not authenticated, because only one independent compositional counter-test was available.
+
+## Brotoculateur authentication gate state
+
+The Brotoculateur now separates:
+
+```text
+CANDIDATE -> TESTING -> AUTHENTICATED
+                     -> REJECTED
+```
+
+The discovery bell is tied to authenticated semantic formula scopes, not raw canonical candidate creation.
+
+Known rejected local DIGIT_SUM fits remain evidence that the gate is eliminating local overfit.
+
+Current proof replay invariant at checkpoint:
+
+```text
+PROOFS_INVALID = 0
+```
+
+## Persistent architectural boundaries
+
+Do not collapse source evidence into Brutus proof.
+
+Do not invent Queen ticks.
+
+Do not make external input packets executable.
+
+Do not auto-promote proof references.
+
+Do not retry an unknown external movement outcome automatically.
+
+Do not claim live Fourmi movement until exact before/after observations satisfy the runtime contract.
+
+Do not treat source-authenticated formula counts as universal mathematical proof.
+
+## Workstream ownership
+
+This Astra instance owns Brutus architecture, contracts, provenance, continuity, integration and invariant enforcement.
+
+Separate research/runtime workstreams may produce math or ZEL material, but Brutus must receive those results through explicit provenance boundaries.
+
+The completed q=47 L8 campaign should not be repeated by default.
