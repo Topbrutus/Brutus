@@ -727,3 +727,303 @@ left-wheel ingress
 ~~~
 
 END CHECKPOINT
+
+
+## 15. POST-RESTORE FINALIZATION — VERIFIED STATE
+
+This section was appended after restoring the session and supersedes any older checkpoint statement that says the live-transport test result, PR state, or Brutus production adapter were still unknown.
+
+### Antmux source/actuator — verified
+
+Repository:
+
+~~~text
+Topbrutus/Antmux
+~~~
+
+PR:
+
+~~~text
+#226 — Add live Fourmi transport source/actuator v0.1
+branch: astra/live-fourmi-transport-source-v01-20261002
+HEAD: bb225f19f8e7448d03ba426fab8b8828c7a8b721
+base: 417c869a684bf41a1abca0ef2f7848308743f51f
+mergeable: true
+draft: true
+~~~
+
+Targeted local test was re-run from:
+
+~~~text
+D:\Antmux-Transport-Live
+~~~
+
+Verified output:
+
+~~~text
+LIVE_TRANSPORT_STORE=PASS
+LIVE_TRANSPORT_AUTH=PASS
+LIVE_TRANSPORT_REAL_ANT_IDENTITY=PASS
+LIVE_TRANSPORT_STATE_HASH=PASS
+LIVE_TRANSPORT_SINGLE_USE=PASS
+LIVE_TRANSPORT_FAIL_CLOSED=PASS
+~~~
+
+The final Antmux contract includes the private authenticated endpoints:
+
+~~~text
+GET  /api/live-transport/ant/{ant_id}
+POST /api/live-transport/attach
+GET  /api/live-transport/state/{ant_id}/{material_id}
+POST /api/live-transport/move
+~~~
+
+The ant endpoint returns the real persisted:
+
+~~~text
+ANTMUX-ANT-BIRTH-v1
+~~~
+
+receipt from the public-journal ant registry.
+
+The combined transport-state response carries the authoritative Queen sub-snapshot and the exact transport state in one same-tick response.
+
+### Antmux CI — exact status
+
+On HEAD:
+
+~~~text
+bb225f19f8e7448d03ba426fab8b8828c7a8b721
+~~~
+
+verified GitHub Actions:
+
+~~~text
+CI X72 Integration Validation #120 = SUCCESS
+X72 Resonance Structure Validation #45 = SUCCESS
+Validate ZELSTEREOS WebSocket Order #64 = FAILURE
+~~~
+
+The ZELSTEREOS workflow failure was independently reproduced on the exact PR base commit:
+
+~~~text
+417c869a684bf41a1abca0ef2f7848308743f51f
+~~~
+
+using a detached worktree.
+
+The same two GAMEZEL tests fail on the base:
+
+~~~text
+GAMEZEL quick play exposes exactly the four canonical seats = FAIL
+GAMEZEL public draw WebSocket event is handled separately from numeric state = FAIL
+~~~
+
+Therefore the red ZEL check is PRE-EXISTING and is not introduced by PR #226.
+
+PR #226 now contains a written CI note documenting this baseline reproduction.
+
+Do not modify ZELSTEREOS merely to make the transport PR green; ZEL remains a separate workstream.
+
+### Brutus production adapter — complete
+
+Repository:
+
+~~~text
+Topbrutus/Brutus
+~~~
+
+PR:
+
+~~~text
+#49 — Add Antmux live transport production adapter v0.1
+branch: astra/antmux-live-transport-adapter-v01-20261002
+HEAD: c58fdc2c4f080fbf1b2b509806fbb04e4b3c7e48
+base: 737c92163ac9b3b0e673f9396a0bd8f74e038ed3
+draft: false
+mergeable: true
+~~~
+
+Brutus CI:
+
+~~~text
+Brutus CI #120 = SUCCESS
+~~~
+
+Targeted local test re-run on exact branch HEAD:
+
+~~~text
+10 tests
+10 pass
+0 fail
+~~~
+
+Verified test names include:
+
+~~~text
+adapter rejects insecure non-loopback HTTP
+adapter exposes no transport token
+private ant receipt is validated and returned
+attach establishes exact server-authoritative pre-state
+same combined HTTP state supplies exact same Queen and transport tick
+bindings reject transport-state read without preceding combined observation
+server state hash tampering is rejected
+full adapter + runtime chain produces observed material move and consumption
+move POST sends only bounded server contract fields
+production adapter is network-specific but contains no timers random or process execution
+~~~
+
+### Cross-repo E2E already achieved locally
+
+The production code from the Antmux transport branch and Brutus adapter branch was executed together locally.
+
+Observed chain:
+
+~~~text
+Brotoculateur live
+-> Math Input Packet
+-> Math Crystal
+-> Fourmi Math Material
+-> real persisted ANTMUX ant identity
+-> Antmux attach
+-> same-tick Queen + transport pre-state
+-> bounded live transport authorization
+-> exact move POST
+-> same-tick Queen + transport post-state
+-> ANT_MOVE
+-> MATERIAL_MOVE
+-> authorization CONSUMED
+~~~
+
+Observed source formula:
+
+~~~text
+z_P(21^k)=4*21^(k-1)
+SOURCE_PASS
+~~~
+
+Observed persisted Fourmi:
+
+~~~text
+ANT-03395F386A2A
+role = SYNAPSE
+state = SINGING_TO_MEET
+~~~
+
+Observed runtime transition:
+
+~~~text
+attach tick = 16874
+pre tick = 16878
+post tick = 16886
+W:START -> W:GENESIS-A
+MATERIAL_MOVEMENT_VERIFIED = true
+authorization = CONSUMED
+PROOF_REF = null
+WHEEL_INGRESS_AUTHORIZATION = false
+~~~
+
+Observed artifacts:
+
+~~~text
+MATH-CRYSTAL-56485D72EE5C6F36061980EE
+MAT-MATH-5F3B11507EBE85D95851723E
+RME-T16886-ANT-MOVE-D27C8122D1A61557
+MMOVE-T16886-6CC8B2A8C05A1BE388A3
+~~~
+
+Important scope statement:
+
+~~~text
+LOCAL CROSS-REPO PRODUCTION-CODE E2E = VERIFIED
+VPS DEPLOYMENT = NOT YET CLAIMED
+PHYSICAL MOVEMENT = NOT CLAIMED
+~~~
+
+### Same-tick adapter design
+
+PR #49 maps one Antmux combined state response into both:
+
+~~~text
+ObservationEnvelope Queen
+BRUTUS-LIVE-FOURMI-TRANSPORT-STATE-v0.1
+~~~
+
+from the same source tick.
+
+This eliminates the network race that would occur if Queen and transport state were fetched independently at 240 Hz.
+
+The Queen bridge explicitly accepts:
+
+~~~text
+/api/live-transport/state
+~~~
+
+as an authoritative Queen observation endpoint.
+
+The adapter also verifies:
+
+~~~text
+state_h256
+Queen integrity/reference hash
+transport tick == Queen tick
+ANT_ID
+MATERIAL_ID/H256
+BINDING_STATE = ATTACHED
+position
+state_version
+~~~
+
+### Security boundary
+
+The transport token:
+
+~~~text
+must remain outside Git
+must remain inside adapter/server secret configuration
+must never appear in checkpoint artifacts
+~~~
+
+Remote HTTP is rejected.
+
+HTTPS is required except for loopback test/development.
+
+Redirects are rejected.
+
+The token is retained inside adapter closure state and is not exposed as an adapter property.
+
+### Current merge locks
+
+Brutus PR #49 is ready for review and technically green.
+
+Antmux PR #226 is functionally verified and mergeable, but retains one red ZELSTEREOS workflow caused by a pre-existing GAMEZEL failure on its base.
+
+Do not claim all Antmux CI green.
+
+Do not merge either PR without a fresh explicit user go at the merge lock and re-verification of exact HEAD/base state.
+
+### Developer checkpoint PR
+
+This checkpoint itself is stored in:
+
+~~~text
+Topbrutus/Brutus
+developer/ASTRA_CHECKPOINT_2026-10-02_BRUTUS_LIVE_TRANSPORT_SOURCE_ACTUATOR_HANDOFF.md
+~~~
+
+Checkpoint PR:
+
+~~~text
+#50 — Checkpoint Astra — live transport source/actuator handoff
+branch: astra/checkpoint-developer-20261002-live-transport
+~~~
+
+This checkpoint PR is documentation-only and intentionally separate from functional PR #49.
+
+### Updated restore sentence
+
+On restoration, use:
+
+"Brutus main already contains the math-input-through-one-step runtime chain. Antmux PR #226 now implements and locally verifies the persistent private live transport source/actuator, including real persisted ANTMUX ant birth identity, attach/state/move and same-tick Queen state. Brutus PR #49 implements the production adapter and passes 10/10 targeted tests plus Brutus CI. A local cross-repo E2E has already produced ANT_MOVE, MATERIAL_MOVE and consumed authorization from real production code. VPS deployment is not yet claimed. Antmux #226 has an unrelated pre-existing red GAMEZEL/ZEL workflow reproduced on its base commit."
+
+END POST-RESTORE UPDATE
