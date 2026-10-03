@@ -1,0 +1,142 @@
+name: Generate Fresh Production Transport Grant
+
+on:
+  push:
+    branches:
+      - astra/grant-check-20261002
+    paths:
+      - '.github/workflows/generate-fresh-production-transport-grant.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  generate-grant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate and validate fresh Brutus grant
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import { adaptBrotoculateurStatus } from "./src/brotoculateur-input-adapter.mjs";
+          import { crystallizeMathInputItem } from "./src/math-crystal-candidate.mjs";
+          import {
+            admitMathCrystalToFourmi,
+            computeMathMaterialAdmissionRequestH256,
+            validateFourmiMathMaterial
+          } from "./src/fourmi-math-material-admission.mjs";
+          import {
+            createLiveFourmiTransportAuthorization,
+            validateLiveFourmiTransportAuthorization
+          } from "./src/live-fourmi-transport-authorization.mjs";
+
+          const src = fs.readFileSync("./tests/fourmi-math-material-admission.test.mjs", "utf8");
+          const start = src.indexOf("function statusFixture()");
+          const end = src.indexOf("function packetAndCrystal", start);
+          const status = eval(src.slice(start, end) + "; statusFixture()");
+
+          const packet = adaptBrotoculateurStatus(status);
+          const item = packet.ITEMS.find(v => v.KIND === "FORMULA_CAPSULE");
+          if (!item) throw new Error("FORMULA_CAPSULE missing");
+          const crystal = crystallizeMathInputItem(packet, item.ITEM_ID);
+
+          const request = {
+            SCHEMA: "BRUTUS-MATH-MATERIAL-ADMISSION-REQUEST-v0.1",
+            VERSION: "0.1",
+            REQUEST_ID: "MMA-PROD-ATTACH-20261002-0001",
+            ANT_ID: "ANT-9F7FC681CD80",
+            TICK: 196456917,
+            CLOCK_AUTHORITY: "QUEEN_SERVER_V0_2",
+            PARENT_CRYSTAL_ID: crystal.CRYSTAL_ID,
+            PARENT_CRYSTAL_H256: crystal.CRYSTAL_H256,
+            PURPOSE: "FOURMI_TRANSPORT_ADMISSION",
+            AUTHORIZATION: {
+              POLICY: "BRUTUS-MATH-MATERIAL-ADMISSION-v0.1",
+              DECISION: "APPROVED",
+              APPROVER: "BRUTUS_CONTROL_PLANE"
+            },
+            TRACE_ID: "TRACE-PROD-ATTACH-20261002-0001",
+            PROOF_REF: null,
+            SIGNATURE_METHOD: "BRUTUS-CANONICAL-JSON-SHA256-v0.1",
+            SIGNATURE_H256: "0".repeat(64),
+            EXECUTABLE: false,
+            GATE_AUTHORITY: false,
+            ROUTING_AUTHORIZATION: "UNDECIDED",
+            WHEEL_INGRESS_AUTHORIZATION: false
+          };
+          request.SIGNATURE_H256 = computeMathMaterialAdmissionRequestH256(request);
+          const material = validateFourmiMathMaterial(
+            admitMathCrystalToFourmi({ crystal, packet, request })
+          );
+
+          if (material.MATERIAL_ID !== "MAT-MATH-ED5FB0A15F49E6386DFC0F3E") {
+            throw new Error("MATERIAL_ID drift");
+          }
+          if (material.MATERIAL_H256 !== "391b53d02d51ce6d9d9dbcb7c730983f721689d260f5841b31fc5321ca9bfb6d") {
+            throw new Error("MATERIAL_H256 drift");
+          }
+
+          const healthResponse = await fetch("https://antmux.com/laboratoire/embryon-x72/api/health");
+          if (!healthResponse.ok) throw new Error("health fetch failed");
+          const health = await healthResponse.json();
+          if (health.ok !== true || health.integrity_match !== true) {
+            throw new Error("Queen health invalid");
+          }
+
+          const ant = {
+            schema: "ANTMUX-ANT-BIRTH-v1",
+            ant_id: "ANT-9F7FC681CD80",
+            role: "SYNAPSE",
+            state: "SINGING_TO_MEET",
+            form: "DUMPTY_EGG",
+            project_soul: {
+              memory_id: "MEM-C522A14F288B",
+              birth_tick_ms: 1790994841862,
+              lineage: ["ANT-9F7FC681CD80"]
+            },
+            lifecycle: [
+              { state: "LIFE_CLOCK_ASSIGNMENT", status: "DONE" },
+              { state: "BECOME_SYNAPSE", status: "DONE" }
+            ]
+          };
+
+          const issuedAtTick = Number(health.tick_count);
+          const grant = validateLiveFourmiTransportAuthorization(
+            createLiveFourmiTransportAuthorization({
+              antBirthReceipt: ant,
+              material,
+              issuedAtTick,
+              validFromTick: issuedAtTick,
+              expiresAtTick: issuedAtTick + 65536,
+              from: "W:START",
+              to: "W:GENESIS-A",
+              traceId: "TRACE-PROD-LIVE-MOVE-20261002-0003",
+              authorization: {
+                POLICY: "BRUTUS-LIVE-FOURMI-TRANSPORT-v0.1",
+                DECISION: "APPROVED",
+                APPROVER: "BRUTUS_CONTROL_PLANE"
+              }
+            })
+          );
+
+          console.log("BRUTUS_GRANT_VALIDATION=PASS");
+          console.log("QUEEN_TICK=" + issuedAtTick);
+          console.log("AUTHORIZATION_ID=" + grant.AUTHORIZATION_ID);
+          console.log("AUTHORIZATION_H256=" + grant.SIGNATURE_H256);
+          console.log("ANT_IDENTITY_H256=" + grant.ANT_IDENTITY_H256);
+          console.log("VALID_FROM_TICK=" + grant.VALID_FROM_TICK);
+          console.log("EXPIRES_AT_TICK=" + grant.EXPIRES_AT_TICK);
+          console.log("FROM=" + grant.SCOPE.FROM);
+          console.log("TO=" + grant.SCOPE.TO);
+          console.log("MAX_MOVES=" + grant.SCOPE.MAX_MOVES);
+          console.log("SINGLE_USE=" + grant.SINGLE_USE);
+          console.log("PROOF_REF=" + String(grant.PROOF_REF));
+          console.log("EXECUTABLE=" + grant.EXECUTABLE);
+          console.log("GATE_AUTHORITY=" + grant.GATE_AUTHORITY);
+          console.log("ROUTING_AUTHORIZATION=" + grant.ROUTING_AUTHORIZATION);
+          console.log("GRANT_JSON=" + JSON.stringify(grant));
+          NODE
