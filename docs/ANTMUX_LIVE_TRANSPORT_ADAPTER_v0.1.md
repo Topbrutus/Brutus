@@ -177,6 +177,77 @@ The integration test also verifies:
 - exact bounded move POST
 - no timers/random/process execution in adapter
 
+## Real local cross-repo integration
+
+The production code paths were exercised locally against the actual Antmux Queen server implementation from Antmux PR #226, not only against the fake protocol server used by unit tests.
+
+Observed chain:
+
+~~~
+live Brotoculateur
+-> Math Input Packet
+-> Math Crystal Candidate
+-> Fourmi Math Material
+-> real Antmux Queen server process
+-> persisted ANTMUX-ANT-BIRTH-v1 identity
+-> ATTACHED at W:START
+-> bounded live transport grant
+-> POST /api/live-transport/move
+-> fresh same-server state read
+-> ANT_MOVE
+-> MATERIAL_MOVE
+-> authorization consumption
+~~~
+
+At that observation instant:
+
+~~~
+Brotoculateur run =
+run-20261002T194025-561792Z-continuity
+
+formula =
+z_P(21^k)=4*21^(k-1)
+
+source status =
+SOURCE_PASS
+
+persisted ANT =
+ANT-03395F386A2A
+role = SYNAPSE
+state = SINGING_TO_MEET
+
+attach Queen tick = 16874
+pre-move Queen tick = 16878
+post-move Queen tick = 16886
+
+FROM = W:START
+TO = W:GENESIS-A
+
+MATERIAL_MOVEMENT_VERIFIED = true
+AUTHORIZATION_CONSUMED = true
+ROUTING_AUTHORIZATION after move = CONSUMED
+
+PROOF_REF = null
+WHEEL_INGRESS_AUTHORIZATION = false
+~~~
+
+Observed artifacts included:
+
+~~~
+MATH-CRYSTAL-56485D72EE5C6F36061980EE
+MAT-MATH-5F3B11507EBE85D95851723E
+RME-T16886-ANT-MOVE-D27C8122D1A61557
+MMOVE-T16886-6CC8B2A8C05A1BE388A3
+~~~
+
+This is evidence of a successful local software-runtime integration using the production code paths from both repositories.
+
+It is not evidence that Antmux PR #226 has been deployed to the VPS.
+
+It is not a claim of physical movement.
+
+It does not create mathematical proof or wheel ingress authority.
+
 ## Production status
 
 The adapter code is ready, but a production movement is not claimed until:
