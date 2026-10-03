@@ -1,83 +1,104 @@
-# NEXT ACTION — VERIFY CRYSTAL SOURCE INTEGRITY
+# ASTRA NEXT ACTION — 2026-10-02
 
-Brutus main now contains Crystallization Contract v0.1.
+Repository:
+`Topbrutus/Brutus`
 
-Current main HEAD at this checkpoint:
+Checkpoint base before continuity commit:
+`a6e05bf20fed1bd866d61359b99afdac6cc3cad6`
 
-`78fa58c3f85ab8a2fd8f37f34216dc3aab0806e3`
+## Immediate rule
 
-Post-merge CI run #62 is SUCCESS.
+Do not change the Brutus core merely because ZEL produces a new formula.
 
-## Next Brutus brick
+First observe the new source item, preserve its source status/provenance, and route it through the existing Math Input Bus boundary.
 
-Build the smallest local source-integrity verifier for crystals.
+## If ZEL emits a new formula
 
-Goal:
+1. Read the Brotoculateur source in read-only mode.
+2. Confirm whether:
+   - `formula_id` changed;
+   - relation changed;
+   - provenance hash changed;
+   - registered formula count increased;
+   - canonical/authenticated counts changed.
+3. Preserve:
+   - exact expression;
+   - source status;
+   - source test count;
+   - replay status;
+   - provenance hash;
+   - source run id.
+4. Never map:
+   `SOURCE_PASS -> BRUTUS_PROOF`.
+5. Keep:
+   `PROOF_REF = null`
+   until Brutus independently creates a proof.
+6. If the formula is not item-scoped through `/api/status`, prefer a bounded read-only source export rather than inventing missing evidence.
 
-A crystal that declares a local Brutus source with:
+## Next Math Input Bus hardening
+
+Add or consume a read-only full formula export so Brutus can receive all formula items individually.
+
+Required per-item shape:
 
 ```text
-DIGEST_ALGORITHM = GIT_SHA1
+expression
+formula hash
+source status
+support count / refs
+counter-test count / refs
+replay status
+bindings
+provenance
 ```
 
-must be independently checkable against the actual source file bytes using the Git blob object rule:
+Do not redesign the generic packet unless the existing `ITEMS` contract is proven insufficient.
 
-```text
-sha1("blob " + byte_length + "\0" + bytes)
-```
+## Live Fourmi transport next step
 
-## Required behavior
+PR #48 is runtime-ready but not production-proven.
 
-1. Validate the crystal first with the existing v0.1 validator.
-2. Accept an explicit repository root supplied by the caller.
-3. Only resolve repository-relative source paths that are intended to be local Brutus artifacts.
-4. Reject path traversal or escape outside the supplied repository root.
-5. Recompute the Git blob SHA-1 from exact file bytes.
-6. Compare the computed SHA with the declared SOURCE_REF digest.
-7. Return a data-only verification result.
-8. Do not mutate the crystal or source.
-9. Do not use network access.
-10. Do not execute processes.
-11. Do not invoke World Router.
-12. Do not upgrade evidence or create PROOF_REF.
+Before any real movement:
 
-## First exact test target
+1. identify a real source/actuator adapter;
+2. verify a Queen-before observation;
+3. verify exact ANT identity;
+4. verify exact material identity;
+5. verify `ATTACHED`;
+6. verify current position;
+7. verify a valid single-use grant;
+8. perform at most one external move attempt;
+9. mark the runtime spent before the external action;
+10. observe a strictly later Queen tick;
+11. confirm exact destination and attachment afterward;
+12. only then create ANT_MOVE / MATERIAL_MOVE evidence;
+13. consume the grant.
 
-Reference crystal:
+Never retry automatically after an unknown action outcome.
 
-`examples/crystals/BRUTUS-CRYSTAL-QUEEN-PUBLIC-READ-0001.json`
+## Resume checklist
 
-Its local source refs currently declare:
+At the start of the next Astra session:
 
-- `examples/records/BRUTUS-RECORD-QUEEN-PUBLIC-READ-0001.json`
-  - Git blob SHA: `04b8a74da278f9027d0bc2528ba60325e7feccc9`
-- `proofs/BRUTUS-PROOF-QUEEN-PUBLIC-READ-0001.json`
-  - Git blob SHA: `2c4d29b967d250787f89110e9c36e19738b32baf`
-
-The next implementation must recompute and confirm both values from file bytes.
-
-## Required counter-tests
-
-At minimum:
-- valid local source digest -> PASS;
-- one-byte source tamper -> FAIL;
-- wrong declared digest -> FAIL;
-- missing source -> FAIL;
-- path traversal attempt -> FAIL;
-- unsupported source kind for local resolution -> explicit non-verification, never silent PASS;
-- validator/runtime contains no fetch, exec, spawn, fork or World Router route call.
+1. `git fetch origin`
+2. confirm `main == origin/main`
+3. confirm working tree state
+4. read:
+   - `continuity/CURRENT_STATE.md`
+   - `continuity/NEXT_ACTION.md`
+5. inspect any new PR merged after #48
+6. inspect live Brotoculateur status before making claims
+7. inspect ZEL latest `formula_id`, relation and provenance hash
+8. keep all evidence/proof boundaries fail-closed
 
 ## Stop conditions
 
 Do not:
-- build a crystal registry yet;
-- add publication;
-- modify Verso;
-- open live-ant routing;
-- import L8 door research;
-- modify GameZEL/ZELSTEREOS;
-- add network-backed source verification.
-
-First make local source-byte integrity exact and green.
-
-After that passes full Brutus CI, reconsider the next brick.
+- invent missing item-scoped proof refs;
+- attach global last-proof data to a formula without exact item provenance;
+- make Math Input Packets executable;
+- auto-promote SOURCE_AUTHENTICATED to BRUTUS_PROOF;
+- invent Queen time;
+- claim a production Fourmi move without observed before/after state;
+- retry a movement whose external outcome is unknown;
+- publish or route new math material automatically.
