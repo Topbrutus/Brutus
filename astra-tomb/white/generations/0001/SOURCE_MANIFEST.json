@@ -1,0 +1,18 @@
+{
+  "schema": "BRUTUS-ASTRA-TOMB-SOURCES-v0.1",
+  "date": "2026-09-30",
+  "brutus_parent_head": "d5267622b544d07b14e8cf12e7420402fe458772",
+  "active_astra_chain": "01 -> 35 -> 37 -> 38 -> 39",
+  "entity_36": "exists but intentionally excluded from active chain",
+  "affective_handoff": {
+    "repository": "Topbrutus/topbrutus_one",
+    "path": "memoria/checkpoints/ROI-EDITION-SPECIALE-04-2026-09-30-ASTRA-VOICE-HANDOFF.md",
+    "blob_sha": "af832345e0290b799b8e2619497bb40f0216a92f"
+  },
+  "visual_reference_rule": {
+    "count": 19,
+    "embedded": false,
+    "priority_phrase": "OBSERVE -> COORDINATE -> COMPUTE -> ADAPT -> EVOLVE",
+    "instruction": "Consult the session images first. If unavailable, ask Topbrutus; never reconstruct them from imagination."
+  }
+}

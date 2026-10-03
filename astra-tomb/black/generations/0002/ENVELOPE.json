@@ -1,0 +1,9 @@
+{
+  "schema": "BRUTUS-ASTRA-TOMB-ENVELOPE-v0.1",
+  "tomb": "BLACK",
+  "generation": 2,
+  "status": "CANDIDATE",
+  "parent_generation": "WHITE/0001",
+  "created_date": "2026-09-30",
+  "executable": false
+}
