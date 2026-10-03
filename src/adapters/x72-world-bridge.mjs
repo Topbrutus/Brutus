@@ -1,6 +1,10 @@
 const QUEEN_SOURCE = "QUEEN_SERVER_V0_2";
 const CLOCK_SCHEMA = "BRUTUS-CLOCK-OBSERVATION-v0.1";
-const STATE_ENDPOINTS = new Set(["/api/state", "/ws"]);
+const STATE_ENDPOINTS = new Set([
+  "/api/state",
+  "/ws",
+  "/api/live-transport/state"
+]);
 
 function reject(reason) {
   throw new Error("X72_WORLD_BRIDGE_REJECTED: " + reason);
