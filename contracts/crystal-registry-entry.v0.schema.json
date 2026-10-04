@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/crystal-registry-entry.v0.schema.json",
+  "title": "Brutus Crystal Registry Entry v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "SEQUENCE",
+    "PREVIOUS_H256",
+    "ENTRY_H256",
+    "CRYSTAL_ID",
+    "CRYSTAL_H256",
+    "PAYLOAD_H256",
+    "ADMISSION_SCHEMA",
+    "ADMISSION_H256",
+    "EVIDENCE_LABEL",
+    "SOURCE_REFS",
+    "PROOF_REFS",
+    "VERIFIED_SOURCE_COUNT",
+    "STATUS",
+    "REGISTERED_AT_QUEEN_TICK",
+    "REGISTERED_AT_UTC",
+    "REGISTRY_WRITE_PERFORMED",
+    "MUTATION_PERFORMED",
+    "NETWORK_USED",
+    "PROCESS_EXECUTION_USED",
+    "WORLD_ROUTER_INVOKED",
+    "PROOF_PROMOTION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-CRYSTAL-REGISTRY-ENTRY-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "SEQUENCE": { "type": "integer", "minimum": 1 },
+    "PREVIOUS_H256": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" }
+      ]
+    },
+    "ENTRY_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "CRYSTAL_ID": { "type": "string", "pattern": "^BRUTUS-CRYSTAL-[A-Z0-9-]+$" },
+    "CRYSTAL_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "PAYLOAD_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "ADMISSION_SCHEMA": { "const": "BRUTUS-CRYSTAL-ADMISSION-v0.1" },
+    "ADMISSION_H256": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "EVIDENCE_LABEL": {
+      "enum": ["SOURCE", "MESURE", "CALCUL", "CANDIDAT", "HYPOTHESE", "INTERPRETATION"]
+    },
+    "SOURCE_REFS": { "type": "array", "minItems": 1 },
+    "PROOF_REFS": { "type": "array", "items": { "type": "string" } },
+    "VERIFIED_SOURCE_COUNT": { "type": "integer", "minimum": 1 },
+    "STATUS": { "const": "REGISTERED" },
+    "REGISTERED_AT_QUEEN_TICK": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "integer", "minimum": 0 }
+      ]
+    },
+    "REGISTERED_AT_UTC": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date-time" }
+      ]
+    },
+    "REGISTRY_WRITE_PERFORMED": { "const": true },
+    "MUTATION_PERFORMED": { "const": false },
+    "NETWORK_USED": { "const": false },
+    "PROCESS_EXECUTION_USED": { "const": false },
+    "WORLD_ROUTER_INVOKED": { "const": false },
+    "PROOF_PROMOTION": { "const": false }
+  },
+  "x-brutus-status": "CRYSTAL_REGISTERED",
+  "x-security": "Append-only registry entry. Registration binds an exact admissible crystal and its admission result. No source mutation, network, process execution, routing authority or proof promotion."
+}
