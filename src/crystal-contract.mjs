@@ -218,5 +218,10 @@ export function validateCrystal(input) {
   return deepFreeze(JSON.parse(JSON.stringify(input)));
 }
 
+export function computeCrystalH256(crystalInput) {
+  const crystal = validateCrystal(crystalInput);
+  return h256(crystal);
+}
+
 export const BRUTUS_CRYSTAL_SCHEMA = CRYSTAL_SCHEMA;
 export const BRUTUS_CRYSTAL_RECONSTRUCTION_METHOD = FIXED_RECONSTRUCTION_METHOD;

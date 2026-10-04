@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brutus.local/contracts/crystal-admission.v0.schema.json",
+  "title": "Brutus Crystal Admission v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "SCHEMA",
+    "VERSION",
+    "CRYSTAL_ID",
+    "CRYSTAL_H256",
+    "PAYLOAD_H256",
+    "EVIDENCE_LABEL",
+    "SOURCE_INTEGRITY_SCHEMA",
+    "SOURCE_INTEGRITY_VERDICT",
+    "VERIFIED_SOURCE_COUNT",
+    "STATUS",
+    "REGISTRY_WRITE_PERFORMED",
+    "MUTATION_PERFORMED",
+    "NETWORK_USED",
+    "PROCESS_EXECUTION_USED",
+    "WORLD_ROUTER_INVOKED",
+    "PROOF_PROMOTION"
+  ],
+  "properties": {
+    "SCHEMA": { "const": "BRUTUS-CRYSTAL-ADMISSION-v0.1" },
+    "VERSION": { "const": "0.1" },
+    "CRYSTAL_ID": {
+      "type": "string",
+      "pattern": "^BRUTUS-CRYSTAL-[A-Z0-9-]+$"
+    },
+    "CRYSTAL_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "PAYLOAD_H256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "EVIDENCE_LABEL": {
+      "enum": ["SOURCE", "MESURE", "CALCUL", "CANDIDAT", "HYPOTHESE", "INTERPRETATION"]
+    },
+    "SOURCE_INTEGRITY_SCHEMA": {
+      "const": "BRUTUS-CRYSTAL-SOURCE-INTEGRITY-v0.1"
+    },
+    "SOURCE_INTEGRITY_VERDICT": { "const": "PASS" },
+    "VERIFIED_SOURCE_COUNT": { "type": "integer", "minimum": 1 },
+    "STATUS": { "const": "ADMISSIBLE" },
+    "REGISTRY_WRITE_PERFORMED": { "const": false },
+    "MUTATION_PERFORMED": { "const": false },
+    "NETWORK_USED": { "const": false },
+    "PROCESS_EXECUTION_USED": { "const": false },
+    "WORLD_ROUTER_INVOKED": { "const": false },
+    "PROOF_PROMOTION": { "const": false }
+  },
+  "x-brutus-status": "CRYSTAL_ADMISSION_GATE_RESULT",
+  "x-security": "Qualification only. Full crystal object is bound by CRYSTAL_H256. No registry write, source mutation, network, process execution, routing authority or proof promotion."
+}

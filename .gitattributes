@@ -1,0 +1,4 @@
+# Canonical text bytes for Git-pinned JSON provenance.
+# Crystal source-integrity verifies exact Git blob bytes, so JSON checkouts
+# must not vary by platform or core.autocrlf.
+*.json text eol=lf
