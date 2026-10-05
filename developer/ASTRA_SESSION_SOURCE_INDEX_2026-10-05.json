@@ -1,0 +1,32 @@
+{
+  "checkpoint_date": "2026-10-05",
+  "canonical_constraint": "Everything permanent runs on VPS; Windows/WSL are control-only.",
+  "vps": {
+    "dns": "server1.antmux.com",
+    "ip": "203.161.50.201",
+    "user": "rob",
+    "root": "~/zelstereos-gamezel",
+    "port": 3217
+  },
+  "repos": {
+    "runtime": "Topbrutus/zelstereos",
+    "control": "Topbrutus/Antmux",
+    "control_branch": "astra/gamezel-control-20261003",
+    "master": "Topbrutus/Brutus"
+  },
+  "workflows": [
+    {"commit":"42723d32804b8456db03a19da44a453181a422ed","run":37285549357,"name":"ASTRA GAMEZEL VPS Runner Section","result":"success"},
+    {"commit":"bb2bd76b1a62f323ccc2a6224f438af9861081f7","run":37285714036,"name":"ASTRA GAMEZEL Server P4 Finalize","result":"success"},
+    {"commit":"b08e891eebcc6d2b69b4fad6616ce39125099c37","run":37285909106,"name":"ASTRA GAMEZEL VPS Round Tools Inspect","result":"success"},
+    {"commit":"340291112ff9e21b5afa9e710fc0fc1aa7e1264e","run":37286121693,"name":"ASTRA GAMEZEL Server Acceptance","result":"failure_at_P4_assertion_due_to_valid_cooldown"},
+    {"commit":"034d07e06e0a3e8315e7981f33f37b361ae49c9a","run":37286720994,"name":"ASTRA GAMEZEL Acceptance Peek","result":"success"},
+    {"commit":"15ef1f42cfcf6c84108f40a6dcf19bc2050cce01","run":37286885015,"name":"ASTRA GAMEZEL P4 Live Diagnose","result":"success"},
+    {"commit":"bfebdd917efdb551d333eb09b20a3aa1e6e14220","run":37287007848,"name":"ASTRA GAMEZEL P4 Provider Repro","result":"success_3_of_3"}
+  ],
+  "players": {"P1":"ASTRA","P2":"MUSE","P3":"GROK","P4":"ANTIGRAVITY"},
+  "cooldown_rule_hours": 5,
+  "jev": {"api_env":"TYPESAFE_API_KEY","base_url":"https://api.typesafe.ai","model":"jev-latest","next_action":"verify JEV on VPS; if missing install only this credential server-side"},
+  "p4": {"service":"zelstereos-gamezel-p4.service","wrapper":"~/.local/bin/agy-gamezel","direct_repro":"3/3 PLAY TEST all","live_issue":"provider_no_response -> 5h cooldown"},
+  "next_step": "Section 17 of ASTRA_SESSION_CHECKPOINT_2026-10-05_GAMEZEL_VPS_HANDOFF.md",
+  "secrets_included": false
+}
