@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Brutus Top-Tique Quantum v2.0.0 — Formula 15"
+type: software
+authors:
+  - family-names: "Saint-Pierre"
+    given-names: "Gabriel"
+    alias: "Topbrutus"
+version: "2.0.0"
+date-released: 2026-10-05
+url: "https://github.com/Topbrutus/Brutus"
+repository-code: "https://github.com/Topbrutus/Brutus"
+keywords:
+  - "Brutus Top-Tique Quantum"
+  - "Formula 15"
+  - "frequency"
+  - "high precision"
+  - "residual propagation"
+  - "reproducible calculation"
