@@ -1,0 +1,25 @@
+{
+  "schema": "astra-readonly-observer/v0.1",
+  "generated_at": null,
+  "crystals": {
+    "count": null,
+    "levels": {},
+    "last_id": null,
+    "source": null,
+    "source_hash": null
+  },
+  "math": {
+    "formula_count": null,
+    "last_formula_id": null,
+    "last_relation": null,
+    "source": null,
+    "source_hash": null
+  },
+  "ants": {
+    "connected": null,
+    "active": null,
+    "last_event": null,
+    "source": null,
+    "source_hash": null
+  }
+}
