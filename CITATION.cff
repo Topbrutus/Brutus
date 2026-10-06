@@ -1,12 +1,19 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it using the metadata from this file."
+message: "If you use this software, please cite it using the metadata below."
 title: "Brutus Top-Tique Quantum v2.0.0 — High-Precision Residual Propagation Across Dimensionless Scales"
-version: 2.0.0
-date-released: 2026-10-05
 type: software
 authors:
   - family-names: "St-Pierre"
     given-names: "Gabriel"
+    alias: "Topbrutus"
+    orcid: "https://orcid.org/0009-0009-9297-2336"
+version: "2.0.0"
+date-released: 2026-10-05
+url: "https://github.com/Topbrutus/Brutus"
 repository-code: "https://github.com/Topbrutus/Brutus"
-abstract: >-
-  Reproducible high-precision algebraic frequency construction and residual propagation across dimensionless scales.
+keywords:
+  - "Brutus Top-Tique Quantum"
+  - "frequency"
+  - "high precision"
+  - "residual propagation"
+  - "reproducible calculation"
