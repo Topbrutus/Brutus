@@ -1,13 +1,13 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
-title: "Brutus Top-Tique Quantum v2.0.0"
+title: "Brutus Top-Tique Quantum v1.0.0"
 type: software
 authors:
   - family-names: "St-Pierre"
     given-names: "Gabriel"
     alias: "Topbrutus"
     orcid: "https://orcid.org/0009-0009-9297-2336"
-version: "2.0.0"
+version: "1.0.0"
 date-released: 2026-10-05
 url: "https://github.com/Topbrutus/Brutus"
 repository-code: "https://github.com/Topbrutus/Brutus"
