@@ -1,15 +1,15 @@
 {
-  "title": "Brutus Top-Tique Quantum v2.0.0",
+  "title": "Brutus Top-Tique Quantum v1.0.0",
   "upload_type": "software",
   "publication_date": "2026-10-05",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "creators": [
     {
       "name": "St-Pierre, Gabriel",
       "orcid": "0009-0009-9297-2336"
     }
   ],
-  "description": "Brutus Top-Tique Quantum v2.0.0 documents a reproducible algebraic frequency construction defined by 1/f0 - 1/f = tau, with explicit high-precision residual propagation by a dimensionless scale N. For f0 = 240.1 Hz, tau = 1e-15 s and N = 2401, the reference calculation yields f = 240.100000000057648... Hz, delta_f = 5.764801000001384...e-11 Hz, N*delta_f = 1.3841287201003323...e-7 Hz and N*f = 576480.100000138412... Hz. The repository includes an interactive Python calculator for reproduction. This release documents an algebraic construction; no new physical constant or particle identification is claimed without an independent physical model and experimental validation.",
+  "description": "Brutus Top-Tique Quantum v1.0.0 documents a reproducible algebraic frequency construction defined by 1/f0 - 1/f = tau, with explicit high-precision residual propagation by a dimensionless scale N. For f0 = 240.1 Hz, tau = 1e-15 s and N = 2401, the reference calculation yields f = 240.100000000057648... Hz, delta_f = 5.764801000001384...e-11 Hz, N*delta_f = 1.3841287201003323...e-7 Hz and N*f = 576480.100000138412... Hz. The repository includes an interactive Python calculator for reproduction. This release documents an algebraic construction; no new physical constant or particle identification is claimed without an independent physical model and experimental validation.",
   "keywords": [
     "Brutus Top-Tique Quantum",
     "Brutus",
