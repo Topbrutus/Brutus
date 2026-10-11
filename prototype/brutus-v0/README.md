@@ -110,3 +110,11 @@ Ce n’est pas un théorème-prover universel, un juge de nouveauté académique
 ## Concurrence et récupération du ledger
 
 Les écritures du ledger Reine utilisent un verrou exclusif de fichier, y compris entre processus, afin d’empêcher deux événements de partir du même `prev_hash`. La lecture reste fail-closed. Si un fork est détecté, la récupération doit d’abord archiver le ledger brut, ne relier que les événements affectés, puis ajouter un événement `LEDGER_RECOVERY` traçable.
+
+## Évaluateur universel v0.4
+
+`BRUTUS-EVALUATION-v0.1` donne aux candidats, tâches, cristaux et modules un vocabulaire commun : `MEASURED`, `REPRODUCED`, `COUNTER_TESTED`, `PROVENANCE`, `PRIOR_ART_CHECKED`, `NOVELTY_CLEARED`, `COUNTEREXAMPLE_FOUND`, `EVIDENCE_CLASS`, `PROOF_REF`, `PUBLICATION_STATE`, `MISSING_GATES`, `NEXT_ACTION` et un `evaluation_hash` SHA-256.
+
+La Reine exécute aussi un worker d’évaluation. Pour chaque formule candidate, il calcule la prochaine porte manquante et peut créer une mission Fourmi correspondante (`VERIFY`, `COUNTER_TEST`, `ARCHIVE` ou `RESEARCH`). La mission ne valide jamais automatiquement la porte : `auto_gate_promotion=false` et `auto_proof_promotion=false` restent inscrits dans son payload.
+
+L’index en lecture seule est disponible sur `GET /api/evaluations`. Une formule ne devient `READY_FOR_ASTRA` que si toutes les portes positives sont présentes et qu’aucun contre-exemple n’est enregistré. La publication reste une décision Astra/humaine; aucune publication automatique n’est ajoutée par v0.4.

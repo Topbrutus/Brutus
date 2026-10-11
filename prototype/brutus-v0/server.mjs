@@ -10,6 +10,8 @@ import {
 } from './src/queen-ledger.mjs';
 import { startQueenObserver } from './src/observer.mjs';
 import { startDiscoveryWorker } from './src/discovery.mjs';
+import { startEvaluationWorker } from './src/evaluation-worker.mjs';
+import { summarizeEvaluations, evaluateCrystal, evaluateTask, evaluateModule } from './src/evaluator.mjs';
 import { readPellArchive, readZelArchive } from './src/archive-sources.mjs';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
@@ -59,34 +61,45 @@ async function queenState() {
   return reduceQueenState(await readQueenEvents(QUEEN_LEDGER));
 }
 
+function runtimeModules({ brotoculateur, pell, zel }) {
+  return [
+    { id: 'BROTOCULATEUR', status: brotoculateur.reachable ? 'RUNNING' : 'WAITING_SOURCE' },
+    { id: 'BRUTUS-PELL', status: pell.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
+    { id: 'ZELSTEREOS', status: zel.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
+    { id: 'FOURMIS', status: 'QUEEN_BUS_READY' },
+    { id: 'BRUTOTABLEUR', status: 'FRESCO_READY' },
+    { id: 'BRUTUS-EVALUATOR', status: 'RUNNING' },
+    { id: 'ASTRA-MAILBOX', status: 'READY' },
+  ];
+}
+
 async function api(req, res, url) {
   if (req.method === 'GET' && url.pathname === '/api/state') {
     const [brotoculateur, events, queen, pell, zel] = await Promise.all([
       readBrotoculateur(), readTeachings(MEMORY), queenState(), readPellArchive(), readZelArchive(),
     ]);
+    const modules = runtimeModules({ brotoculateur, pell, zel });
     return send(res, 200, {
-      schema: 'BRUTUS-PROTOTYPE-STATE-v0.3',
+      schema: 'BRUTUS-PROTOTYPE-STATE-v0.4',
       mode: 'VERSO_DEFAULT_LOCKED',
       live_routing: 'DENIED',
       unknown_card: 'STOP',
       auto_proof_promotion: false,
       learning_mode: 'OPERATOR_SUPERVISED_APPEND_ONLY',
-      queen_mode: 'ORCHESTRATE_OBSERVE_DISCOVER_TRACE',
+      queen_mode: 'ORCHESTRATE_OBSERVE_DISCOVER_EVALUATE_TRACE',
       discovery_mode: 'BOUNDED_PATTERN_MINER',
+      evaluation_mode: 'UNIVERSAL_GATED_EVALUATOR',
       writes_local_only: !process.env.BRUTUS_ALLOW_WRITES,
       brotoculateur,
       pell,
       zel,
       memory: summarizeTeachings(events),
       colony: queen.counts,
-      modules: [
-        { id: 'BROTOCULATEUR', status: brotoculateur.reachable ? 'RUNNING' : 'WAITING_SOURCE' },
-        { id: 'BRUTUS-PELL', status: pell.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
-        { id: 'ZELSTEREOS', status: zel.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
-        { id: 'FOURMIS', status: 'QUEEN_BUS_READY' },
-        { id: 'BRUTOTABLEUR', status: 'FRESCO_READY' },
-        { id: 'ASTRA-MAILBOX', status: 'READY' },
-      ],
+      evaluation: {
+        candidates: summarizeEvaluations(queen.candidates),
+        latest_crystals: (brotoculateur.latest_crystals || []).map((crystal) => evaluateCrystal(crystal)),
+      },
+      modules: modules.map((module) => ({ ...module, evaluation: evaluateModule(module) })),
     });
   }
 
@@ -103,6 +116,21 @@ async function api(req, res, url) {
   if (req.method === 'GET' && url.pathname === '/api/queen/ledger') {
     const events = await readQueenEvents(QUEEN_LEDGER);
     return send(res, 200, { events: events.slice(-100).reverse() });
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/evaluations') {
+    const [queen, brotoculateur, pell, zel] = await Promise.all([
+      queenState(), readBrotoculateur(), readPellArchive(), readZelArchive(),
+    ]);
+    const modules = runtimeModules({ brotoculateur, pell, zel });
+    return send(res, 200, {
+      schema: 'BRUTUS-EVALUATION-INDEX-v0.1',
+      summary: summarizeEvaluations(queen.candidates),
+      candidates: queen.candidates.map((candidate) => candidate.evaluation),
+      tasks: queen.tasks.map((task) => evaluateTask(task)),
+      crystals: (brotoculateur.latest_crystals || []).map((crystal) => evaluateCrystal(crystal)),
+      modules: modules.map((module) => evaluateModule(module)),
+    });
   }
 
   if (req.method === 'POST' && url.pathname === '/api/teach') {
@@ -197,8 +225,9 @@ export function createServer() {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   startQueenObserver(QUEEN_LEDGER, { intervalMs: 30_000 });
   startDiscoveryWorker(QUEEN_LEDGER, { intervalMs: 60_000 });
+  startEvaluationWorker(QUEEN_LEDGER, { intervalMs: 45_000 });
   createServer().listen(PORT, HOST, () => {
-    console.log(`BRUTUS v0.3 Queen ready: http://${HOST}:${PORT}`);
-    console.log('Queen: observe -> discover -> counter-test -> trace -> Astra mailbox. No auto proof or publication.');
+    console.log(`BRUTUS v0.4 Queen ready: http://${HOST}:${PORT}`);
+    console.log('Queen: observe -> discover -> evaluate -> dispatch ants -> Astra mailbox. No auto proof or publication.');
   });
 }

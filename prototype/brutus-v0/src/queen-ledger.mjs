@@ -1,6 +1,7 @@
-import { createHash, randomUUID } from 'node:crypto';
+﻿import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, readFile, appendFile, open, stat, unlink } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { evaluateCandidate } from './evaluator.mjs';
 
 const TASK_KINDS = new Set(['COLLECT', 'COMPUTE', 'TEST', 'COUNTER_TEST', 'VERIFY', 'ARCHIVE', 'RESEARCH']);
 const TASK_PERMISSIONS = new Set(['READ', 'COMPUTE', 'TEST', 'REPORT']);
@@ -119,8 +120,7 @@ export function validateCandidate(input) {
 }
 
 export function candidateReadyForAstra(candidate) {
-  const g = candidate?.gates || {};
-  return Boolean(g.OBSERVED && g.REPRODUCED && g.COUNTER_TESTED && g.PROVENANCE && g.PRIOR_ART_CHECKED && g.NOVELTY_CLEARED && !g.COUNTEREXAMPLE_FOUND);
+  return evaluateCandidate(candidate).ready_for_astra;
 }
 
 export function reduceQueenState(events) {
@@ -148,7 +148,7 @@ export function reduceQueenState(events) {
   const observationCount = state.observations.length;
   state.observations = state.observations.slice(-30).reverse();
   state.tasks = Object.values(state.tasks).sort((a, b) => b.at.localeCompare(a.at));
-  state.candidates = Object.values(state.candidates).map((c) => ({ ...c, ready_for_astra: candidateReadyForAstra(c) })).sort((a, b) => b.at.localeCompare(a.at));
+  state.candidates = Object.values(state.candidates).map((c) => { const evaluation = evaluateCandidate(c); return { ...c, evaluation, ready_for_astra: evaluation.ready_for_astra }; }).sort((a, b) => b.at.localeCompare(a.at));
   state.mailbox = Object.values(state.mailbox).sort((a, b) => b.at.localeCompare(a.at));
   state.counts = {
     observations: observationCount,
@@ -199,8 +199,8 @@ export async function sendCandidateToAstra(path, candidate_id) {
     type: 'QUEST_CREATED',
     quest_id: `QUEST-${randomUUID()}`,
     candidate_id,
-    title: `Revue publication · ${candidate.title}`,
-    message: 'Brutus estime ce candidat prêt pour une revue Astra. Aucun envoi externe ni publication automatique n\'a été effectué.',
+    title: `Revue publication Â· ${candidate.title}`,
+    message: 'Brutus estime ce candidat prÃªt pour une revue Astra. Aucun envoi externe ni publication automatique n\'a Ã©tÃ© effectuÃ©.',
     source: 'BRUTUS_QUEEN',
   });
 }
@@ -211,3 +211,4 @@ export async function setQuestStatus(path, input) {
   if (!quest_id || !QUEST_STATUS.has(status)) throw new Error('INVALID_QUEST_STATUS');
   return appendQueenEvent(path, { type: 'QUEST_STATUS', quest_id, status, source: 'ASTRA' });
 }
+

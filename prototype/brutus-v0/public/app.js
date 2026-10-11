@@ -5,15 +5,20 @@ const esc = (v) => String(v ?? '').replace(/[&<>'"]/g, (c) => ({ '&': '&amp;', '
 
 const descriptions = {
   BROTOCULATEUR: 'Forge mathématique vivante · lecture seule',
-  'BRUTUS-PELL': 'Relations, portes et contre-tests',
+  'BRUTUS-PELL': 'Relations, portes et contre-tests archivés',
   ZELSTEREOS: 'Signal / fréquence / provenance',
   FOURMIS: 'Bus Reine ↔ travailleuses',
   BRUTOTABLEUR: 'Fresque des connaissances',
+  'BRUTUS-EVALUATOR': 'Évaluation universelle · prochaine action · aucune auto-preuve',
   'ASTRA-MAILBOX': 'Dernier sas avant publication',
 };
 
 async function post(url, payload = {}) {
-  const response = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) });
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || `HTTP_${response.status}`);
   return result;
@@ -21,6 +26,7 @@ async function post(url, payload = {}) {
 
 function renderLive(state, queen) {
   const b = state.brotoculateur;
+  const evaluation = state.evaluation?.candidates;
   $('#brotoState').textContent = b.reachable ? b.state : 'OFFLINE';
   $('#pellState').textContent = state.pell?.available ? `${state.pell.verdict} · ARCHIVE` : 'WAITING';
   $('#zelState').textContent = state.zel?.available ? `${state.zel.verdict} · ARCHIVE` : 'WAITING';
@@ -31,6 +37,7 @@ function renderLive(state, queen) {
   $('#obsCount').textContent = fmt(queen.counts?.observations || 0);
   $('#taskCount').textContent = `${queen.counts?.tasks || 0} mission${queen.counts?.tasks === 1 ? '' : 's'}`;
   $('#mailCount').textContent = `${queen.counts?.mailbox || 0} quête${queen.counts?.mailbox === 1 ? '' : 's'}`;
+  $('#evalCount').textContent = evaluation ? `${evaluation.ready_for_astra}/${evaluation.total} prêts` : '—';
 }
 
 function renderFresco(state) {
@@ -57,12 +64,14 @@ function renderFresco(state) {
   }
   if (!formulas.children.length) formulas.innerHTML = '<p class="muted">Aucune formule visible.</p>';
 
+  const evaluations = new Map((state.evaluation?.latest_crystals || []).map((e) => [e.object_id, e]));
   const crystals = $('#crystalFresco');
   crystals.innerHTML = '';
   for (const c of b.latest_crystals || []) {
+    const e = evaluations.get(c.crystal_id);
     const item = document.createElement('div');
     item.className = 'crystal';
-    item.innerHTML = `<span>◆</span><div><strong>${esc(c.formula_id || 'CRISTAL')}</strong><small>${esc(c.crystal_id || '')}</small><em>${esc(c.evidence_class || 'OBSERVATION')} · preuve ${c.proof_ref ? 'liée' : 'non'}</em></div>`;
+    item.innerHTML = `<span>◆</span><div><strong>${esc(c.formula_id || 'CRISTAL')}</strong><small>${esc(c.crystal_id || '')}</small><em>${esc(c.evidence_class || 'OBSERVATION')} · provenance ${e?.provenance ? '✓' : '○'} · preuve ${c.proof_ref ? 'liée' : 'non'}</em></div>`;
     crystals.appendChild(item);
   }
   if (!crystals.children.length) crystals.innerHTML = '<p class="muted">Aucun cristal résumé dans la source.</p>';
@@ -72,10 +81,11 @@ function renderTasks(tasks) {
   $('#openTasks').textContent = fmt(tasks.filter((t) => !['COMPLETE', 'FAILED'].includes(t.status)).length);
   const list = $('#taskList');
   list.innerHTML = '';
-  for (const t of tasks.slice(0, 8)) {
+  for (const t of tasks.slice(0, 10)) {
     const item = document.createElement('div');
     item.className = 'list-card';
-    item.innerHTML = `<div class="row"><strong>${esc(t.kind)}</strong><span class="status">${esc(t.status)}</span></div><p>${esc(t.title)}</p><small>${esc(t.target)} · ${t.reports?.length || 0} rapport(s)</small>`;
+    const evaluator = t.payload?.evaluation_gate ? ` · ÉVALUATEUR → ${t.payload.evaluation_gate}` : '';
+    item.innerHTML = `<div class="row"><strong>${esc(t.kind)}</strong><span class="status">${esc(t.status)}</span></div><p>${esc(t.title)}</p><small>${esc(t.target)} · ${t.reports?.length || 0} rapport(s)${esc(evaluator)}</small>`;
     list.appendChild(item);
   }
   if (!list.children.length) list.innerHTML = '<p class="muted">Aucune mission. La Reine attend.</p>';
@@ -90,11 +100,14 @@ function renderCandidates(candidates) {
   $('#candidateCount').textContent = fmt(candidates.length);
   const list = $('#candidateList');
   list.innerHTML = '';
-  for (const c of candidates.slice(0, 8)) {
+  for (const c of candidates.slice(0, 10)) {
     const item = document.createElement('div');
+    const evaluation = c.evaluation || {};
     item.className = `list-card candidate ${c.ready_for_astra ? 'ready' : ''}`;
     const gates = Object.entries(c.gates || {}).map(([gate, value]) => `<button type="button" class="gate ${value ? 'pass' : ''} ${gate === 'COUNTEREXAMPLE_FOUND' && value ? 'danger' : ''}" data-candidate="${esc(c.candidate_id)}" data-gate="${gate}" data-value="${value ? 'false' : 'true'}">${esc(gateLabels[gate] || gate)} ${value ? '✓' : '○'}</button>`).join('');
-    item.innerHTML = `<div class="row"><strong>${esc(c.title)}</strong><span class="status">${esc(c.classification)}</span></div><code>${esc(c.expression)}</code><small>${esc(c.domain)}</small><div class="gates">${gates}</div><div class="candidate-actions"><span>${c.ready_for_astra ? 'PRÊT POUR ASTRA' : 'portes incomplètes'}</span><button type="button" class="send-astra" data-send-astra="${esc(c.candidate_id)}" ${c.ready_for_astra ? '' : 'disabled'}>📬 ENVOYER À ASTRA</button></div>`;
+    const missing = evaluation.missing_gates?.length ? evaluation.missing_gates.map((g) => gateLabels[g] || g).join(', ') : 'aucune';
+    const next = evaluation.next_action ? `${evaluation.next_action.kind} · ${evaluation.next_action.title}` : (evaluation.counterexample_found ? 'contre-exemple à examiner' : 'revue Astra possible');
+    item.innerHTML = `<div class="row"><strong>${esc(c.title)}</strong><span class="status">${esc(evaluation.publication_state || c.classification)}</span></div><code>${esc(c.expression)}</code><small>${esc(c.domain)}</small><div class="gates">${gates}</div><p class="muted"><strong>Évaluation :</strong> manque ${esc(missing)}<br><strong>Prochaine action :</strong> ${esc(next)}</p><div class="candidate-actions"><span>${c.ready_for_astra ? 'PRÊT POUR ASTRA' : 'ÉVALUATION EN COURS'}</span><button type="button" class="send-astra" data-send-astra="${esc(c.candidate_id)}" ${c.ready_for_astra ? '' : 'disabled'}>📬 ENVOYER À ASTRA</button></div>`;
     list.appendChild(item);
   }
   if (!list.children.length) list.innerHTML = '<p class="muted">Aucune formule candidate. Les observations restent des observations tant qu’un candidat n’est pas créé.</p>';
@@ -109,7 +122,7 @@ function renderMailbox(items) {
     item.innerHTML = `<div class="stamp">ASTRA</div><div><strong>${esc(q.title)}</strong><p>${esc(q.message)}</p><small>${esc(q.candidate_id)} · ${esc(q.status)}</small><div class="mail-actions"><button type="button" data-quest="${esc(q.quest_id)}" data-status="IN_REVIEW">EN REVUE</button><button type="button" data-quest="${esc(q.quest_id)}" data-status="RETURN_TO_COLONY">RETOUR COLONIE</button><button type="button" data-quest="${esc(q.quest_id)}" data-status="READY_TO_PUBLISH">PRÊT À PUBLIER</button></div></div>`;
     box.appendChild(item);
   }
-  if (!box.children.length) box.innerHTML = '<p class="muted">Boîte vide. Brutus n’envoie une quête qu’après les portes minimales.</p>';
+  if (!box.children.length) box.innerHTML = '<p class="muted">Boîte vide. Brutus n’envoie une quête qu’après toutes les portes d’évaluation.</p>';
 }
 
 function renderCards(state) {
@@ -133,15 +146,19 @@ function renderCards(state) {
       details = `<dl><div><dt>missions</dt><dd>${fmt(state.colony?.tasks || 0)}</dd></div><div><dt>candidats</dt><dd>${fmt(state.colony?.candidates || 0)}</dd></div></dl>`;
     } else if (module.id === 'BRUTOTABLEUR') {
       details = `<dl><div><dt>formules live</dt><dd>${fmt(state.brotoculateur?.formula_ids?.length || 0)}</dd></div><div><dt>cristaux visibles</dt><dd>${fmt(state.brotoculateur?.latest_crystals?.length || 0)}</dd></div></dl>`;
+    } else if (module.id === 'BRUTUS-EVALUATOR') {
+      const e = state.evaluation?.candidates || {};
+      details = `<dl><div><dt>candidats</dt><dd>${fmt(e.total)}</dd></div><div><dt>prêts Astra</dt><dd>${fmt(e.ready_for_astra)}</dd></div><div><dt>antériorité</dt><dd>${fmt(e.needing_prior_art)} à traiter</dd></div><div><dt>nouveauté</dt><dd>${fmt(e.needing_novelty_review)} à traiter</dd></div><div><dt>auto-preuve</dt><dd>NON</dd></div></dl>`;
     } else if (module.id === 'ASTRA-MAILBOX') {
       details = `<dl><div><dt>quêtes</dt><dd>${fmt(state.colony?.mailbox || 0)}</dd></div><div><dt>auto-publication</dt><dd>NON</dd></div></dl>`;
     }
 
-    const active = ['RUNNING', 'QUEEN_BUS_READY', 'FRESCO_READY', 'ARCHIVE_PASS'].includes(module.status);
+    const active = ['RUNNING', 'QUEEN_BUS_READY', 'FRESCO_READY', 'ARCHIVE_PASS', 'READY'].includes(module.status);
     el.innerHTML = `<div class="module-head"><div><p class="eyebrow">${esc(module.id)}</p><h3>${esc(module.status)}</h3></div><span class="dot ${active ? 'on' : ''}"></span></div><p class="muted">${esc(descriptions[module.id] || '')}</p>${details}`;
     cards.appendChild(el);
   }
 }
+
 function renderMemory(events = []) {
   $('#memoryCount').textContent = `${events.length} événement${events.length === 1 ? '' : 's'}`;
   const trace = $('#trace');
@@ -157,7 +174,9 @@ function renderMemory(events = []) {
 }
 
 async function refresh() {
-  const [stateRes, queenRes, memoryRes] = await Promise.all([fetch('/api/state'), fetch('/api/queen'), fetch('/api/memory')]);
+  const [stateRes, queenRes, memoryRes] = await Promise.all([
+    fetch('/api/state'), fetch('/api/queen'), fetch('/api/memory'),
+  ]);
   if (!stateRes.ok || !queenRes.ok || !memoryRes.ok) throw new Error('API indisponible');
   const state = await stateRes.json();
   const { queen, brotoculateur } = await queenRes.json();
@@ -189,7 +208,7 @@ $('#candidateForm').addEventListener('submit', async (event) => {
   $('#candidateStatus').textContent = 'Création du candidat…';
   try {
     await post('/api/candidates', { title: $('#candidateTitle').value, classification: $('#candidateClass').value, expression: $('#candidateExpression').value, domain: $('#candidateDomain').value, origin: 'OPERATOR' });
-    $('#candidateTitle').value = ''; $('#candidateExpression').value = ''; $('#candidateDomain').value = ''; $('#candidateStatus').textContent = 'Candidat créé. Aucune preuve promue.'; await refresh();
+    $('#candidateTitle').value = ''; $('#candidateExpression').value = ''; $('#candidateDomain').value = ''; $('#candidateStatus').textContent = 'Candidat créé. L’Évaluateur décidera de la prochaine mission, sans promouvoir de preuve.'; await refresh();
   } catch (error) { $('#candidateStatus').textContent = `Refusé : ${error.message}`; }
 });
 
