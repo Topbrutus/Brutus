@@ -1,4 +1,4 @@
-﻿import { createHash, randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { mkdir, readFile, appendFile, open, stat, unlink } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { evaluateCandidate } from './evaluator.mjs';
@@ -211,4 +211,3 @@ export async function setQuestStatus(path, input) {
   if (!quest_id || !QUEST_STATUS.has(status)) throw new Error('INVALID_QUEST_STATUS');
   return appendQueenEvent(path, { type: 'QUEST_STATUS', quest_id, status, source: 'ASTRA' });
 }
-
