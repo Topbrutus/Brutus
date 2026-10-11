@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BRUTUS — Prototype vivant v0.1</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">TOPBRUTUS + ASTRA · PREMIER PROTOTYPE VIVANT</p>
+      <h1>BRUTUS <span>v0.1</span></h1>
+    </div>
+    <div class="guards">
+      <span>VERSO · LOCKED</span>
+      <span>LIVE ROUTING · DENIED</span>
+      <span>AUTO PROOF · FALSE</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="core" aria-label="Cœur Brutus">
+        <div class="pulse"></div>
+        <strong>1</strong>
+        <small>INTAKE → TRACE → CONTRE-TEST → LEDGER</small>
+      </div>
+      <div>
+        <p class="kicker">Une entrée. Une trace. Une mémoire.</p>
+        <h2>Choisis une carte. Fais une expérience. Brutus retient ce que tu lui enseignes.</h2>
+        <p class="muted">L'apprentissage de ce prototype est supervisé et append-only : il mémorise des faits, hypothèses, décisions et retours opérateur sans modifier son propre code ni promouvoir automatiquement une preuve.</p>
+      </div>
+    </section>
+
+    <section id="cards" class="cards" aria-live="polite"></section>
+
+    <section class="lower-grid">
+      <article class="panel trace-panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">TRACE / LEDGER</p>
+            <h3>Mémoire vivante</h3>
+          </div>
+          <span id="memoryCount" class="counter">0 événement</span>
+        </div>
+        <div id="trace" class="trace"></div>
+      </article>
+
+      <article class="panel teacher-panel">
+        <p class="eyebrow">APPRENTISSAGE SUPERVISÉ</p>
+        <h3>Enseigner quelque chose à Brutus</h3>
+        <form id="teachForm">
+          <label>Module
+            <select id="module" name="module">
+              <option>BROTOCULATEUR</option>
+              <option>BRUTUS-PELL</option>
+              <option>ZELSTEREOS</option>
+              <option>FOURMIS</option>
+              <option>WORLD</option>
+              <option>BRUTUS</option>
+            </select>
+          </label>
+          <label>Type
+            <select id="kind" name="kind">
+              <option>FACT</option>
+              <option>HYPOTHESIS</option>
+              <option>DECISION</option>
+              <option>FEEDBACK</option>
+            </select>
+          </label>
+          <label class="wide">Texte
+            <textarea id="text" name="text" maxlength="2000" placeholder="Ex.: Le compteur de cristaux a augmenté après cette entrée."></textarea>
+          </label>
+          <button type="submit">MÉMORISER</button>
+          <p id="teachStatus" class="muted" role="status"></p>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <span>1 module → 1 connexion → 1 mesure → 1 preuve</span>
+    <span>PROOF_REF = null tant qu'une preuve Brutus n'existe pas.</span>
+  </footer>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
