@@ -22,6 +22,8 @@ async function post(url, payload = {}) {
 function renderLive(state, queen) {
   const b = state.brotoculateur;
   $('#brotoState').textContent = b.reachable ? b.state : 'OFFLINE';
+  $('#pellState').textContent = state.pell?.available ? `${state.pell.verdict} · ARCHIVE` : 'WAITING';
+  $('#zelState').textContent = state.zel?.available ? `${state.zel.verdict} · ARCHIVE` : 'WAITING';
   $('#packets').textContent = fmt(b.processed_packets);
   $('#crystals').textContent = fmt(b.crystals);
   $('#papillon').textContent = b.papillon?.enabled ? `${pct(b.papillon.cache_hit_rate)} · ×${fmt(b.papillon.logical_to_physical_ratio)}` : 'OFF';
@@ -31,13 +33,26 @@ function renderLive(state, queen) {
   $('#mailCount').textContent = `${queen.counts?.mailbox || 0} quête${queen.counts?.mailbox === 1 ? '' : 's'}`;
 }
 
-function renderFresco(b) {
+function renderFresco(state) {
+  const b = state.brotoculateur;
   const formulas = $('#formulaFresco');
   formulas.innerHTML = '';
   for (const id of b.formula_ids || []) {
     const chip = document.createElement('span');
     chip.className = 'formula-chip';
     chip.textContent = id;
+    formulas.appendChild(chip);
+  }
+  if (state.pell?.available) {
+    const chip = document.createElement('span');
+    chip.className = 'formula-chip';
+    chip.textContent = `L8 · ${state.pell.relation || 'BRUTUS–PELL'}`;
+    formulas.appendChild(chip);
+  }
+  if (state.zel?.available) {
+    const chip = document.createElement('span');
+    chip.className = 'formula-chip';
+    chip.textContent = `ZEL · ${(state.zel.inputs || []).join('↔') || 'ARCHIVE'}`;
     formulas.appendChild(chip);
   }
   if (!formulas.children.length) formulas.innerHTML = '<p class="muted">Aucune formule visible.</p>';
@@ -103,12 +118,30 @@ function renderCards(state) {
   for (const module of state.modules) {
     const el = document.createElement('article');
     el.className = 'module-card';
-    const live = module.id === 'BROTOCULATEUR' ? state.brotoculateur : null;
-    el.innerHTML = `<div class="module-head"><div><p class="eyebrow">${esc(module.id)}</p><h3>${esc(module.status)}</h3></div><span class="dot ${module.status === 'RUNNING' ? 'on' : ''}"></span></div><p class="muted">${esc(descriptions[module.id] || '')}</p>${live ? `<dl><div><dt>paquets</dt><dd>${fmt(live.processed_packets)}</dd></div><div><dt>cristaux</dt><dd>${fmt(live.crystals)}</dd></div><div><dt>graines</dt><dd>${fmt(live.active_seeds)}</dd></div><div><dt>cache</dt><dd>${pct(live.papillon?.cache_hit_rate)}</dd></div><div><dt>sentinelles</dt><dd>${fmt(live.sentinels?.survived)}/${fmt(live.sentinels?.total)}</dd></div></dl>` : '<div class="waiting">Connecteur prêt · pas encore branché</div>'}`;
+    let details = '<div class="waiting">Connecteur prêt · pas encore branché</div>';
+
+    if (module.id === 'BROTOCULATEUR') {
+      const live = state.brotoculateur;
+      details = `<dl><div><dt>paquets</dt><dd>${fmt(live.processed_packets)}</dd></div><div><dt>cristaux</dt><dd>${fmt(live.crystals)}</dd></div><div><dt>graines</dt><dd>${fmt(live.active_seeds)}</dd></div><div><dt>cache</dt><dd>${pct(live.papillon?.cache_hit_rate)}</dd></div><div><dt>sentinelles</dt><dd>${fmt(live.sentinels?.survived)}/${fmt(live.sentinels?.total)}</dd></div></dl>`;
+    } else if (module.id === 'BRUTUS-PELL' && state.pell?.available) {
+      const pell = state.pell;
+      details = `<dl><div><dt>relation</dt><dd>${esc(pell.relation)}</dd></div><div><dt>verdict archive</dt><dd>${esc(pell.verdict)}</dd></div><div><dt>témoin q</dt><dd>${fmt(pell.witness?.q)}</dd></div><div><dt>rang exact</dt><dd>${fmt(pell.witness?.exact_rank)}</dd></div><div><dt>preuve</dt><dd>${pell.proof_ref ? 'liée' : 'non'}</dd></div></dl>`;
+    } else if (module.id === 'ZELSTEREOS' && state.zel?.available) {
+      const zel = state.zel;
+      details = `<dl><div><dt>entrées</dt><dd>${esc((zel.inputs || []).join(' ↔ '))}</dd></div><div><dt>verdict archive</dt><dd>${esc(zel.verdict)}</dd></div><div><dt>branches diff.</dt><dd>${fmt(zel.comparison?.branches_different)}/${fmt(zel.comparison?.total)}</dd></div><div><dt>retour 369</dt><dd>${esc(zel.machine?.inverse_369)}</dd></div><div><dt>preuve</dt><dd>${zel.proof_ref ? 'liée' : 'non'}</dd></div></dl>`;
+    } else if (module.id === 'FOURMIS') {
+      details = `<dl><div><dt>missions</dt><dd>${fmt(state.colony?.tasks || 0)}</dd></div><div><dt>candidats</dt><dd>${fmt(state.colony?.candidates || 0)}</dd></div></dl>`;
+    } else if (module.id === 'BRUTOTABLEUR') {
+      details = `<dl><div><dt>formules live</dt><dd>${fmt(state.brotoculateur?.formula_ids?.length || 0)}</dd></div><div><dt>cristaux visibles</dt><dd>${fmt(state.brotoculateur?.latest_crystals?.length || 0)}</dd></div></dl>`;
+    } else if (module.id === 'ASTRA-MAILBOX') {
+      details = `<dl><div><dt>quêtes</dt><dd>${fmt(state.colony?.mailbox || 0)}</dd></div><div><dt>auto-publication</dt><dd>NON</dd></div></dl>`;
+    }
+
+    const active = ['RUNNING', 'QUEEN_BUS_READY', 'FRESCO_READY', 'ARCHIVE_PASS'].includes(module.status);
+    el.innerHTML = `<div class="module-head"><div><p class="eyebrow">${esc(module.id)}</p><h3>${esc(module.status)}</h3></div><span class="dot ${active ? 'on' : ''}"></span></div><p class="muted">${esc(descriptions[module.id] || '')}</p>${details}`;
     cards.appendChild(el);
   }
 }
-
 function renderMemory(events = []) {
   $('#memoryCount').textContent = `${events.length} événement${events.length === 1 ? '' : 's'}`;
   const trace = $('#trace');
@@ -131,7 +164,7 @@ async function refresh() {
   const memory = await memoryRes.json();
   state.brotoculateur = brotoculateur;
   renderLive(state, queen);
-  renderFresco(brotoculateur);
+  renderFresco(state);
   renderTasks(queen.tasks || []);
   renderCandidates(queen.candidates || []);
   renderMailbox(queen.mailbox || []);

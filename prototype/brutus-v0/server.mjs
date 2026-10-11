@@ -10,6 +10,7 @@ import {
 } from './src/queen-ledger.mjs';
 import { startQueenObserver } from './src/observer.mjs';
 import { startDiscoveryWorker } from './src/discovery.mjs';
+import { readPellArchive, readZelArchive } from './src/archive-sources.mjs';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
 const PUBLIC = join(ROOT, 'public');
@@ -60,8 +61,8 @@ async function queenState() {
 
 async function api(req, res, url) {
   if (req.method === 'GET' && url.pathname === '/api/state') {
-    const [brotoculateur, events, queen] = await Promise.all([
-      readBrotoculateur(), readTeachings(MEMORY), queenState(),
+    const [brotoculateur, events, queen, pell, zel] = await Promise.all([
+      readBrotoculateur(), readTeachings(MEMORY), queenState(), readPellArchive(), readZelArchive(),
     ]);
     return send(res, 200, {
       schema: 'BRUTUS-PROTOTYPE-STATE-v0.3',
@@ -74,12 +75,14 @@ async function api(req, res, url) {
       discovery_mode: 'BOUNDED_PATTERN_MINER',
       writes_local_only: !process.env.BRUTUS_ALLOW_WRITES,
       brotoculateur,
+      pell,
+      zel,
       memory: summarizeTeachings(events),
       colony: queen.counts,
       modules: [
         { id: 'BROTOCULATEUR', status: brotoculateur.reachable ? 'RUNNING' : 'WAITING_SOURCE' },
-        { id: 'BRUTUS-PELL', status: 'READY' },
-        { id: 'ZELSTEREOS', status: 'READY' },
+        { id: 'BRUTUS-PELL', status: pell.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
+        { id: 'ZELSTEREOS', status: zel.available ? 'ARCHIVE_PASS' : 'WAITING_ARCHIVE' },
         { id: 'FOURMIS', status: 'QUEEN_BUS_READY' },
         { id: 'BRUTOTABLEUR', status: 'FRESCO_READY' },
         { id: 'ASTRA-MAILBOX', status: 'READY' },
