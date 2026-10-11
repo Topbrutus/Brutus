@@ -26,6 +26,10 @@ function send(res, status, body, type = 'application/json; charset=utf-8') {
     'x-content-type-options': 'nosniff',
     'content-security-policy': "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'",
   });
+  if (Buffer.isBuffer(body)) {
+    res.end(body);
+    return;
+  }
   res.end(typeof body === 'string' ? body : JSON.stringify(body));
 }
 
