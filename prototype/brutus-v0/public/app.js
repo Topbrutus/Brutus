@@ -15,10 +15,27 @@ function fmt(value) {
   return value === null || value === undefined ? '—' : new Intl.NumberFormat('fr-CA').format(value);
 }
 
+function fmtRate(value) {
+  if (value === null || value === undefined) return '—';
+  return `${new Intl.NumberFormat('fr-CA', { maximumFractionDigits: 2 }).format(Number(value) * 100)} %`;
+}
+
+function fmtRatio(value) {
+  if (value === null || value === undefined) return '—';
+  return `×${new Intl.NumberFormat('fr-CA', { maximumFractionDigits: 2 }).format(value)}`;
+}
+
 function card(module, state) {
   const el = document.createElement('article');
   el.className = 'module-card';
   const live = module.id === 'BROTOCULATEUR' ? state.brotoculateur : null;
+  const papillon = live?.papillon || {};
+  const sentinels = live?.sentinels || {};
+  const papillonState = papillon.enabled === true ? 'ON' : papillon.enabled === false ? 'OFF' : '—';
+  const sentinelState = sentinels.total
+    ? `${fmt(sentinels.survived)}/${fmt(sentinels.total)}`
+    : '—';
+
   el.innerHTML = `
     <div class="module-head">
       <div>
@@ -31,8 +48,12 @@ function card(module, state) {
     ${live ? `<dl>
       <div><dt>paquets</dt><dd>${fmt(live.processed_packets)}</dd></div>
       <div><dt>cristaux</dt><dd>${fmt(live.crystals)}</dd></div>
-      <div><dt>formules</dt><dd>${fmt(live.canonical_formulas)}</dd></div>
-      <div><dt>auth.</dt><dd>${fmt(live.authenticated_formulas)}</dd></div>
+      <div><dt>graines</dt><dd>${fmt(live.active_seeds)}</dd></div>
+      <div><dt>Papillon</dt><dd>${papillonState}</dd></div>
+      <div><dt>cache</dt><dd>${fmtRate(papillon.cache_hit_rate)}</dd></div>
+      <div><dt>ratio</dt><dd>${fmtRatio(papillon.logical_to_physical_ratio)}</dd></div>
+      <div><dt>sentinelles</dt><dd>${sentinelState}</dd></div>
+      <div><dt>hits</dt><dd>${fmt(sentinels.hits)}</dd></div>
     </dl>` : '<div class="waiting">Carte prête · pas encore connectée</div>'}
   `;
   return el;
