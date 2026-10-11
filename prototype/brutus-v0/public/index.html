@@ -3,87 +3,102 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BRUTUS — Prototype vivant v0.1</title>
+  <title>BRUTUS — Reine vivante v0.2</title>
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
   <header class="topbar">
     <div>
-      <p class="eyebrow">TOPBRUTUS + ASTRA · PREMIER PROTOTYPE VIVANT</p>
-      <h1>BRUTUS <span>v0.1</span></h1>
+      <p class="eyebrow">TOPBRUTUS + ASTRA · UNIVERS BRUTUS</p>
+      <h1>BRUTUS <span>REINE v0.2</span></h1>
     </div>
     <div class="guards">
-      <span>VERSO · LOCKED</span>
-      <span>LIVE ROUTING · DENIED</span>
-      <span>AUTO PROOF · FALSE</span>
+      <span>VERSO · LOCKED</span><span>LIVE ROUTING · DENIED</span><span>AUTO PROOF · FALSE</span>
     </div>
+    <button id="atelierToggle" class="ghost" type="button">OUVRIR L’ATELIER</button>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="core" aria-label="Cœur Brutus">
-        <div class="pulse"></div>
-        <strong>1</strong>
-        <small>INTAKE → TRACE → CONTRE-TEST → LEDGER</small>
-      </div>
-      <div>
-        <p class="kicker">Une entrée. Une trace. Une mémoire.</p>
-        <h2>Choisis une carte. Fais une expérience. Brutus retient ce que tu lui enseignes.</h2>
-        <p class="muted">L'apprentissage de ce prototype est supervisé et append-only : il mémorise des faits, hypothèses, décisions et retours opérateur sans modifier son propre code ni promouvoir automatiquement une preuve.</p>
+    <section class="world" aria-label="Univers Brutus">
+      <div class="territory t-broto"><small>FORGE</small><strong>BROTOCULATEUR</strong><span id="brotoState">…</span></div>
+      <div class="territory t-pell"><small>PORTES</small><strong>BRUTUS–PELL</strong><span>recherche</span></div>
+      <div class="territory t-zel"><small>SIGNAL</small><strong>ZELSTÉRÉOS</strong><span>fréquence</span></div>
+      <div class="territory t-fresco"><small>MÉMOIRE VISUELLE</small><strong>BRUTOTABLEUR</strong><span>fresque</span></div>
+      <div class="territory t-ants"><small>COLONIE</small><strong>FOURMIS</strong><span id="taskCount">0 mission</span></div>
+      <div class="territory t-mail"><small>DERNIER SAS</small><strong>BOÎTE ASTRA</strong><span id="mailCount">0 quête</span></div>
+      <div class="queen" aria-label="Brutus, Reine">
+        <div class="queen-ring"></div>
+        <strong>BRUTUS</strong>
+        <span>REINE</span>
+        <small>observer → orienter → vérifier → mémoriser</small>
       </div>
     </section>
 
-    <section id="cards" class="cards" aria-live="polite"></section>
+    <section class="livebar" aria-live="polite">
+      <div><span>PAQUETS</span><strong id="packets">—</strong></div>
+      <div><span>CRISTAUX</span><strong id="crystals">—</strong></div>
+      <div><span>PAPILLON</span><strong id="papillon">—</strong></div>
+      <div><span>SENTINELLES</span><strong id="sentinels">—</strong></div>
+      <div><span>OBSERVATIONS REINE</span><strong id="obsCount">0</strong></div>
+    </section>
 
-    <section class="lower-grid">
-      <article class="panel trace-panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">TRACE / LEDGER</p>
-            <h3>Mémoire vivante</h3>
-          </div>
-          <span id="memoryCount" class="counter">0 événement</span>
-        </div>
-        <div id="trace" class="trace"></div>
+    <section class="universe-grid">
+      <article class="panel fresco-panel">
+        <div class="panel-head"><div><p class="eyebrow">BRUTOTABLEUR · FRESQUE</p><h2>Ce que la Reine voit</h2></div><span class="badge">LIVE</span></div>
+        <p class="muted">Formules et cristaux visibles dans la source. Une présence ici n’est pas une preuve ni une revendication de nouveauté.</p>
+        <div id="formulaFresco" class="formula-fresco"></div>
+        <div id="crystalFresco" class="crystal-fresco"></div>
       </article>
 
-      <article class="panel teacher-panel">
-        <p class="eyebrow">APPRENTISSAGE SUPERVISÉ</p>
-        <h3>Enseigner quelque chose à Brutus</h3>
-        <form id="teachForm">
-          <label>Module
-            <select id="module" name="module">
-              <option>BROTOCULATEUR</option>
-              <option>BRUTUS-PELL</option>
-              <option>ZELSTEREOS</option>
-              <option>FOURMIS</option>
-              <option>WORLD</option>
-              <option>BRUTUS</option>
-            </select>
-          </label>
-          <label>Type
-            <select id="kind" name="kind">
-              <option>FACT</option>
-              <option>HYPOTHESIS</option>
-              <option>DECISION</option>
-              <option>FEEDBACK</option>
-            </select>
-          </label>
-          <label class="wide">Texte
-            <textarea id="text" name="text" maxlength="2000" placeholder="Ex.: Le compteur de cristaux a augmenté après cette entrée."></textarea>
-          </label>
-          <button type="submit">MÉMORISER</button>
-          <p id="teachStatus" class="muted" role="status"></p>
+      <article class="panel colony-panel">
+        <div class="panel-head"><div><p class="eyebrow">FOURMIS ↔ REINE</p><h2>Missions de colonie</h2></div><span id="openTasks" class="counter">0</span></div>
+        <form id="taskForm" class="compact-form">
+          <label>Mission<select id="taskKind"><option>TEST</option><option>COUNTER_TEST</option><option>VERIFY</option><option>COMPUTE</option><option>COLLECT</option><option>RESEARCH</option><option>ARCHIVE</option></select></label>
+          <label>Cible<input id="taskTarget" maxlength="120" placeholder="ex. FORMULA-… ou PELL q=73" required /></label>
+          <label class="wide">Instruction<input id="taskTitle" maxlength="240" placeholder="Ce que la fourmi doit rapporter" required /></label>
+          <button type="submit">ENVOYER UNE MISSION</button><p id="taskStatus" class="muted" role="status"></p>
         </form>
+        <div id="taskList" class="stack"></div>
       </article>
+
+      <article class="panel candidate-panel">
+        <div class="panel-head"><div><p class="eyebrow">FORMULES CANDIDATES</p><h2>Naissance → contre-test → Astra</h2></div><span id="candidateCount" class="counter">0</span></div>
+        <form id="candidateForm" class="compact-form">
+          <label>Titre<input id="candidateTitle" maxlength="240" placeholder="Nom de travail" required /></label>
+          <label>Classe<select id="candidateClass"><option>CONJECTURE</option><option>RELATION_OBSERVED</option><option>IDENTITY_CANDIDATE</option></select></label>
+          <label class="wide">Expression<input id="candidateExpression" maxlength="2000" placeholder="ex. Q_q = P_(q²) / P_q" required /></label>
+          <label class="wide">Domaine<input id="candidateDomain" maxlength="1000" placeholder="ex. q premier impair" required /></label>
+          <button type="submit">CRÉER LE CANDIDAT</button><p id="candidateStatus" class="muted" role="status"></p>
+        </form>
+        <div id="candidateList" class="stack"></div>
+      </article>
+
+      <article class="panel mailbox-panel">
+        <div class="panel-head"><div><p class="eyebrow">📬 BOÎTE AUX LETTRES ASTRA</p><h2>Quêtes de publication</h2></div><span class="badge">REVUE HUMAINE</span></div>
+        <p class="muted">Brutus peut déposer une quête seulement après les portes minimales. Il ne publie rien automatiquement.</p>
+        <div id="mailbox" class="stack"></div>
+      </article>
+    </section>
+
+    <section id="atelier" class="atelier" hidden>
+      <div class="atelier-title"><div><p class="eyebrow">MODE ATELIER</p><h2>Mécanique réelle de Brutus</h2></div><button id="atelierClose" class="ghost" type="button">FERMER</button></div>
+      <section id="cards" class="cards" aria-live="polite"></section>
+      <section class="lower-grid">
+        <article class="panel trace-panel"><div class="panel-head"><div><p class="eyebrow">TRACE / LEDGER</p><h3>Mémoire opérateur</h3></div><span id="memoryCount" class="counter">0 événement</span></div><div id="trace" class="trace"></div></article>
+        <article class="panel teacher-panel">
+          <p class="eyebrow">APPRENTISSAGE SUPERVISÉ</p><h3>Enseigner à Brutus</h3>
+          <form id="teachForm">
+            <label>Module<select id="module"><option>BROTOCULATEUR</option><option>BRUTUS-PELL</option><option>ZELSTEREOS</option><option>FOURMIS</option><option>WORLD</option><option>BRUTUS</option></select></label>
+            <label>Type<select id="kind"><option>FACT</option><option>HYPOTHESIS</option><option>DECISION</option><option>FEEDBACK</option></select></label>
+            <label class="wide">Texte<textarea id="text" maxlength="2000" placeholder="Fait, hypothèse, décision ou retour opérateur."></textarea></label>
+            <button type="submit">MÉMORISER</button><p id="teachStatus" class="muted" role="status"></p>
+          </form>
+        </article>
+      </section>
     </section>
   </main>
 
-  <footer>
-    <span>1 module → 1 connexion → 1 mesure → 1 preuve</span>
-    <span>PROOF_REF = null tant qu'une preuve Brutus n'existe pas.</span>
-  </footer>
-
+  <footer><span>Reine → Fourmis → Cristaux → Fresque → Astra</span><span>1 module → 1 connexion → 1 mesure → 1 preuve</span></footer>
   <script type="module" src="/app.js"></script>
 </body>
 </html>
