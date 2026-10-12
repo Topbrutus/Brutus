@@ -91,3 +91,51 @@ test("service refuses non-loopback bind", async () => {
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+
+test("startup publishes public state before the first live cycle finishes", async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), "brutus-colony-startup-publish-"));
+  const publicPath = path.join(dir, "public.json");
+  let releaseStatus;
+  const gate = new Promise((resolve) => { releaseStatus = resolve; });
+  const adapters = makeAdapters();
+  adapters.readBrotoculateurStatus = async () => {
+    await gate;
+    return { run_id: "slow-main", state: "RUNNING", brutomagique: { emitted_by_level: { L1: 1000 } } };
+  };
+  const service = await createLivingColonyService({
+    adapters,
+    stateDir: dir,
+    statePath: path.join(dir, "state.json"),
+    journalPath: path.join(dir, "journal.jsonl"),
+    publicPath,
+    fresquePath: path.join(dir, "unused.json"),
+    cycleMs: 60_000,
+    port: 18813,
+    host: "127.0.0.1"
+  });
+
+  try {
+    const starting = service.start({ withHttp: false, immediateCycle: true });
+    let initial = null;
+    for (let i = 0; i < 50; i += 1) {
+      try {
+        initial = JSON.parse(await readFile(publicPath, "utf8"));
+        break;
+      } catch {
+        await new Promise((resolve) => setTimeout(resolve, 5));
+      }
+    }
+    assert.ok(initial, "initial public snapshot should exist while first cycle is blocked");
+    assert.equal(initial.public_scope, "READ_ONLY_SANITIZED");
+    assert.equal(initial.service.cycles_completed, 0);
+    assert.equal(initial.service.status, "RUNNING");
+    releaseStatus();
+    await starting;
+    assert.equal(service.runtime.cycles_completed, 1);
+  } finally {
+    releaseStatus?.();
+    await service.stop();
+    await rm(dir, { recursive: true, force: true });
+  }
+});

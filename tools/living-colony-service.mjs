@@ -234,8 +234,9 @@ export async function createLivingColonyService(options = {}) {
         server.listen(port, host, resolve);
       });
     }
+    runtime.status = "RUNNING";
+    await publish();
     if (immediateCycle) await cycle();
-    else await publish();
     timer = setInterval(() => cycle().catch(() => {}), cycleMs);
     timer.unref?.();
     return { host, port, publicPath, statePath, journalPath };
