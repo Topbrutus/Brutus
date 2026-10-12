@@ -4,14 +4,23 @@ const fmt = (v) => Number.isFinite(Number(v)) ? new Intl.NumberFormat('fr-CA').f
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const when = (v) => v ? new Date(v).toLocaleString('fr-CA') : '—';
 
-function activateTab(name) {
+const validTabs = new Set(['queen', 'bac', 'broto', 'fresque']);
+
+function activateTab(name, { syncHash = true } = {}) {
+  if (!validTabs.has(name)) name = 'queen';
   $$('.tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
   $$('.view').forEach((view) => view.classList.toggle('active', view.dataset.view === name));
   document.body.dataset.activeTab = name;
+  if (syncHash && location.hash !== `#${name}`) history.replaceState(null, '', `#${name}`);
 }
 
 $$('.tab').forEach((button) => button.addEventListener('click', () => activateTab(button.dataset.tab)));
-activateTab($('.tab.active')?.dataset.tab || 'queen');
+const requestedTab = location.hash.slice(1);
+activateTab(validTabs.has(requestedTab) ? requestedTab : ($('.tab.active')?.dataset.tab || 'queen'), { syncHash: false });
+window.addEventListener('hashchange', () => {
+  const name = location.hash.slice(1);
+  if (validTabs.has(name)) activateTab(name, { syncHash: false });
+});
 
 $('#brotoFullscreen')?.addEventListener('click', async () => {
   const frame = $('#brotoFrame');
@@ -20,7 +29,8 @@ $('#brotoFullscreen')?.addEventListener('click', async () => {
     if (!document.fullscreenElement) await frame.requestFullscreen();
     else await document.exitFullscreen();
   } catch (_) {
-    window.open('/laboratoire/brotoculateur/', '_blank', 'noopener');
+    const button = $('#brotoFullscreen');
+    if (button) button.textContent = 'PLEIN ÉCRAN INDISPONIBLE';
   }
 });
 

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#030712">
+  <title>BRUTOTABLEUR · FRESQUE PUBLIQUE</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body data-public-scope="READ_ONLY_SANITIZED">
+  <header class="hud">
+    <div class="brand">
+      <a class="back" href="/brutus/#fresque" target="_top">← BRUTUS</a>
+      <div>
+        <div class="eyebrow">BRUTOTABLEUR · FRESQUE PUBLIQUE</div>
+        <strong>Mur mathématique vivant</strong>
+      </div>
+    </div>
+    <div class="hud-center">
+      <span class="pill">PUBLIC · LECTURE SEULE</span>
+      <span class="pill" id="scanStat">SEGMENTS —</span>
+      <span class="pill hot" id="cursorStat">FOURMIS —</span>
+    </div>
+    <div class="controls">
+      <button type="button" id="zoomOut" aria-label="Dézoomer">−</button>
+      <span id="zoomLabel">100 %</span>
+      <button type="button" id="zoomIn" aria-label="Zoomer">+</button>
+      <button type="button" id="goCursor">ALLER AUX FOURMIS</button>
+      <button type="button" id="resetView">CENTRER</button>
+    </div>
+  </header>
+
+  <main id="viewport" class="viewport" aria-label="Fresque mathématique navigable en lecture seule">
+    <div id="wall" class="wall">
+      <section class="intro">
+        <div>
+          <div class="eyebrow">SOURCE DÉTERMINISTE</div>
+          <h1>FRESQUE DES FOURMIS</h1>
+          <p>Glisse pour te déplacer. Utilise la molette et les barres de défilement pour parcourir le mur. Les données sont publiques et non modifiables.</p>
+        </div>
+        <div id="sourceMeta" class="source-meta">Chargement…</div>
+      </section>
+      <section id="lineages" class="lineages"></section>
+      <section id="tables" class="tables"></section>
+    </div>
+  </main>
+
+  <div class="legend">
+    <span><i class="dot current"></i> curseur actuel</span>
+    <span><i class="dot hotdot"></i> segment chaud</span>
+    <span><i class="dot normal"></i> segment de Fresque</span>
+    <span>🔒 aucune écriture</span>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
