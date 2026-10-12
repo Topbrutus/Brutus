@@ -1,0 +1,15 @@
+[Unit]
+Description=Brotoculateur isolated worker for Brutus living colony
+After=network-online.target brotoculateur.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/rob/brotoculateur
+ExecStart=/usr/bin/python3 /home/rob/brotoculateur/scripts/run_ui.py --host 127.0.0.1 --port 8782 --no-browser --sleeping-pool --store-dir /home/rob/.local/share/brutus-colony/brotoc-worker --seeds 343,703,2701,6337,11611
+Restart=on-failure
+RestartSec=3
+UMask=0077
+
+[Install]
+WantedBy=default.target

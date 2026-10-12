@@ -1,0 +1,31 @@
+[Unit]
+Description=BRUTUS living colony autonomous Queen runtime
+After=network-online.target brotoculateur.service brotoculateur-colony-worker.service brutus.service
+Wants=network-online.target brotoculateur-colony-worker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/rob/brutus-colony-runtime
+Environment=BRUTUS_COLONY_MAIN_URL=http://127.0.0.1:8781
+Environment=BRUTUS_COLONY_WORKER_URL=http://127.0.0.1:8782
+Environment=BRUTUS_COLONY_HOST=127.0.0.1
+Environment=BRUTUS_COLONY_PORT=8812
+Environment=BRUTUS_COLONY_CYCLE_MS=30000
+Environment=BRUTUS_COLONY_WORKER_STEPS=256
+Environment=BRUTUS_COLONY_STATE_DIR=/home/rob/.local/share/brutus-colony
+Environment=BRUTUS_COLONY_FRESQUE_PATH=/home/rob/brutus-colony-runtime/data/brutotableur-fresque-public.json
+Environment=BRUTUS_COLONY_PUBLIC_PATH=/var/www/antmux.com/public_html/brutus/colony-state.json
+Environment=BRUTUS_COLONY_L1_CRYSTAL_DIR=/home/rob/brotoculateur/brutomagique/crystals
+Environment=BRUTUS_COLONY_COMPACTION_DISK_THRESHOLD=60
+Environment=BRUTUS_COLONY_L1_COMPACTION_MINIMUM=100000
+Environment=BRUTUS_COLONY_COMPACTION_BATCH_SIZE=100
+Environment=BRUTUS_COLONY_COMPACTION_MIN_AGE_SECONDS=900
+Environment=BRUTUS_COLONY_MAX_ACTIVE_ANTS=24
+Environment=BRUTUS_COLONY_MAX_QUESTS_PER_CYCLE=12
+ExecStart=/usr/bin/node /home/rob/brutus-colony-runtime/tools/living-colony-service.mjs
+Restart=always
+RestartSec=3
+UMask=0022
+
+[Install]
+WantedBy=default.target

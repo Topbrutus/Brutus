@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#070b10">
+  <title>BRUTUS — Colonie vivante</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">TOPBRUTUS · VITRINE PUBLIQUE</div>
+    <h1>BRUTUS <span>REINE VIVANTE</span></h1>
+    <p>Reine → quêtes → fourmis → retours → amplification → Astra</p>
+  </div>
+  <div class="guards"><b>READ ONLY</b><b>VERSO LOCKED</b><b>AUTO PROOF FALSE</b></div>
+</header>
+<nav class="tabs" aria-label="Organes Brutus">
+  <button class="tab active" data-tab="queen">👑 REINE</button>
+  <button class="tab" data-tab="bac">🐜 BRUTOBAC</button>
+  <button class="tab" data-tab="broto">🧮 BROTOCULATEUR</button>
+  <button class="tab" data-tab="fresque">▦ BRUTOTABLEUR · FRESQUE</button>
+</nav>
+<main>
+  <section class="summary" id="summary"></section>
+
+  <section class="view active" data-view="queen">
+    <div class="grid two">
+      <article class="panel"><div class="panel-head"><div><span class="eyebrow">REINE</span><h2>Cycle autonome</h2></div><span class="live" id="colonyStatus">…</span></div><div id="queenStats" class="statgrid"></div></article>
+      <article class="panel"><div class="panel-head"><div><span class="eyebrow">ASTRA</span><h2>Boîte aux lettres</h2></div><span class="badge">CHEF · REVUE FINALE</span></div><div id="astraLetters" class="stack"></div></article>
+      <article class="panel wide"><div class="panel-head"><div><span class="eyebrow">QUÊTES</span><h2>Travail distribué par Brutus</h2></div></div><div id="quests" class="tablelike"></div></article>
+      <article class="panel wide"><div class="panel-head"><div><span class="eyebrow">FOURMIS</span><h2>Naissances et spécialités</h2></div></div><div id="ants" class="antgrid"></div></article>
+      <article class="panel wide"><div class="panel-head"><div><span class="eyebrow">FORMULES</span><h2>Candidats sous évaluation</h2></div><span class="badge">PAS UNE PREUVE</span></div><div id="candidates" class="stack"></div></article>
+    </div>
+  </section>
+
+  <section class="view" data-view="bac">
+    <article class="panel frame-panel">
+      <div class="panel-head"><div><span class="eyebrow">DIGITAL TWIN</span><h2>BrutoBac · colonie publique</h2></div><a href="/laboratoire/brutobac/" target="_blank" rel="noopener">ouvrir ↗</a></div>
+      <p class="note">Projection publique uniquement. La Reine Brutus reste l’autorité.</p>
+      <iframe title="BrutoBac public" src="/laboratoire/brutobac/" loading="lazy"></iframe>
+    </article>
+  </section>
+
+  <section class="view" data-view="broto">
+    <div class="grid two">
+      <article class="panel wide crystal-panel"><div class="panel-head"><div><span class="eyebrow">CRYSTAL WATCH</span><h2>Échelle vivante L1 → Ln</h2></div><span class="live" id="brotoState">…</span></div><div id="levels" class="levels"></div><div id="crystalEvents" class="events"></div></article>
+      <article class="panel"><span class="eyebrow">FORGE</span><h2>Brotoculateur</h2><div id="brotoStats" class="statgrid"></div></article>
+      <article class="panel"><span class="eyebrow">ENTRETIEN</span><h2>Fourmis compactrices</h2><div id="storageStats" class="statgrid"></div><p class="note">Minification JSON sémantiquement vérifiée. Aucun cristal n’est supprimé.</p></article>
+      <article class="panel wide frame-panel"><div class="panel-head"><h2>Vitrine Brotoculateur</h2><a href="/laboratoire/brotoculateur/" target="_blank" rel="noopener">ouvrir ↗</a></div><iframe title="Brotoculateur public" src="/laboratoire/brotoculateur/" loading="lazy"></iframe></article>
+    </div>
+  </section>
+
+  <section class="view" data-view="fresque">
+    <div class="grid two">
+      <article class="panel"><span class="eyebrow">FRESQUE</span><h2>Terrain des fourmis</h2><div id="fresqueStats" class="statgrid"></div></article>
+      <article class="panel"><span class="eyebrow">OBSERVATOIRE</span><h2>Lecture mathématique</h2><div id="fresqueActivity" class="stack"></div></article>
+      <article class="panel wide frame-panel"><div class="panel-head"><div><span class="eyebrow">BRUTOTABLEUR</span><h2>Fresque publique</h2></div><a href="/laboratoire/brutotableur/" target="_blank" rel="noopener">ouvrir ↗</a></div><iframe title="Brutotableur public" src="/laboratoire/brutotableur/" loading="lazy"></iframe></article>
+    </div>
+  </section>
+</main>
+<footer><span id="stamp">Connexion…</span><span>1 module → 1 connexion → 1 mesure → 1 preuve</span></footer>
+<script src="./app.js" defer></script>
+</body>
+</html>
