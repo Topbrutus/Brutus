@@ -4,10 +4,30 @@ const fmt = (v) => Number.isFinite(Number(v)) ? new Intl.NumberFormat('fr-CA').f
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const when = (v) => v ? new Date(v).toLocaleString('fr-CA') : '—';
 
-$$('.tab').forEach((button) => button.addEventListener('click', () => {
-  $$('.tab').forEach((b) => b.classList.toggle('active', b === button));
-  $$('.view').forEach((view) => view.classList.toggle('active', view.dataset.view === button.dataset.tab));
-}));
+function activateTab(name) {
+  $$('.tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
+  $$('.view').forEach((view) => view.classList.toggle('active', view.dataset.view === name));
+  document.body.dataset.activeTab = name;
+}
+
+$$('.tab').forEach((button) => button.addEventListener('click', () => activateTab(button.dataset.tab)));
+activateTab($('.tab.active')?.dataset.tab || 'queen');
+
+$('#brotoFullscreen')?.addEventListener('click', async () => {
+  const frame = $('#brotoFrame');
+  if (!frame) return;
+  try {
+    if (!document.fullscreenElement) await frame.requestFullscreen();
+    else await document.exitFullscreen();
+  } catch (_) {
+    window.open('/laboratoire/brotoculateur/', '_blank', 'noopener');
+  }
+});
+
+document.addEventListener('fullscreenchange', () => {
+  const button = $('#brotoFullscreen');
+  if (button) button.textContent = document.fullscreenElement ? '× QUITTER PLEIN ÉCRAN' : '⛶ PLEIN ÉCRAN';
+});
 
 function stat(label, value, detail = '') {
   return `<div><span>${esc(label)}</span><b>${esc(value)}</b>${detail ? `<small>${esc(detail)}</small>` : ''}</div>`;
@@ -60,32 +80,9 @@ function renderQueen(site) {
 
 function renderCrystals(publicState, site) {
   const b = publicState?.brotoculateur || {};
-  const watch = site?.colony?.crystal_watch || {};
-  const levels = Object.keys(b.levels || watch.levels || {}).reduce((out, key) => {
-    out[key] = Number((b.levels || {})[key] ?? (watch.levels || {})[key] ?? 0); return out;
-  }, {});
-  const sorted = Object.entries(levels).sort((a,bv) => Number(a[0].slice(1))-Number(bv[0].slice(1)));
-  const highestNum = sorted.filter(([,n]) => n > 0).reduce((m,[k]) => Math.max(m, Number(k.slice(1))), 0);
-  const waiting = `L${Math.max(1, highestNum + 1)}`;
-  const cards = sorted.map(([k,n]) => `<div class="level ${Number(k.slice(1)) === highestNum ? 'highest' : ''}"><span>${esc(k)}</span><strong>${fmt(n)}</strong>${Number(k.slice(1)) === highestNum ? '<small>SOMMET OBSERVÉ</small>' : ''}</div>`);
-  if (!levels[waiting]) cards.push(`<div class="level waiting"><span>${waiting}</span><strong>0</strong><small>EN ATTENTE</small></div>`);
-  $('#levels').innerHTML = cards.join('');
-  $('#brotoState').textContent = b.state || '—';
-  $('#brotoStats').innerHTML = [stat('Paquets', fmt(b.processed_packets)),stat('Cristaux',fmt(b.crystals)),stat('Papillon',b.papillon_enabled ? 'ON' : 'OFF'),stat('Sentinelles',`${fmt(b.sentinels_survived)}/${fmt(b.sentinels_total)}`)].join('');
-
-  const storage = site?.colony?.storage || {};
-  const report = storage.last_compaction_report?.result || {};
-  $('#storageStats').innerHTML = [
-    stat('Disque', storage.pressure_percent == null ? '—' : `${storage.pressure_percent}%`),
-    stat('Quêtes compactage', fmt(storage.compaction_quests)),
-    stat('Dernier lot', report.compacted_files == null ? '—' : `${fmt(report.compacted_files)} fichiers`),
-    stat('Économisé', report.saved_bytes == null ? '—' : `${(Number(report.saved_bytes)/1048576).toFixed(2)} MiB`)
-  ].join('');
-
-  const events = watch.newest_events || [];
-  $('#crystalEvents').innerHTML = events.slice(0, 12).map((e) => `<div class="event ${e.type === 'NEW_HIGHEST_LEVEL' ? 'new-level' : ''}"><b>${esc(e.level)}</b><span>${esc(e.type)}</span><strong>+${fmt(e.delta)}</strong><small>${when(e.observed_at)}</small></div>`).join('') || '<p class="note">En attente du prochain changement mesuré.</p>';
+  const state = $('#brotoState');
+  if (state) state.textContent = b.state || '—';
 }
-
 function renderFresque(site) {
   const f = site?.fresque || {};
   const c = site?.colony?.fresque || {};

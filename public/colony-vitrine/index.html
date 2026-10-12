@@ -44,14 +44,18 @@
   </section>
 
   <section class="view" data-view="broto">
-    <div class="grid two">
-      <article class="panel wide crystal-panel"><div class="panel-head"><div><span class="eyebrow">CRYSTAL WATCH</span><h2>Échelle vivante L1 → Ln</h2></div><span class="live" id="brotoState">…</span></div><div id="levels" class="levels"></div><div id="crystalEvents" class="events"></div></article>
-      <article class="panel"><span class="eyebrow">FORGE</span><h2>Brotoculateur</h2><div id="brotoStats" class="statgrid"></div></article>
-      <article class="panel"><span class="eyebrow">ENTRETIEN</span><h2>Fourmis compactrices</h2><div id="storageStats" class="statgrid"></div><p class="note">Minification JSON sémantiquement vérifiée. Aucun cristal n’est supprimé.</p></article>
-      <article class="panel wide frame-panel"><div class="panel-head"><h2>Vitrine Brotoculateur</h2><a href="/laboratoire/brotoculateur/" target="_blank" rel="noopener">ouvrir ↗</a></div><iframe title="Brotoculateur public" src="/laboratoire/brotoculateur/" loading="lazy"></iframe></article>
-    </div>
+    <article class="panel broto-focus-panel">
+      <div class="panel-head broto-toolbar">
+        <div><span class="eyebrow">BROTOCULATEUR</span><h2>Calculateur vivant</h2></div>
+        <div class="frame-actions">
+          <span class="live" id="brotoState">…</span>
+          <button class="frame-action" id="brotoFullscreen" type="button">⛶ PLEIN ÉCRAN</button>
+          <a href="/laboratoire/brotoculateur/" target="_blank" rel="noopener">ouvrir seul ↗</a>
+        </div>
+      </div>
+      <iframe id="brotoFrame" class="broto-frame" title="Brotoculateur public" src="/laboratoire/brotoculateur/" loading="eager" allow="fullscreen" allowfullscreen></iframe>
+    </article>
   </section>
-
   <section class="view" data-view="fresque">
     <div class="grid two">
       <article class="panel"><span class="eyebrow">FRESQUE</span><h2>Terrain des fourmis</h2><div id="fresqueStats" class="statgrid"></div></article>
