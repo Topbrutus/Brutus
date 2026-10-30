@@ -6,6 +6,8 @@ Repository:
 Checkpoint base before continuity commit:
 `a6e05bf20fed1bd866d61359b99afdac6cc3cad6`
 
+> **Resume from the 2026-10-05 checkpoint before following this older checklist:** `developer/ASTRA_CHECKPOINT_2026-10-05_BRUTUS_RUNTIME_PRODUCTION_CYCLE_PASS.md` (PR #54) records the completed one-step production cycle, independent persistence audit, and consumed authorization. Do not repeat either movement or reuse its material/authorization. This remains a software/runtime evidence boundary, not a claim of physical movement, mathematical proof, proof promotion, or wheel ingress. Recheck live source and current main before deciding any new action.
+
 ## Immediate rule
 
 Do not change the Brutus core merely because ZEL produces a new formula.

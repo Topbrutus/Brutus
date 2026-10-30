@@ -16,6 +16,8 @@ Verified `origin/main`:
 
 Working tree was clean before writing this checkpoint.
 
+> **Superseded by the 2026-10-05 production-cycle checkpoint:** this file records the 2026-10-02 baseline. The later bounded Brutus runtime cycle and read-only persistence audit are documented in `developer/ASTRA_CHECKPOINT_2026-10-05_BRUTUS_RUNTIME_PRODUCTION_CYCLE_PASS.md` (PR #54). That checkpoint records one verified material move and consumed authorization; it does not claim physical movement, mathematical proof, proof promotion, or wheel ingress. Read it before using older state statements below.
+
 ## Integrated through PR #48
 
 The current main line now includes:
