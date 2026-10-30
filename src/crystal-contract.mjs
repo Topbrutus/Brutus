@@ -102,8 +102,15 @@ function deepFreeze(value) {
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
   if (isPlainObject(value)) {
-    const out = {};
-    for (const key of Object.keys(value).sort()) out[key] = canonicalize(value[key]);
+    const out = Object.create(null);
+    for (const key of Object.keys(value).sort()) {
+      Object.defineProperty(out, key, {
+        value: canonicalize(value[key]),
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    }
     return out;
   }
   return value;
