@@ -1,0 +1,9 @@
+{
+  "schema": "BRUTUS-ASTRA-TOMB-ENVELOPE-v0.1",
+  "tomb": "WHITE",
+  "generation": 1,
+  "status": "LAST_KNOWN_GOOD_BOOTSTRAP",
+  "parent_generation": null,
+  "created_date": "2026-09-30",
+  "executable": false
+}
