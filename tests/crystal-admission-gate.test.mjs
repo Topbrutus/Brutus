@@ -6,7 +6,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createCrystalAdmissionGate } from "../src/crystal-admission-gate.mjs";
-import { computeCrystalH256 } from "../src/crystal-contract.mjs";
+import {
+  computeCrystalH256,
+  computeCrystalPayloadH256
+} from "../src/crystal-contract.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
@@ -67,6 +70,21 @@ test("full crystal digest is independent of object key order", () => {
   );
 
   assert.equal(computeCrystalH256(crystal), computeCrystalH256(reordered));
+});
+
+
+test("full crystal digest distinguishes an own __proto__ payload key", () => {
+  const ordinary = loadCrystal();
+  const withProto = loadCrystal();
+  ordinary.PAYLOAD = {};
+  ordinary.PAYLOAD_H256 = computeCrystalPayloadH256(ordinary.PAYLOAD);
+  withProto.PAYLOAD = JSON.parse('{"__proto__":{"x":1}}');
+  withProto.PAYLOAD_H256 = computeCrystalPayloadH256(withProto.PAYLOAD);
+
+  assert.notEqual(
+    computeCrystalH256(ordinary),
+    computeCrystalH256(withProto)
+  );
 });
 
 test("admission rejects source-byte tampering", () => {
