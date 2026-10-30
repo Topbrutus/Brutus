@@ -69,6 +69,13 @@ test("full crystal digest is independent of object key order", () => {
   assert.equal(computeCrystalH256(crystal), computeCrystalH256(reordered));
 });
 
+test("full crystal digest binds JSON __proto__ keys", () => {
+  const ordinary = {};
+  const withProtoKey = JSON.parse('{"__proto__":{"x":1}}');
+
+  assert.notEqual(computeCrystalH256(ordinary), computeCrystalH256(withProtoKey));
+});
+
 test("admission rejects source-byte tampering", () => {
   const crystal = loadCrystal();
   const tempRoot = makeTempRepo();
